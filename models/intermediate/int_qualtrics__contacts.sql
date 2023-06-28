@@ -1,3 +1,5 @@
+-- todo: include passthrough columns when working on contact_overview model
+
 with directory_contact as (
 
     select *

@@ -17,6 +17,8 @@ seeds:
     directory_contact:
       +column_types:
         ext_ref: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
+        language: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
     core_contact:
       +column_types:
         external_data_reference: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
+        language: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
