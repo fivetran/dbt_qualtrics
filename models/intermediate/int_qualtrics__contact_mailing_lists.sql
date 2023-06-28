@@ -1,9 +1,9 @@
 {{ config(enabled=false) }}
 
-with directory_contact as (
+with contacts as (
 
     select *
-    from {{ var('directory_contact') }}
+    from {{ ref('int_qualtrics__contacts') }}
 ),
 
 directory_mailing_list as (
@@ -40,12 +40,6 @@ xm_directory_join as (
         and directory_mailing_list.mailing_list_id = contact_mailing_list_membership.mailing_list_id
 ),
 
-{% if var('qualtrics__using_core_contacts', true) %}
-core_contact as (
-
-    select *
-    from {{ var('core_contact') }}
-),
 
     {% if var('qualtrics__using_core_mailing_lists', true) %}
 core_mailing_list as (
@@ -68,49 +62,5 @@ core_join as (
     left join core_mailing_list
         on core_contact.mailing_list_id = core_mailing_list.mailing_list_id
 )
-    {% endif %}
-
-final as (
-
-    select
-        mailing_list_contact_id as contact_id,
-        'core' as contact_type,
-        null as directory_id,
-        mailing_list_id,
-        email,
-        {{ dbt.split_part('email', '@', 2) }} as email_domain,
-        first_name,
-        last_name,
-        external_data_reference,
-        language,
-        is_unsubscribed,
-        null as unsubscribed_at
-        
-    from core_join
-
-    union all 
-
-{% else %}
-final as (
 {% endif %}
-
-    select 
-        contact_id,
-        'directory' as contact_type, 
-        directory_id,
-        mailing_list_id,
-        email,
-        email_domain,
-        first_name,
-        last_name,
-        ext_ref as external_data_reference,
-        language,
-        is_unsubscribed_from_directory as is_unsubscribed,
-        unsubscribed_from_directory_at as unsubscribed_at,
-        last_modified_at
-
-    from xm_directory_join
-
-
-)
 

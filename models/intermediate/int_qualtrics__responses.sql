@@ -35,7 +35,7 @@ response_join as (
         survey_response.recipient_email,
         survey_response.recipient_first_name,
         survey_response.recipient_last_name,
-        survey_response.user_language
+        survey_response.user_language,
         survey_response.ip_address,
         survey_response.location_latitude,
         survey_response.location_longitude

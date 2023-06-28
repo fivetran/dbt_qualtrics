@@ -1,3 +1,5 @@
+{{ config(enabled=false) }}
+
 with survey as (
 
     select *
@@ -8,4 +10,7 @@ survey_version as (
 
     select *
     from {{ var('survey_version') }}
-),
+)
+
+select *
+from survey
