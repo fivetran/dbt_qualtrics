@@ -38,11 +38,13 @@ response_join as (
         survey_response.user_language,
         survey_response.ip_address,
         survey_response.location_latitude,
-        survey_response.location_longitude
+        survey_response.location_longitude,
+        question_response.source_relation
     
     from question_response 
     join survey_response 
         on question_response.response_id = survey_response.response_id
+        and question_response.source_relation = survey_response.source_relation
         
 )
 

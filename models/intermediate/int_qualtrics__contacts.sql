@@ -30,12 +30,14 @@ final as (
         coalesce(directory_contact.language, core_contact.language) as language,
         coalesce(directory_contact.is_unsubscribed_from_directory, core_contact.is_unsubscribed) as is_unsubscribed,
         directory_contact.unsubscribed_from_directory_at as unsubscribed_at,
-        directory_contact.last_modified_at as last_modified_at
+        directory_contact.last_modified_at as last_modified_at,
+        coalesce(directory_contact.source_relation, core_contact.source_relation) as source_relation
 
     from directory_contact
 
     full outer join core_contact 
         on directory_contact.email = core_contact.email
+        and directory_contact.source_relation = core_contact.source_relation
 
 )
 {% else %}
@@ -55,7 +57,8 @@ final as (
         language,
         is_unsubscribed_from_directory as is_unsubscribed,
         unsubscribed_from_directory_at as unsubscribed_at,
-        last_modified_at
+        last_modified_at,
+        source_relation
         
     from directory_contact 
 )

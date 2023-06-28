@@ -1,4 +1,5 @@
 {{ config(enabled=false) }}
+-- ignore for now
 
 with contacts as (
 
@@ -33,11 +34,15 @@ xm_directory_join as (
 
     left join directory_mailing_list
         on directory_contact.directory_id = directory_mailing_list.directory_id
+        and directory_contact.source_relation = directory_mailing_list.source_relation
 
     left join contact_mailing_list_membership
         on directory_contact.contact_id = contact_mailing_list_membership.contact_id 
-        on directory_contact.directory_id = contact_mailing_list_membership.directory_id
+        and directory_contact.directory_id = contact_mailing_list_membership.directory_id
         and directory_mailing_list.mailing_list_id = contact_mailing_list_membership.mailing_list_id
+        and directory_mailing_list.source_relation = contact_mailing_list_membership.source_relation
+
+
 ),
 
 
@@ -61,6 +66,8 @@ core_join as (
     from core_contact
     left join core_mailing_list
         on core_contact.mailing_list_id = core_mailing_list.mailing_list_id
+        on core_contact.mailing_list_id = core_mailing_list.mailing_list_id
+
 )
 {% endif %}
 
