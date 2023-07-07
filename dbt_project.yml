@@ -5,10 +5,14 @@ require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
   qualtrics:
+    +tags:
+      - "qualtrics"
+      - "fivetran_package"
     +schema: qualtrics
     +materialized: table
     intermediate:
       +materialized: view
+      +schema: int_qualtrics
 
 vars:
   qualtrics:

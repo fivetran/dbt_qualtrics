@@ -9,3 +9,110 @@ models:
             - question_response_id
             - sub_question_key
             - source_relation
+    columns:
+      - name: question_response_id
+        description: "{{ doc('_fivetran_id') }}"
+      - name: survey_response_id
+        description: "{{ doc('response_id') }}"
+      - name: survey_id
+        description: "{{ doc('survey_id') }}"
+      - name: question_id
+        description: "{{ doc('question_id') }}"
+      - name: question_text
+        description: "{{ doc('question_text') }}"
+      - name: sub_question_key
+        description: "{{ doc('sub_question_key') }}"
+      - name: sub_question_text
+        description: "{{ doc('sub_question_text') }}"
+      - name: question_option_key
+        description: "{{ doc('question_option_key') }}"
+      - name: value
+        description: "{{ doc('response_value') }}"
+      - name: loop_id
+        description: "{{ doc('loop_id') }}"
+      - name: distribution_channel
+        description: "{{ doc('distribution_channel') }}"
+      - name: survey_response_status
+        description: "{{ doc('status') }}"
+      - name: survey_progress
+        description: "{{ doc('progress') }}"
+      - name: duration_in_seconds
+        description: "{{ doc('duration_in_seconds') }}"
+      - name: is_finished_with_survey
+        description: "{{ doc('finished') }}"
+      - name: survey_finished_at
+        description: "{{ doc('end_date') }}"
+      - name: survey_response_last_modified_at
+        description: "{{ doc('last_modified_date') }}"
+      - name: survey_response_recorded_at
+        description: "{{ doc('recorded_date') }}"
+      - name: survey_response_started_at
+        description: "{{ doc('start_date') }}"
+      - name: recipient_email
+        description: "{{ doc('recipient_email') }}"
+      - name: recipient_first_name
+        description: "{{ doc('recipient_first_name') }}"
+      - name: recipient_last_name
+        description: "{{ doc('recipient_last_name') }}"
+      - name: user_language
+        description: "{{ doc('user_language') }}"
+      - name: ip_address
+        description: "{{ doc('ip_address') }}"
+      - name: location_latitude
+        description: "{{ doc('location_latitude') }}"
+      - name: location_longitude
+        description: "{{ doc('location_longitude') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: recode_value
+        description: "{{ doc('recode_value') }}"
+      - name: question_option_text
+        description: "{{ doc('question_option_text') }}"
+      - name: first_name
+        description: "{{ doc('contact_first_name') }}"
+      - name: last_name
+        description: "{{ doc('contact_last_name') }}"
+      - name: email_domain
+        description: "{{ doc('email_domain') }}"
+      - name: contact_language
+        description: "{{ doc('language') }}"
+      - name: contact_external_data_reference
+        description: "{{ doc('ext_ref') }}"
+      - name: contact_type
+        description: "{{ doc('contact_type') }}"
+      - name: embedded_data
+        description: "{{ doc('embedded_data') }}"
+      - name: survey_name
+        description: "{{ doc('survey_name') }}"
+      - name: survey_status
+        description: "{{ doc('survey_status') }}"
+      - name: project_category
+        description: "{{ doc('project_category') }}"
+      - name: project_type
+        description: "{{ doc('project_type') }}"
+      - name: brand_base_url
+        description: "{{ doc('brand_base_url') }}"
+      - name: question_description
+        description: "{{ doc('question_description') }}"
+      - name: question_type
+        description: "{{ doc('question_type') }}"
+      - name: block_id
+        description: "{{ doc('block_id') }}"
+      - name: block_description
+        description: "{{ doc('block_description') }}"
+      - name: block_question_randomization
+        description: "{{ doc('randomize_questions') }}"
+      - name: block_type
+        description: "{{ doc('block_type') }}"
+      - name: block_visibility
+        description: "{{ doc('block_visibility') }}"
+      - name: validation_setting_force_response
+        description: "{{ doc('validation_setting_force_response') }}"
+      - name: validation_setting_force_response_type
+        description: "{{ doc('validation_setting_force_response_type') }}"
+      - name: validation_setting_type
+        description: "{{ doc('validation_setting_type') }}"
+      - name: is_question_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: is_block_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
