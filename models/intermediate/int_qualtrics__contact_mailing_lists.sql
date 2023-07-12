@@ -1,5 +1,5 @@
 {{ config(enabled=false) }}
--- ignore for now
+-- ignore for now -- probably will delete
 
 with contacts as (
 

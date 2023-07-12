@@ -1,5 +1,5 @@
 with response as (
-
+    -- will probably move the logic from this int model to the end model directly 
     select *
     from {{ ref('int_qualtrics__responses') }}
 ),
@@ -44,8 +44,8 @@ rollup_contacts as (
         max(last_name) as last_name,
         max(language) as language,
         max(external_data_reference) as external_data_reference,
-        max(contact_endpoint = 'xm directory') as is_xm_directory_contact,
-        max(contact_endpoint = 'research core') as is_research_core_contact
+        max(is_xm_directory_contact) as is_xm_directory_contact,
+        max(is_research_core_contact) as is_research_core_contact
 
     from contacts
     group by 1,2

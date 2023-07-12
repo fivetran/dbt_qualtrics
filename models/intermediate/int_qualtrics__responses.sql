@@ -1,3 +1,5 @@
+{# There's not a ton going on here and this int model isn't really used by other end models, so i will probably move this join to the response breakdown end model #}
+
 with question_response as (
 
     select *

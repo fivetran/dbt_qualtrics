@@ -8,7 +8,7 @@ block_question as (
 
     select *
     from {{ var('block_question') }}
-    where not coalesce(is_deleted, false)
+    where not coalesce(is_deleted, false) -- lets get rid of deleted questions
 ),
 
 block as (

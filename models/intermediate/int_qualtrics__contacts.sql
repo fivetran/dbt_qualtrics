@@ -1,3 +1,7 @@
+{# 
+This model unions together contacts from the XM Directory and Research Core Contact endpoints.
+Research Core contacts will be deprecated in 2023 by Qualtrics
+#}
 with directory_contact as (
 
     select *
@@ -10,6 +14,7 @@ contact_mailing_list_membership as (
     from {{ var('contact_mailing_list_membership') }}
 ),
 
+-- in XM directory a contact can belong to multiple mailing lists within a directory
 agg_mailing_lists as (
 
     select 
@@ -45,6 +50,7 @@ core_contact as (
     from {{ var('core_contact') }}
 ),
 
+-- Roll up mailing lists since contacts in the XM directory endpoint can belong to multiple (or none)
 agg_core_mailing_lists as (
 
     select 
