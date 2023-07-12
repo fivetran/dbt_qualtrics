@@ -15,7 +15,7 @@ question as (
     select *
     from {{ var('question') }}
 ),
--- should we bring in distribution contact counts here for the statuses?
+
 agg_questions as (
 
     select 
@@ -79,26 +79,26 @@ survey_join as (
 
         agg_responses.avg_response_duration_in_seconds,
         agg_responses.avg_survey_progress_pct,
-        agg_responses.count_survey_responses,
-        agg_responses.count_completed_survey_responses,
-        agg_responses.count_survey_responses_30d,
-        agg_responses.count_completed_survey_responses_30d,
+        coalesce(agg_responses.count_survey_responses, 0) as count_survey_responses,
+        coalesce(agg_responses.count_completed_survey_responses, 0) as count_completed_survey_responses,
+        coalesce(agg_responses.count_survey_responses_30d, 0) as count_survey_responses_30d,
+        coalesce(agg_responses.count_completed_survey_responses_30d, 0) as count_completed_survey_responses_30d,
 
         -- distribution channels
-        agg_responses.count_anonymous_survey_responses,
-        agg_responses.count_anonymous_completed_survey_responses,
-        agg_responses.count_social_survey_responses as count_social_media_survey_responses,
-        agg_responses.count_social_completed_survey_responses as count_social_media_completed_survey_responses,
-        agg_responses.count_gl_survey_responses as count_personal_link_survey_responses,
-        agg_responses.count_gl_completed_survey_responses as count_personal_link_completed_survey_responses,
-        agg_responses.count_qr_survey_responses as count_qr_code_survey_responses,
-        agg_responses.count_qr_completed_survey_responses as count_qr_code_completed_survey_responses,
-        agg_responses.count_email_survey_responses,
-        agg_responses.count_email_completed_survey_responses,
-        agg_responses.count_smsinvite_survey_responses as count_sms_survey_responses,
-        agg_responses.count_smsinvite_completed_survey_responses as count_sms_completed_survey_responses,
-        agg_responses.count_uncategorized_survey_responses,
-        agg_responses.count_uncategorized_completed_survey_responses
+        coalesce(agg_responses.count_anonymous_survey_responses, 0) as count_anonymous_survey_responses,
+        coalesce(agg_responses.count_anonymous_completed_survey_responses, 0) as count_anonymous_completed_survey_responses,
+        coalesce(agg_responses.count_social_survey_responses as count_social_media_survey_responses, 0) as count_social_media_survey_responses,
+        coalesce(agg_responses.count_social_completed_survey_responses as count_social_media_completed_survey_responses, 0) as count_social_media_completed_survey_responses,
+        coalesce(agg_responses.count_gl_survey_responses as count_personal_link_survey_responses, 0) as count_personal_link_survey_responses,
+        coalesce(agg_responses.count_gl_completed_survey_responses as count_personal_link_completed_survey_responses, 0) as count_personal_link_completed_survey_responses,
+        coalesce(agg_responses.count_qr_survey_responses as count_qr_code_survey_responses, 0) as count_qr_code_survey_responses,
+        coalesce(agg_responses.count_qr_completed_survey_responses as count_qr_code_completed_survey_responses, 0) as count_qr_code_completed_survey_responses,
+        coalesce(agg_responses.count_email_survey_responses, 0) as count_email_survey_responses,
+        coalesce(agg_responses.count_email_completed_survey_responses, 0) as count_email_completed_survey_responses,
+        coalesce(agg_responses.count_smsinvite_survey_responses as count_sms_survey_responses, 0) as count_sms_survey_responses,
+        coalesce(agg_responses.count_smsinvite_completed_survey_responses as count_sms_completed_survey_responses, 0) as count_sms_completed_survey_responses,
+        coalesce(agg_responses.count_uncategorized_survey_responses, 0) as count_uncategorized_survey_responses,
+        coalesce(agg_responses.count_uncategorized_completed_survey_responses, 0) as count_uncategorized_completed_survey_responses
 
     from survey 
     left join agg_questions

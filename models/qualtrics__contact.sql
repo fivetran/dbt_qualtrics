@@ -4,6 +4,12 @@ with contacts as (
     from {{ ref('int_qualtrics__contacts') }}
 ),
 
+directory as (
+
+    select *
+    from {{ var('directory') }}
+),
+
 distribution_contact as (
 
     select *
@@ -67,8 +73,8 @@ agg_survey_responses as (
         contact_id,
         source_relation,
         count(distinct survey_id) as total_count_surveys,
+        count(distinct case when is_finished then survey_id else null end) as total_count_completed_surveys,
         avg(progress) as avg_progress,
-        count(distinct case when is_finished then survey_id else null end) as count_completed_surveys,
         avg(duration_in_seconds) as avg_survey_duration_in_seconds,
         max(recorded_date) as last_survey_response_recorded_at,
         min(recorded_date) as first_survey_response_recorded_at
@@ -81,20 +87,23 @@ final as (
     
     select 
         contacts.*,
-        agg_distribution_responses.count_surveys_sent_email,
-        agg_distribution_responses.count_surveys_sent_sms,
-        agg_distribution_responses.count_surveys_opened_email,
-        agg_distribution_responses.count_surveys_opened_sms,
-        agg_distribution_responses.count_surveys_started_email,
-        agg_distribution_responses.count_surveys_started_sms,
-        agg_distribution_responses.count_surveys_completed_email,
-        agg_distribution_responses.count_surveys_completed_sms,
-        agg_survey_responses.total_count_surveys,
+        coalesce(agg_distribution_responses.count_surveys_sent_email, 0) as count_surveys_sent_email,
+        coalesce(agg_distribution_responses.count_surveys_sent_sms, 0) as count_surveys_sent_sms,
+        coalesce(agg_distribution_responses.count_surveys_opened_email, 0) as count_surveys_opened_email,
+        coalesce(agg_distribution_responses.count_surveys_opened_sms, 0) as count_surveys_opened_sms,
+        coalesce(agg_distribution_responses.count_surveys_started_email, 0) as count_surveys_started_email,
+        coalesce(agg_distribution_responses.count_surveys_started_sms, 0) as count_surveys_started_sms,
+        coalesce(agg_distribution_responses.count_surveys_completed_email, 0) as count_surveys_completed_email,
+        coalesce(agg_distribution_responses.count_surveys_completed_sms, 0) as count_surveys_completed_sms,
+        coalesce(agg_survey_responses.total_count_surveys, 0) as total_count_surveys,
+        coalesce(agg_survey_responses.total_count_completed_surveys, 0) as total_count_completed_surveys,
         agg_survey_responses.avg_progress,
-        agg_survey_responses.count_completed_surveys,
         agg_survey_responses.avg_survey_duration_in_seconds,
         agg_survey_responses.last_survey_response_recorded_at,
-        agg_survey_responses.first_survey_response_recorded_at
+        agg_survey_responses.first_survey_response_recorded_at,
+        directory.name as directory_name,
+        directory.is_default as is_in_default_directory,
+        directory.is_deleted as is_directory_deleted
 
     from contacts
     left join agg_survey_responses
@@ -103,6 +112,9 @@ final as (
     left join agg_distribution_responses
         on contacts.contact_id = agg_distribution_responses.contact_id
         and contacts.source_relation = agg_distribution_responses.source_relation
+    left join directory
+        on contacts.directory_id = directory.directory_id 
+        and contacts.source_relation = directory.source_relation
 )
 
 select *
