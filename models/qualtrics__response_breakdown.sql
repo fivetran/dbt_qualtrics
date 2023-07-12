@@ -34,18 +34,36 @@ contacts as (
     from {{ ref('int_qualtrics__contacts') }}
 ),
 
+rollup_contacts as (
+
+    select 
+        email,
+        source_relation,
+        max(email_domain) as email_domain,
+        max(first_name) as first_name,
+        max(last_name) as last_name,
+        max(language) as language,
+        max(external_data_reference) as external_data_reference,
+        max(contact_endpoint = 'xm directory') as is_xm_directory_contact,
+        max(contact_endpoint = 'research core') as is_research_core_contact
+
+    from contacts
+    group by 1,2
+),
+
 final as (
 
     select 
         response.*,
         question_option.recode_value,
         question_option.text as question_option_text,
-        contacts.first_name,
-        contacts.last_name,
-        contacts.email_domain,
-        contacts.language as contact_language,
-        contacts.external_data_reference as contact_external_data_reference,
-        contacts.contact_type,
+        rollup_contacts.first_name,
+        rollup_contacts.last_name,
+        rollup_contacts.email_domain,
+        rollup_contacts.language as contact_language,
+        rollup_contacts.external_data_reference as contact_external_data_reference,
+        rollup_contacts.is_xm_directory_contact,
+        rollup_contacts.is_research_core_contact,
 
         embedded_data.embedded_data,
         survey.survey_name,
@@ -90,9 +108,9 @@ final as (
         on response.survey_response_id = embedded_data.response_id
         and response.source_relation = embedded_data.source_relation
 
-    left join contacts 
-        on response.recipient_email = contacts.email
-        and response.source_relation = contacts.source_relation
+    left join rollup_contacts 
+        on response.recipient_email = rollup_contacts.email
+        and response.source_relation = rollup_contacts.source_relation
 
 )
 

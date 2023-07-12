@@ -46,7 +46,7 @@ xm_directory_join as (
 ),
 
 
-    {% if var('qualtrics__using_core_mailing_lists', true) %}
+{% if var('qualtrics__using_core_mailing_lists', true) %}
 core_mailing_list as (
 
     select *

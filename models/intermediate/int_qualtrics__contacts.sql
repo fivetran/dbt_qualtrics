@@ -1,9 +1,41 @@
--- todo: include passthrough columns when working on contact_overview model
-
 with directory_contact as (
 
     select *
     from {{ var('directory_contact') }}
+),
+
+contact_mailing_list_membership as (
+
+    select * 
+    from {{ var('contact_mailing_list_membership') }}
+),
+
+agg_mailing_lists as (
+
+    select 
+        directory_id,
+        contact_id,
+        source_relation,
+        count(distinct case when not is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_subscribed_to,
+        count(distinct case when is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_unsubscribed_from,
+        {{ fivetran_utils.string_agg('mailing_list_id', "', '") }} as mailing_list_ids
+
+    from contact_mailing_list_membership
+    group by 1,2,3
+),
+
+directory_contact_join as (
+
+    select
+        directory_contact.*,
+        agg_mailing_lists.count_mailing_lists_subscribed_to,
+        agg_mailing_lists.count_mailing_lists_unsubscribed_from,
+        mailing_list_ids
+    from directory_contact
+    left join agg_mailing_lists
+        on directory_contact.contact_id = agg_mailing_lists.contact_id
+        and directory_contact.directory_id = agg_mailing_lists.directory_id 
+        and directory_contact.source_relation = agg_mailing_lists.source_relation
 ),
 
 {% if var('qualtrics__using_core_contacts', true) %}
@@ -15,42 +47,44 @@ core_contact as (
 
 final as (
 
-    select 
-        coalesce(directory_contact.contact_id, core_contact.mailing_list_contact_id) as contact_id,
-        case 
-            when directory_contact.email is not null and core_contact.email is not null then 'both'
-            when directory_contact.email is not null and core_contact.email is null then 'directory'
-            else 'core' 
-            end as contact_type,
-        directory_contact.directory_id,
-        core_contact.mailing_list_id,
-        coalesce(directory_contact.email, core_contact.email) as email,
-        coalesce(directory_contact.email_domain, core_contact.email_domain) as email_domain,
-        coalesce(directory_contact.first_name, core_contact.first_name) as first_name,
-        coalesce(directory_contact.last_name, core_contact.last_name) as last_name,
-        coalesce(directory_contact.ext_ref, core_contact.external_data_reference) as external_data_reference,
-        coalesce(directory_contact.language, core_contact.language) as language,
-        coalesce(directory_contact.is_unsubscribed_from_directory, core_contact.is_unsubscribed) as is_unsubscribed,
-        directory_contact.unsubscribed_from_directory_at as unsubscribed_at,
-        directory_contact.last_modified_at as last_modified_at,
-        coalesce(directory_contact.source_relation, core_contact.source_relation) as source_relation
+    select
+        contact_id,
+        'research core' as contact_endpoint,
+        null as directory_id,
+        email,
+        email_domain,
+        first_name,
+        last_name,
+        external_data_reference,
+        language,
+        is_unsubscribed,
+        null as unsubscribed_at,
+        null as last_modified_at,
+        mailing_list_id as mailing_list_ids,
+        null as count_mailing_lists_subscribed_to,
+        null as count_mailing_lists_unsubscribed_from,
+        source_relation
 
-    from directory_contact
+        {% if var('qualtrics__directory_contact_pass_through_columns', none) %}
+            {% for field in var('qualtrics__directory_contact_pass_through_columns') %}
+                , null as {{ field.alias if field.alias else field.name }}
+            {% endfor %}
+        {% endif %}
 
-    full outer join core_contact 
-        on directory_contact.email = core_contact.email
-        and directory_contact.source_relation = core_contact.source_relation
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='qualtrics__core_contact_pass_through_columns', identifier='core_contact') }}
 
-)
+
+    from core_contact
+    union all 
+
 {% else %}
-
 final as (
+{% endif %}
 
     select
-        mailing_list_contact_id as contact_id,
-        'directory' as contact_type,
+        contact_id,
+        'xm directory' as contact_endpoint,
         directory_id,
-        null as mailing_list_id,
         email,
         email_domain,
         first_name,
@@ -60,10 +94,23 @@ final as (
         is_unsubscribed_from_directory as is_unsubscribed,
         unsubscribed_from_directory_at as unsubscribed_at,
         last_modified_at,
+        mailing_list_ids,
+        count_mailing_lists_subscribed_to,
+        count_mailing_lists_unsubscribed_from,
         source_relation
-        
-    from directory_contact 
-)
-{% endif %}
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='qualtrics__directory_contact_pass_through_columns') }}
 
-select * from final
+        {% if var('qualtrics__core_contact_pass_through_columns', none) %}
+            {% for field in var('qualtrics__core_contact_pass_through_columns') %}
+                , null as {{ field.alias if field.alias else field.name }}
+            {% endfor %}
+        {% endif %}
+
+    from directory_contact_join
+)
+
+select 
+    *,
+    {{ dbt_utils.generate_surrogate_key(['contact_id', 'directory_id','mailing_list_ids']) }} as unique_key
+
+from final

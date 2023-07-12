@@ -1,6 +1,13 @@
 version: 2
 
 models:
+  - name: qualtrics__survey
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - survey_id
+            - source_relation
+            
   - name: qualtrics__response_breakdown
     tests:
       - dbt_utils.unique_combination_of_columns:
