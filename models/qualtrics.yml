@@ -7,6 +7,14 @@ models:
           combination_of_columns:
             - survey_id
             - source_relation
+
+  - name: qualtrics__contact
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - contact_id
+            - source_relation
+            - directory_id
             
   - name: qualtrics__response_breakdown
     tests:

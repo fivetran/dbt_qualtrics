@@ -15,7 +15,7 @@ question as (
     select *
     from {{ var('question') }}
 ),
-
+-- should we bring in distribution contact counts here for the statuses?
 agg_questions as (
 
     select 
@@ -95,8 +95,8 @@ survey_join as (
         agg_responses.count_qr_completed_survey_responses as count_qr_code_completed_survey_responses,
         agg_responses.count_email_survey_responses,
         agg_responses.count_email_completed_survey_responses,
-        agg_responses.count_smsinvite_survey_responses,
-        agg_responses.count_smsinvite_completed_survey_responses,
+        agg_responses.count_smsinvite_survey_responses as count_sms_survey_responses,
+        agg_responses.count_smsinvite_completed_survey_responses as count_sms_completed_survey_responses,
         agg_responses.count_uncategorized_survey_responses,
         agg_responses.count_uncategorized_completed_survey_responses
 

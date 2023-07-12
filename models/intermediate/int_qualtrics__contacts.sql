@@ -30,7 +30,7 @@ directory_contact_join as (
         directory_contact.*,
         agg_mailing_lists.count_mailing_lists_subscribed_to,
         agg_mailing_lists.count_mailing_lists_unsubscribed_from,
-        mailing_list_ids
+        agg_mailing_lists.mailing_list_ids
     from directory_contact
     left join agg_mailing_lists
         on directory_contact.contact_id = agg_mailing_lists.contact_id
@@ -45,11 +45,38 @@ core_contact as (
     from {{ var('core_contact') }}
 ),
 
+agg_core_mailing_lists as (
+
+    select 
+        contact_id,
+        source_relation,
+        count(distinct case when not is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_subscribed_to,
+        count(distinct case when is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_unsubscribed_from,
+        {{ fivetran_utils.string_agg('mailing_list_id', "', '") }} as mailing_list_ids
+
+    from core_contact
+    group by 1,2
+),
+
+core_contact_join  as (
+
+    select
+        core_contact.*,
+        agg_core_mailing_lists.count_mailing_lists_subscribed_to,
+        agg_core_mailing_lists.count_mailing_lists_unsubscribed_from,
+        agg_core_mailing_lists.mailing_list_ids
+    from core_contact
+    left join agg_core_mailing_lists
+        on core_contact.contact_id = agg_core_mailing_lists.contact_id
+        and core_contact.source_relation = agg_core_mailing_lists.source_relation
+),
+
 final as (
 
     select
         contact_id,
-        'research core' as contact_endpoint,
+        false as is_xm_directory_contact,
+        true as is_research_core_contact,
         null as directory_id,
         email,
         email_domain,
@@ -57,12 +84,12 @@ final as (
         last_name,
         external_data_reference,
         language,
-        is_unsubscribed,
-        null as unsubscribed_at,
+        null as is_unsubscribed_from_directory,
+        null as unsubscribed_from_directory_at,
         null as last_modified_at,
-        mailing_list_id as mailing_list_ids,
-        null as count_mailing_lists_subscribed_to,
-        null as count_mailing_lists_unsubscribed_from,
+        mailing_list_ids,
+        count_mailing_lists_subscribed_to,
+        count_mailing_lists_unsubscribed_from,
         source_relation
 
         {% if var('qualtrics__directory_contact_pass_through_columns', none) %}
@@ -71,10 +98,10 @@ final as (
             {% endfor %}
         {% endif %}
 
-        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='qualtrics__core_contact_pass_through_columns', identifier='core_contact') }}
+        {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='qualtrics__core_contact_pass_through_columns', identifier='core_contact_join') }}
 
 
-    from core_contact
+    from core_contact_join
     union all 
 
 {% else %}
@@ -83,7 +110,8 @@ final as (
 
     select
         contact_id,
-        'xm directory' as contact_endpoint,
+        true as is_xm_directory_contact,
+        false as is_research_core_contact,
         directory_id,
         email,
         email_domain,
@@ -91,8 +119,8 @@ final as (
         last_name,
         ext_ref as external_data_reference,
         language,
-        is_unsubscribed_from_directory as is_unsubscribed,
-        unsubscribed_from_directory_at as unsubscribed_at,
+        is_unsubscribed_from_directory,
+        unsubscribed_from_directory_at,
         last_modified_at,
         mailing_list_ids,
         count_mailing_lists_subscribed_to,

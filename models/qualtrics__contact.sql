@@ -4,12 +4,110 @@ with contacts as (
     from {{ ref('int_qualtrics__contacts') }}
 ),
 
+distribution_contact as (
+
+    select *
+    from {{ var('distribution_contact') }}
+),
+
+distribution as (
+-- just to grab survey id 
+    select *
+    from {{ var('distribution') }}
+),
+
 survey_response as (
 
     select *
     from {{ var('survey_response') }}
 ),
 
+distribution_response as (
+
+    select
+        distribution_contact.*,
+        distribution.survey_id,
+        survey_response.distribution_channel,
+        survey_response.progress,
+        survey_response.duration_in_seconds,
+        survey_response.is_finished,
+        survey_response.recorded_date
+
+    from distribution_contact 
+    join distribution 
+        on distribution_contact.distribution_id = distribution.distribution_id
+        and distribution_contact.source_relation = distribution.source_relation
+    left join survey_response
+        on distribution_contact.response_id = survey_response.response_id
+        and distribution.survey_id = survey_response.survey_id
+        and distribution_contact.source_relation = survey_response.source_relation
+),
+
+agg_distribution_responses as (
+
+    select 
+        contact_id,
+        source_relation,
+        -- should i include other distribution channels? qr code, social media, personal links, etc?
+        count(distinct case when sent_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_sent_email,
+        count(distinct case when sent_at is not null and distribution_channel = 'smsinvite' then survey_id end) as count_surveys_sent_sms,
+        count(distinct case when opened_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_opened_email,
+        count(distinct case when opened_at is not null and distribution_channel = 'smsinvite' then survey_id end) as count_surveys_opened_sms,
+        count(distinct case when response_started_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_started_email,
+        count(distinct case when response_started_at is not null and distribution_channel = 'smsinvite' then survey_id end) as count_surveys_started_sms,
+        count(distinct case when response_completed_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_completed_email,
+        count(distinct case when response_completed_at is not null and distribution_channel = 'smsinvite' then survey_id end) as count_surveys_completed_sms
+    from distribution_response
+    group by 1,2
+),
+
+agg_survey_responses as (
+
+    select 
+        contact_id,
+        source_relation,
+        count(distinct survey_id) as total_count_surveys,
+        avg(progress) as avg_progress,
+        count(distinct case when is_finished then survey_id else null end) as count_completed_surveys,
+        avg(duration_in_seconds) as avg_survey_duration_in_seconds,
+        max(recorded_date) as last_survey_response_recorded_at,
+        min(recorded_date) as first_survey_response_recorded_at
+        
+    from distribution_response
+    group by 1,2
+),
+
+final as (
+    
+    select 
+        contacts.*,
+        agg_distribution_responses.count_surveys_sent_email,
+        agg_distribution_responses.count_surveys_sent_sms,
+        agg_distribution_responses.count_surveys_opened_email,
+        agg_distribution_responses.count_surveys_opened_sms,
+        agg_distribution_responses.count_surveys_started_email,
+        agg_distribution_responses.count_surveys_started_sms,
+        agg_distribution_responses.count_surveys_completed_email,
+        agg_distribution_responses.count_surveys_completed_sms,
+        agg_survey_responses.total_count_surveys,
+        agg_survey_responses.avg_progress,
+        agg_survey_responses.count_completed_surveys,
+        agg_survey_responses.avg_survey_duration_in_seconds,
+        agg_survey_responses.last_survey_response_recorded_at,
+        agg_survey_responses.first_survey_response_recorded_at
+        
+    from contacts
+    left join agg_survey_responses
+        on contacts.contact_id = agg_survey_responses.contact_id
+        and contacts.source_relation = agg_survey_responses.source_relation
+    left join agg_distribution_responses
+        on contacts.contact_id = agg_distribution_responses.contact_id
+        and contacts.source_relation = agg_distribution_responses.source_relation
+)
+
+select *
+from final
+{# 
 question_response as (
 
     select *
@@ -105,4 +203,4 @@ contact_join as (
 )
 
 select *
-from contact_join
+from contact_join #}
