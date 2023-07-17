@@ -5,25 +5,143 @@ models:
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - survey_id
             - source_relation
+            - survey_id
+    columns:
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: auto_scoring_category
+        description: "{{ doc('auto_scoring_category') }}"
+      - name: brand_base_url
+        description: "{{ doc('brand_base_url') }}"
+      - name: brand_id
+        description: "{{ doc('brand_id') }}"
+      - name: bundle_short_name
+        description: "{{ doc('bundle_short_name') }}"
+      - name: composition_type
+        description: "{{ doc('composition_type') }}"
+      - name: creator_user_id
+        description: "{{ doc('creator_id') }}"
+      - name: default_scoring_category
+        description: "{{ doc('default_scoring_category') }}"
+      - name: division_id
+        description: "{{ doc('division_id') }}"
+      - name: survey_id
+        description: "{{ doc('survey_id') }}"
+      - name: last_accessed_at
+        description: "{{ doc('last_accessed') }}"
+      - name: last_activated_at
+        description: "{{ doc('last_activated') }}"
+      - name: last_modified_at
+        description: "{{ doc('last_modified_date') }}"
+      - name: owner_user_id
+        description: "{{ doc('owner_id') }}"
+      - name: project_category
+        description: "{{ doc('project_category') }}"
+      - name: project_type
+        description: "{{ doc('project_type') }}"
+      - name: registry_sha
+        description: "{{ doc('registry_sha') }}"
+      - name: registry_version
+        description: "{{ doc('registry_version') }}"
+      - name: schema_version
+        description: "{{ doc('schema_version') }}"
+      - name: scoring_summary_after_questions
+        description: "{{ doc('scoring_summary_after_questions') }}"
+      - name: scoring_summary_after_survey
+        description: "{{ doc('scoring_summary_after_survey') }}"
+      - name: scoring_summary_category
+        description: "{{ doc('scoring_summary_category') }}"
+      - name: survey_name
+        description: "{{ doc('survey_name') }}"
+      - name: survey_status
+        description: "{{ doc('survey_status') }}"
+      - name: version_id
+        description: "{{ doc('version_id') }}"
+      - name: version_number
+        description: "{{ doc('version_number') }}"
+      - name: version_description
+        description: "{{ doc('survey_version_description') }}"
+      - name: survey_version_created_at
+        description: "{{ doc('creation_date') }}"
+      - name: count_published_versions
+        description: "{{ doc('count_published_versions') }}"
+      - name: publisher_user_id
+        description: "{{ doc('publisher_user_id') }}"
+      - name: publisher_email
+        description: "{{ doc('publisher_email') }}"
+      - name: creator_email
+        description: "{{ doc('creator_email') }}"
+      - name: owner_email
+        description: "{{ doc('owner_email') }}"
+      - name: count_questions
+        description: "{{ doc('count_questions') }}"
+      - name: avg_response_duration_in_seconds
+        description: "{{ doc('avg_response_duration_in_seconds') }}"
+      - name: avg_survey_progress_pct
+        description: "{{ doc('avg_survey_progress_pct') }}"
+      - name: count_survey_responses
+        description: "{{ doc('count_survey_responses') }}"
+      - name: count_completed_survey_responses
+        description: "{{ doc('count_completed_survey_responses') }}"
+      - name: count_survey_responses_30d
+        description: "{{ doc('count_survey_responses_30d') }}"
+      - name: count_completed_survey_responses_30d
+        description: "{{ doc('count_completed_survey_responses_30d') }}"
+      - name: count_anonymous_survey_responses
+        description: "{{ doc('count_anonymous_survey_responses') }}"
+      - name: count_anonymous_completed_survey_responses
+        description: "{{ doc('count_anonymous_completed_survey_responses') }}"
+      - name: count_social_media_survey_responses
+        description: "{{ doc('count_social_media_survey_responses') }}"
+      - name: count_social_media_completed_survey_responses
+        description: "{{ doc('count_social_media_completed_survey_responses') }}"
+      - name: count_personal_link_survey_responses
+        description: "{{ doc('count_personal_link_survey_responses') }}"
+      - name: count_personal_link_completed_survey_responses
+        description: "{{ doc('count_personal_link_completed_survey_responses') }}"
+      - name: count_qr_code_survey_responses
+        description: "{{ doc('count_qr_code_survey_responses') }}"
+      - name: count_qr_code_completed_survey_responses
+        description: "{{ doc('count_qr_code_completed_survey_responses') }}"
+      - name: count_email_survey_responses
+        description: "{{ doc('count_email_survey_responses') }}"
+      - name: count_email_completed_survey_responses
+        description: "{{ doc('count_email_completed_survey_responses') }}"
+      - name: count_sms_survey_responses
+        description: "{{ doc('count_sms_survey_responses') }}"
+      - name: count_sms_completed_survey_responses
+        description: "{{ doc('count_sms_completed_survey_responses') }}"
+      - name: count_uncategorized_survey_responses
+        description: "{{ doc('count_uncategorized_survey_responses') }}"
+      - name: count_uncategorized_completed_survey_responses
+        description: "{{ doc('count_uncategorized_completed_survey_responses') }}"
 
   - name: qualtrics__contact
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
-            - contact_id
             - source_relation
             - directory_id
-            
+            - contact_id
+
+  - name: qualtrics__directory
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - directory_id
+
   - name: qualtrics__response_breakdown
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
+            - source_relation
             - survey_response_id
             - question_response_id
             - sub_question_key
-            - source_relation
     columns:
       - name: question_response_id
         description: "{{ doc('_fivetran_id') }}"

@@ -16,6 +16,8 @@ question as (
     from {{ var('question') }}
 ),
 
+-- should we bring in distribution_contact for like the number of currently pending or opened invites?
+
 agg_questions as (
 
     select 
@@ -71,6 +73,18 @@ agg_responses as (
     group by 1,2
 ),
 
+calc_medians as (
+
+    select 
+        survey_id, 
+        source_relation,
+        {{ fivetran_utils.percentile(percentile_field='duration_in_seconds', partition_field='survey_id,source_relation', percent='0.5') }} as median_response_duration_in_seconds,
+        {{ fivetran_utils.percentile(percentile_field='progress', partition_field='survey_id,source_relation', percent='0.5') }} as median_survey_progress_pct
+
+    from responses
+    {% if target.type == 'postgres' %} group by 1,2 {% endif %}
+),
+
 survey_join as (
 
     select
@@ -78,7 +92,9 @@ survey_join as (
         agg_questions.count_questions,
 
         agg_responses.avg_response_duration_in_seconds,
+        calc_medians.median_response_duration_in_seconds,
         agg_responses.avg_survey_progress_pct,
+        calc_medians.median_survey_progress_pct,
         coalesce(agg_responses.count_survey_responses, 0) as count_survey_responses,
         coalesce(agg_responses.count_completed_survey_responses, 0) as count_completed_survey_responses,
         coalesce(agg_responses.count_survey_responses_30d, 0) as count_survey_responses_30d,
@@ -87,16 +103,16 @@ survey_join as (
         -- distribution channels
         coalesce(agg_responses.count_anonymous_survey_responses, 0) as count_anonymous_survey_responses,
         coalesce(agg_responses.count_anonymous_completed_survey_responses, 0) as count_anonymous_completed_survey_responses,
-        coalesce(agg_responses.count_social_survey_responses as count_social_media_survey_responses, 0) as count_social_media_survey_responses,
-        coalesce(agg_responses.count_social_completed_survey_responses as count_social_media_completed_survey_responses, 0) as count_social_media_completed_survey_responses,
-        coalesce(agg_responses.count_gl_survey_responses as count_personal_link_survey_responses, 0) as count_personal_link_survey_responses,
-        coalesce(agg_responses.count_gl_completed_survey_responses as count_personal_link_completed_survey_responses, 0) as count_personal_link_completed_survey_responses,
-        coalesce(agg_responses.count_qr_survey_responses as count_qr_code_survey_responses, 0) as count_qr_code_survey_responses,
-        coalesce(agg_responses.count_qr_completed_survey_responses as count_qr_code_completed_survey_responses, 0) as count_qr_code_completed_survey_responses,
+        coalesce(agg_responses.count_social_survey_responses, 0) as count_social_media_survey_responses,
+        coalesce(agg_responses.count_social_completed_survey_responses, 0) as count_social_media_completed_survey_responses,
+        coalesce(agg_responses.count_gl_survey_responses, 0) as count_personal_link_survey_responses,
+        coalesce(agg_responses.count_gl_completed_survey_responses, 0) as count_personal_link_completed_survey_responses,
+        coalesce(agg_responses.count_qr_survey_responses, 0) as count_qr_code_survey_responses,
+        coalesce(agg_responses.count_qr_completed_survey_responses, 0) as count_qr_code_completed_survey_responses,
         coalesce(agg_responses.count_email_survey_responses, 0) as count_email_survey_responses,
         coalesce(agg_responses.count_email_completed_survey_responses, 0) as count_email_completed_survey_responses,
-        coalesce(agg_responses.count_smsinvite_survey_responses as count_sms_survey_responses, 0) as count_sms_survey_responses,
-        coalesce(agg_responses.count_smsinvite_completed_survey_responses as count_sms_completed_survey_responses, 0) as count_sms_completed_survey_responses,
+        coalesce(agg_responses.count_smsinvite_survey_responses, 0) as count_sms_survey_responses,
+        coalesce(agg_responses.count_smsinvite_completed_survey_responses, 0) as count_sms_completed_survey_responses,
         coalesce(agg_responses.count_uncategorized_survey_responses, 0) as count_uncategorized_survey_responses,
         coalesce(agg_responses.count_uncategorized_completed_survey_responses, 0) as count_uncategorized_completed_survey_responses
 
@@ -107,6 +123,9 @@ survey_join as (
     left join agg_responses
         on survey.survey_id = agg_responses.survey_id
         and survey.source_relation = agg_responses.source_relation
+    left join calc_medians 
+        on survey.survey_id = calc_medians.survey_id
+        and survey.source_relation = calc_medians.source_relation
 )
 
 select *

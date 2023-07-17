@@ -1,6 +1,6 @@
 packages:
 # - package: fivetran/qualtrics_source
 #   version: [">=0.1.0", "<0.2.0"]
-# - local: ../Qualtrics/dbt_qualtrics_source
-- git: https://github.com/fivetran/dbt_qualtrics_source.git
-  revision: initial-build
+- local: ../Qualtrics/dbt_qualtrics_source
+# - git: https://github.com/fivetran/dbt_qualtrics_source.git
+#   revision: initial-build

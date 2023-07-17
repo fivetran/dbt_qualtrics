@@ -72,7 +72,7 @@ final as (
         survey.project_type,
         survey.brand_base_url,
         
-        -- most question fields are included, as there is no question end model (for now). join with `int_qualtrics__question` to bring in more
+        -- most question fields are included, as there is no question end model. join with `int_qualtrics__question` to bring in more
         question.question_description,
         question.question_type,
         question.block_id,
