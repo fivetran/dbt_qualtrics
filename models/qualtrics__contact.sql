@@ -68,6 +68,7 @@ agg_distribution_responses as (
     group by 1,2
 ),
 
+-- todo: add medians
 agg_survey_responses as (
 
     select 
