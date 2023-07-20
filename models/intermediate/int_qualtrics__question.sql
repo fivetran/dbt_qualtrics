@@ -52,11 +52,9 @@ question_join as (
         block.block_visibility,
         block.is_locked as is_block_locked,
         block.is_deleted as is_block_deleted,
+        question.next_answer_id,
+        question.next_choice_id,
         question.source_relation
-
-        {# question.next_answer_id,
-        question.next_choice_id, #}
-        {# question.question_text_unsafe, #}
 
     from question
     left join sub_question

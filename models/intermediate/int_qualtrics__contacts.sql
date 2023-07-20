@@ -143,8 +143,5 @@ final as (
     from directory_contact_join
 )
 
-select 
-    *,
-    {{ dbt_utils.generate_surrogate_key(['contact_id', 'directory_id','mailing_list_ids']) }} as unique_key
-
+select *
 from final

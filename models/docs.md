@@ -22,6 +22,14 @@ On average, how long it took a respondent to finish a survey in seconds.
 On average, how far a respondent has progressed through a survey as a percentage out of 100.
 {% enddocs %}
 
+{% docs median_response_duration_in_seconds %}
+The median of how long it took a respondent to finish a survey in seconds.
+{% enddocs %}
+
+{% docs median_survey_progress_pct %}
+The median of how far a respondent has progressed through a survey as a percentage out of 100.
+{% enddocs %}
+
 {% docs count_survey_responses %}
 Total number of survey responses.
 {% enddocs %}
@@ -172,4 +180,53 @@ Count of distinct mailing lists the contact is a member of and has not opted out
 
 {% docs count_mailing_lists_unsubscribed_from %}
 Count of distinct mailing lists that the contact has opted out of receiving emails through.
+{% enddocs %}
+
+{% docs count_distinct_emails %}
+Count of distinct email addresses in the directory.
+{% enddocs %}
+
+{% docs count_distinct_phones %}
+Count of distinct phone numbers (stripped of any non-numeric characters) in the directory.
+{% enddocs %}
+
+{% docs total_count_contacts %}
+Total number of contacts in the directory.
+{% enddocs %}
+
+{% docs total_count_unsubscribed_contacts %}
+Total number of contacts who have unsubscribed from the directory.
+{% enddocs %}
+
+{% docs count_contacts_created_30d %}
+Number of contacts created in the last 30 days (inclusive) in this directory.
+{% enddocs %}
+
+{% docs count_contacts_unsubscribed_30d %}
+Number of contacts who have opted out of receiving communications through this directory in the last 30 days (inclusive).
+{% enddocs %}
+
+{% docs count_contacts_sent_survey_30d %}
+Number of contacts in this directory who have been sent a survey in the past 30 days (inclusive).
+{% enddocs %}
+
+{% docs count_contacts_opened_survey_30d %}
+Number of contacts in this directory who have been sent a survey in the past 30 days (inclusive) and opened it.
+
+{% enddocs %}
+
+{% docs count_contacts_started_survey_30d %}
+Number of contacts in this directory who have been sent a survey in the past 30 days (inclusive)and started it.
+{% enddocs %}
+
+{% docs count_contacts_completed_survey_30d %}
+Number of contacts in this directory who have been sent a survey in the past 30 days (inclusive) and completed it.
+{% enddocs %}
+
+{% docs count_surveys_sent_30d %}
+Number of _distinct_ surveys sent to contacts in the past 30 days (inclusive).
+{% enddocs %}
+
+{% docs count_mailing_lists %}
+Number of mailing lists the exist within the directory.
 {% enddocs %}

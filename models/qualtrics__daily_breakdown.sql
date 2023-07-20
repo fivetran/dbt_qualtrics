@@ -10,8 +10,8 @@ contact as (
 
     select *
     from {{ ref('qualtrics__contact') }}
-{# ),
-
+),
+{#
 distribution_contact as (
 
     select *
@@ -24,12 +24,13 @@ agg_responses as (
 
     from 
 ),
-
+#}
 agg_contacts as (
 
     select
         source_relation,
-    from contact  #}
+        {{ dbt.date_trunc('day') }}
+    from contact  
 )
 
 

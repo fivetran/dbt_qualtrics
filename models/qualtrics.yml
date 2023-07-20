@@ -82,6 +82,10 @@ models:
         description: "{{ doc('avg_response_duration_in_seconds') }}"
       - name: avg_survey_progress_pct
         description: "{{ doc('avg_survey_progress_pct') }}"
+      - name: median_response_duration_in_seconds
+        description: "{{ doc('median_response_duration_in_seconds') }}"
+      - name: median_survey_progress_pct
+        description: "{{ doc('median_survey_progress_pct') }}"
       - name: count_survey_responses
         description: "{{ doc('count_survey_responses') }}"
       - name: count_completed_survey_responses
@@ -118,6 +122,8 @@ models:
         description: "{{ doc('count_uncategorized_survey_responses') }}"
       - name: count_uncategorized_completed_survey_responses
         description: "{{ doc('count_uncategorized_completed_survey_responses') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: qualtrics__contact
     tests:
@@ -202,7 +208,52 @@ models:
           combination_of_columns:
             - source_relation
             - directory_id
-            
+    columns:
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: is_deduped_on_email
+        description: "{{ doc('deduplication_criteria_email') }}"
+      - name: is_deduped_on_ext_ref
+        description: "{{ doc('deduplication_criteria_external_data_reference') }}"
+      - name: is_deduped_on_first_name
+        description: "{{ doc('deduplication_criteria_first_name') }}"
+      - name: is_deduped_on_last_name
+        description: "{{ doc('deduplication_criteria_last_name') }}"
+      - name: is_deduped_on_phone
+        description: "{{ doc('deduplication_criteria_phone') }}"
+      - name: directory_id
+        description: "{{ doc('directory_id') }}"
+      - name: is_default
+        description: "{{ doc('is_default') }}"
+      - name: name
+        description: "{{ doc('directory_name') }}"
+      - name: count_distinct_emails
+        description: "{{ doc('count_distinct_emails') }}"
+      - name: count_distinct_phones
+        description: "{{ doc('count_distinct_phones') }}"
+      - name: total_count_contacts
+        description: "{{ doc('total_count_contacts') }}"
+      - name: total_count_unsubscribed_contacts
+        description: "{{ doc('total_count_unsubscribed_contacts') }}"
+      - name: count_contacts_created_30d
+        description: "{{ doc('count_contacts_created_30d') }}"
+      - name: count_contacts_unsubscribed_30d
+        description: "{{ doc('count_contacts_unsubscribed_30d') }}"
+      - name: count_contacts_sent_survey_30d
+        description: "{{ doc('count_contacts_sent_survey_30d') }}"
+      - name: count_contacts_opened_survey_30d
+        description: "{{ doc('count_contacts_opened_survey_30d') }}"
+      - name: count_contacts_started_survey_30d
+        description: "{{ doc('count_contacts_started_survey_30d') }}"
+      - name: count_contacts_completed_survey_30d
+        description: "{{ doc('count_contacts_completed_survey_30d') }}"
+      - name: count_surveys_sent_30d
+        description: "{{ doc('count_surveys_sent_30d') }}"
+      - name: count_mailing_lists
+        description: "{{ doc('count_mailing_lists') }}"
+
   - name: qualtrics__distribution
     tests:
       - dbt_utils.unique_combination_of_columns:
