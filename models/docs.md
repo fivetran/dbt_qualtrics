@@ -105,3 +105,71 @@ Email of the `USER` who created the survey.
 {% docs owner_email %}
 Email of the `USER` who owns the survey.
 {% enddocs %}
+
+{% docs is_xm_directory_contact %}
+Boolean representing whether the contact came from the XM Directory API endpoint (ie stored in the `directory_contact` table).
+{% enddocs %}
+
+{% docs is_research_core_contact %}
+Boolean representing whether the contact came from the (to-be-deprecated) Research Core API endpoint (ie stored in the `core_contact` table).
+{% enddocs %}
+
+{% docs mailing_list_ids %}
+Comma-separated list of mailing list IDs the record is associated with.
+{% enddocs %}
+
+{% docs count_surveys_sent_email %}
+Distinct surveys sent to the contact via email invite.
+{% enddocs %}
+
+{% docs count_surveys_sent_sms %}
+Distinct surveys sent to the contact via SMS invite.
+{% enddocs %}
+
+{% docs count_surveys_opened_email %}
+Distinct surveys opened by the contact via email invite.
+{% enddocs %}
+
+{% docs count_surveys_opened_sms %}
+Distinct surveys opened by the contact via SMS invite.
+{% enddocs %}
+
+{% docs count_surveys_started_email %}
+Distinct surveys started by the contact via email invite.
+{% enddocs %}
+
+{% docs count_surveys_started_sms %}
+Distinct surveys started by the contact via SMS invite.
+{% enddocs %}
+
+{% docs count_surveys_completed_email %}
+Distinct surveys completed by the contact via email invite.
+{% enddocs %}
+
+{% docs count_surveys_completed_sms %}
+Distinct surveys completed by the contact via SMS invite.
+{% enddocs %}
+
+{% docs total_count_surveys %}
+Total distinct surveys distributed.
+{% enddocs %}
+
+{% docs total_count_completed_surveys %}
+Total distinct surveys completed.
+{% enddocs %}
+
+{% docs last_survey_response_recorded_at %}
+The most recent point in time when a survey response was recorded.
+{% enddocs %}
+
+{% docs first_survey_response_recorded_at %}
+The earliest point in time when a survey response was recorded.
+{% enddocs %}
+
+{% docs count_mailing_lists_subscribed_to %}
+Count of distinct mailing lists the contact is a member of and has not opted out of.
+{% enddocs %}
+
+{% docs count_mailing_lists_unsubscribed_from %}
+Count of distinct mailing lists that the contact has opted out of receiving emails through.
+{% enddocs %}

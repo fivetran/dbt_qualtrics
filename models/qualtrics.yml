@@ -126,6 +126,75 @@ models:
             - source_relation
             - directory_id
             - contact_id
+    columns:
+      - name: contact_id
+        description: "{{ doc('contact_id') }}"
+      - name: is_xm_directory_contact
+        description: "{{ doc('is_xm_directory_contact') }}"
+      - name: is_research_core_contact
+        description: "{{ doc('is_research_core_contact') }}"
+      - name: directory_id
+        description: "{{ doc('directory_id') }}"
+      - name: email
+        description: "{{ doc('email') }}"
+      - name: email_domain
+        description: "{{ doc('email_domain') }}"
+      - name: first_name
+        description: "{{ doc('contact_first_name') }}"
+      - name: last_name
+        description: "{{ doc('contact_last_name') }}"
+      - name: external_data_reference
+        description: "{{ doc('ext_ref') }}"
+      - name: language
+        description: "{{ doc('language') }}"
+      - name: is_unsubscribed_from_directory
+        description: "{{ doc('directory_unsubscribed') }}"
+      - name: unsubscribed_from_directory_at
+        description: "{{ doc('directory_unsubscribe_date') }}"
+      - name: last_modified_at
+        description: "{{ doc('last_modified_date') }}"
+      - name: mailing_list_ids
+        description: "{{ doc('mailing_list_ids') }}"
+      - name: count_mailing_lists_subscribed_to
+        description: "{{ doc('count_mailing_lists_subscribed_to') }}"
+      - name: count_mailing_lists_unsubscribed_from
+        description: "{{ doc('count_mailing_lists_unsubscribed_from') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: count_surveys_sent_email
+        description: "{{ doc('count_surveys_sent_email') }}"
+      - name: count_surveys_sent_sms
+        description: "{{ doc('count_surveys_sent_sms') }}"
+      - name: count_surveys_opened_email
+        description: "{{ doc('count_surveys_opened_email') }}"
+      - name: count_surveys_opened_sms
+        description: "{{ doc('count_surveys_opened_sms') }}"
+      - name: count_surveys_started_email
+        description: "{{ doc('count_surveys_started_email') }}"
+      - name: count_surveys_started_sms
+        description: "{{ doc('count_surveys_started_sms') }}"
+      - name: count_surveys_completed_email
+        description: "{{ doc('count_surveys_completed_email') }}"
+      - name: count_surveys_completed_sms
+        description: "{{ doc('count_surveys_completed_sms') }}"
+      - name: total_count_surveys
+        description: "{{ doc('total_count_surveys') }}"
+      - name: total_count_completed_surveys
+        description: "{{ doc('total_count_completed_surveys') }}"
+      - name: avg_progress
+        description: "{{ doc('avg_survey_progress_pct') }}"
+      - name: avg_survey_duration_in_seconds
+        description: "{{ doc('avg_response_duration_in_seconds') }}"
+      - name: last_survey_response_recorded_at
+        description: "{{ doc('last_survey_response_recorded_at') }}"
+      - name: first_survey_response_recorded_at
+        description: "{{ doc('first_survey_response_recorded_at') }}"
+      - name: directory_name
+        description: "{{ doc('directory_name') }}"
+      - name: is_in_default_directory
+        description: "{{ doc('is_default') }}"
+      - name: is_directory_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
 
   - name: qualtrics__directory
     tests:
@@ -133,6 +202,13 @@ models:
           combination_of_columns:
             - source_relation
             - directory_id
+            
+  - name: qualtrics__distribution
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - distribution_id
 
   - name: qualtrics__response_breakdown
     tests:

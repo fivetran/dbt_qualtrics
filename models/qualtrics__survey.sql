@@ -75,14 +75,18 @@ agg_responses as (
 
 calc_medians as (
 
-    select 
-        survey_id, 
-        source_relation,
-        {{ fivetran_utils.percentile(percentile_field='duration_in_seconds', partition_field='survey_id,source_relation', percent='0.5') }} as median_response_duration_in_seconds,
-        {{ fivetran_utils.percentile(percentile_field='progress', partition_field='survey_id,source_relation', percent='0.5') }} as median_survey_progress_pct
+    select * from (
 
-    from responses
-    {% if target.type == 'postgres' %} group by 1,2 {% endif %}
+        select 
+            survey_id, 
+            source_relation,
+            {{ fivetran_utils.percentile(percentile_field='duration_in_seconds', partition_field='survey_id,source_relation', percent='0.5') }} as median_response_duration_in_seconds,
+            {{ fivetran_utils.percentile(percentile_field='progress', partition_field='survey_id,source_relation', percent='0.5') }} as median_survey_progress_pct
+
+        from responses
+        {% if target.type == 'postgres' %} group by 1,2 {% endif %}
+    )
+    {% if target.type != 'postgres' %} group by 1,2,3,4 {% endif %}
 ),
 
 survey_join as (
