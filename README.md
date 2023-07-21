@@ -93,8 +93,8 @@ By default, this package does not bring in data from the Qualtrics Research Core
 
 ```yml
 vars:
-    qualtrics__using_core_contacts: False # default = True
-    qualtrics__using_core_mailing_lists: False # default = True
+    qualtrics__using_core_contacts: True # default = False
+    qualtrics__using_core_mailing_lists: True # default = False
 ```
 
 ## (Optional) Step 5: Additional configurations
