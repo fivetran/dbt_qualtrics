@@ -68,10 +68,10 @@ agg_distributions as (
         count(distinct distribution.survey_id) as count_surveys_sent_30d
         
     from distribution_contact
-    join directory_contact 
+    join directory_contact
         on distribution_contact.contact_id = directory_contact.contact_id
         and distribution_contact.source_relation = directory_contact.source_relation
-    join distribution 
+    join distribution
         on distribution_contact.distribution_id = distribution.distribution_id 
         and distribution_contact.source_relation = distribution.source_relation
     where sent_at is not null 
@@ -88,13 +88,13 @@ final as (
         agg_contacts.count_distinct_phones,
         agg_contacts.total_count_contacts,
         agg_contacts.total_count_unsubscribed_contacts,
-        agg_contacts.count_contacts_created_30d,
-        agg_contacts.count_contacts_unsubscribed_30d,
-        agg_distributions.count_contacts_sent_survey_30d,
-        agg_distributions.count_contacts_opened_survey_30d,
-        agg_distributions.count_contacts_started_survey_30d,
-        agg_distributions.count_contacts_completed_survey_30d,
-        agg_distributions.count_surveys_sent_30d,
+        agg_contacts.count_contacts_created_30d, 
+        agg_contacts.count_contacts_unsubscribed_30d, 
+        agg_distributions.count_contacts_sent_survey_30d, 
+        agg_distributions.count_contacts_opened_survey_30d, 
+        agg_distributions.count_contacts_started_survey_30d, 
+        agg_distributions.count_contacts_completed_survey_30d, 
+        agg_distributions.count_surveys_sent_30d, 
         agg_mailing_lists.count_mailing_lists
 
     from directory 

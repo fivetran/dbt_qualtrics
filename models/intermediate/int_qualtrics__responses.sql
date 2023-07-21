@@ -44,7 +44,7 @@ response_join as (
         question_response.source_relation
     
     from question_response 
-    join survey_response 
+    join survey_response
         on question_response.response_id = survey_response.response_id
         and question_response.source_relation = survey_response.source_relation
         

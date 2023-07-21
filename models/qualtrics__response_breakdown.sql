@@ -1,5 +1,5 @@
 with response as (
-    -- will probably move the logic from this int model to the end model directly 
+    -- will probably move the logic from this int model to the end model directly  
     select *
     from {{ ref('int_qualtrics__responses') }}
 ),

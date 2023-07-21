@@ -57,20 +57,20 @@ pivoted_metrics as (
     group by 1,2
 ),
 
-calc_medians as (
-    
-    select * from (
-        select 
-            distribution_id, 
-            source_relation,
-            {{ fivetran_utils.percentile(percentile_field='time_to_open_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_open_in_seconds,
-            {{ fivetran_utils.percentile(percentile_field='time_to_start_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_start_in_seconds,
-            {{ fivetran_utils.percentile(percentile_field='time_to_complete_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_complete_in_seconds
-
-        from distribution_contact
-        {% if target.type == 'postgres' %} group by 1,2 {% endif %}
-    )
-    {% if target.type != 'postgres' %} group by 1,2,3,4,5 {% endif %}
+calc_medians as ( 
+     
+    select * from ( 
+        select  
+            distribution_id,  
+            source_relation, 
+            {{ fivetran_utils.percentile(percentile_field='time_to_open_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_open_in_seconds, 
+            {{ fivetran_utils.percentile(percentile_field='time_to_start_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_start_in_seconds, 
+            {{ fivetran_utils.percentile(percentile_field='time_to_complete_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_complete_in_seconds 
+ 
+        from distribution_contact 
+        {% if target.type == 'postgres' %} group by 1,2 {% endif %} 
+    ) 
+    {% if target.type != 'postgres' %} group by 1,2,3,4,5 {% endif %} 
 ),
 
 final as (

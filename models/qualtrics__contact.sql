@@ -40,7 +40,7 @@ distribution_response as (
         survey_response.recorded_date
 
     from distribution_contact 
-    join distribution 
+    join distribution
         on distribution_contact.distribution_id = distribution.distribution_id
         and distribution_contact.source_relation = distribution.source_relation
     left join survey_response
@@ -54,8 +54,8 @@ agg_distribution_responses as (
     select 
         contact_id,
         source_relation,
-        -- should i include other distribution channels? qr code, social media, personal links, etc?
-        -- should i add avg time-to-open?
+        -- should i include other distribution channels? qr code, social media, personal links, etc? 
+        -- should i add avg time-to-open? 
         count(distinct case when sent_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_sent_email,
         count(distinct case when sent_at is not null and distribution_channel = 'smsinvite' then survey_id end) as count_surveys_sent_sms,
         count(distinct case when opened_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_opened_email,
@@ -68,7 +68,7 @@ agg_distribution_responses as (
     group by 1,2
 ),
 
--- todo: add medians
+-- todo: add medians 
 agg_survey_responses as (
 
     select 
