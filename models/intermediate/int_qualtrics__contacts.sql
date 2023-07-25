@@ -15,14 +15,28 @@ contact_mailing_list_membership as (
 ),
 
 -- in XM directory a contact can belong to multiple mailing lists within a directory
-agg_mailing_lists as (
+-- need to split counts and string_aggs on redshift 
+count_mailing_lists as (
 
     select 
         directory_id,
         contact_id,
         source_relation,
         count(distinct case when not is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_subscribed_to,
-        count(distinct case when is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_unsubscribed_from,
+        count(distinct case when is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_unsubscribed_from
+
+    from contact_mailing_list_membership
+    group by 1,2,3
+),
+
+-- in XM directory a contact can belong to multiple mailing lists within a directory
+-- need to split counts and string_aggs on redshift 
+agg_mailing_lists as (
+
+    select 
+        directory_id,
+        contact_id,
+        source_relation,
         {{ fivetran_utils.string_agg('mailing_list_id', "', '") }} as mailing_list_ids
 
     from contact_mailing_list_membership
@@ -33,14 +47,18 @@ directory_contact_join as (
 
     select
         directory_contact.*,
-        agg_mailing_lists.count_mailing_lists_subscribed_to,
-        agg_mailing_lists.count_mailing_lists_unsubscribed_from,
+        count_mailing_lists.count_mailing_lists_subscribed_to,
+        count_mailing_lists.count_mailing_lists_unsubscribed_from,
         agg_mailing_lists.mailing_list_ids
     from directory_contact
     left join agg_mailing_lists
         on directory_contact.contact_id = agg_mailing_lists.contact_id
         and directory_contact.directory_id = agg_mailing_lists.directory_id 
         and directory_contact.source_relation = agg_mailing_lists.source_relation
+    left join count_mailing_lists
+        on directory_contact.contact_id = count_mailing_lists.contact_id
+        and directory_contact.directory_id = count_mailing_lists.directory_id 
+        and directory_contact.source_relation = count_mailing_lists.source_relation
 ),
 
 {% if var('qualtrics__using_core_contacts', false) %}
