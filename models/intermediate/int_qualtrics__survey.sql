@@ -28,7 +28,7 @@ agg_versions as (
     select 
         survey_id,
         source_relation,
-        count(distinct version_number) as count_published_versions,
+        count(distinct version_number) as count_published_versions
     from survey_version
     where was_published and not is_deleted
     group by 1,2
