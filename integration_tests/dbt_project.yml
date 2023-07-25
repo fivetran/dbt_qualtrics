@@ -14,6 +14,9 @@ seeds:
   qualtrics_integration_tests:
     +column_types:
       _fivetran_synced: timestamp
+    contact_mailing_list_membership:
+      +column_types:
+        unsubscribed_at: timestamp
     survey_response:
       +column_types:
         id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
