@@ -260,6 +260,84 @@ models:
           combination_of_columns:
             - source_relation
             - distribution_id
+    columns:
+      - name: is_deleted
+        description: "{{ doc('_fivetran_deleted') }}"
+      - name: _fivetran_synced
+        description: "{{ doc('_fivetran_synced') }}"
+      - name: created_at
+        description: "{{ doc('creation_date') }}"
+      - name: header_from_email
+        description: "{{ doc('header_from_email') }}"
+      - name: header_from_name
+        description: "{{ doc('header_from_name') }}"
+      - name: header_reply_to_email
+        description: "{{ doc('header_reply_to_email') }}"
+      - name: header_subject
+        description: "{{ doc('header_subject') }}"
+      - name: distribution_id
+        description: "{{ doc('distribution_id') }}"
+      - name: message_library_id
+        description: "{{ doc('message_library_id') }}"
+      - name: message_id
+        description: "{{ doc('message_message_id') }}"
+      - name: message_text
+        description: "{{ doc('message_message_text') }}"
+      - name: last_modified_at
+        description: "{{ doc('last_modified_date') }}"
+      - name: organization_id
+        description: "{{ doc('organization_id') }}"
+      - name: owner_user_id
+        description: "{{ doc('owner_id') }}"
+      - name: parent_distribution_id
+        description: "{{ doc('parent_distribution_id') }}"
+      - name: recipient_contact_id
+        description: "{{ doc('recipient_contact_id') }}"
+      - name: recipient_library_id
+        description: "{{ doc('recipient_library_id') }}"
+      - name: recipient_mailing_list_id
+        description: "{{ doc('recipient_mailing_list_id') }}"
+      - name: recipient_sample_id
+        description: "{{ doc('recipient_sample_id') }}"
+      - name: request_status
+        description: "{{ doc('request_status') }}"
+      - name: request_type
+        description: "{{ doc('request_type') }}"
+      - name: send_at
+        description: "{{ doc('send_date') }}"
+      - name: survey_link_expires_at
+        description: "{{ doc('survey_link_expiration_date') }}"
+      - name: survey_link_type
+        description: "{{ doc('survey_link_link_type') }}"
+      - name: survey_id
+        description: "{{ doc('survey_link_survey_id') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+
+# parent_distribution_header_subject
+# recipient_mailing_list_name
+# owner_email
+# owner_first_name
+# owner_last_name
+# total_count_contacts
+# count_contacts_sent_surveys
+# count_contacts_opened_surveys
+# count_contacts_started_surveys
+# count_contacts_completed_surveys
+# first_survey_sent_at
+# last_survey_sent_at
+# first_survey_opened_at
+# last_survey_opened_at
+# first_response_completed_at
+# last_response_completed_at
+# avg_time_to_open_in_seconds
+# avg_time_to_start_in_seconds
+# avg_time_to_complete_in_seconds
+# median_time_to_open_in_seconds
+# median_time_to_start_in_seconds
+# median_time_to_complete_in_seconds
+# current_count_surveys_
+# 'pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveyfinished','surveyscreenedout','sessionexpired'
 
   - name: qualtrics__response_breakdown
     tests:
@@ -271,7 +349,7 @@ models:
             - sub_question_key
     columns:
       - name: question_response_id
-        description: "{{ doc('_fivetran_id') }}"
+        description: "{{ doc('question_response_fivetran_id') }}"
       - name: survey_response_id
         description: "{{ doc('response_id') }}"
       - name: survey_id

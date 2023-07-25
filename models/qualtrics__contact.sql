@@ -54,8 +54,6 @@ agg_distribution_responses as (
     select 
         contact_id,
         source_relation,
-        -- should i include other distribution channels? qr code, social media, personal links, etc?
-        -- should i add avg time-to-open?
         count(distinct case when sent_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_sent_email,
         count(distinct case when sent_at is not null and distribution_channel = 'smsinvite' then survey_id end) as count_surveys_sent_sms,
         count(distinct case when opened_at is not null and distribution_channel = 'email' then survey_id end) as count_surveys_opened_email,

@@ -11,7 +11,7 @@ models:
     +schema: qualtrics
     +materialized: table
     intermediate:
-      +materialized: view
+      +materialized: ephemeral
       +schema: int_qualtrics
 
 vars:

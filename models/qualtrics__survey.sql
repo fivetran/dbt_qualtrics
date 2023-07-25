@@ -16,8 +16,6 @@ question as (
     from {{ var('question') }}
 ),
 
--- should we bring in distribution_contact for like the number of currently pending or opened invites?
-
 agg_questions as (
 
     select 

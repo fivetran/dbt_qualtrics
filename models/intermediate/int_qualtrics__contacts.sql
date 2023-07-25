@@ -96,6 +96,7 @@ final as (
         mailing_list_ids,
         count_mailing_lists_subscribed_to,
         count_mailing_lists_unsubscribed_from,
+        _fivetran_synced as created_at,
         source_relation
 
         {% if var('qualtrics__directory_contact_pass_through_columns', none) %}
@@ -131,6 +132,7 @@ final as (
         mailing_list_ids,
         count_mailing_lists_subscribed_to,
         count_mailing_lists_unsubscribed_from,
+        created_at,
         source_relation
         {{ fivetran_utils.persist_pass_through_columns(pass_through_variable='qualtrics__directory_contact_pass_through_columns') }}
 
