@@ -17,6 +17,8 @@ seeds:
     survey_response:
       +column_types:
         id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        recorded_date: timestamp
+        start_date: timestamp
     distribution:
       +column_types:
         survey_link_survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
@@ -37,6 +39,7 @@ seeds:
     survey:
       +column_types:
         id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        creator_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     distribution_contact:
       +column_types:
         sent_at: timestamp
