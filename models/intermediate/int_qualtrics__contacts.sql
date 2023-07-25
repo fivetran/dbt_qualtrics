@@ -51,13 +51,26 @@ core_contact as (
 ),
 
 -- Roll up mailing lists since contacts in the XM directory endpoint can belong to multiple (or none)
-agg_core_mailing_lists as (
+-- need to split counts and string_aggs on redshift 
+count_core_mailing_lists as (
 
     select 
         contact_id,
         source_relation,
         count(distinct case when not is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_subscribed_to,
-        count(distinct case when is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_unsubscribed_from,
+        count(distinct case when is_unsubscribed then mailing_list_id else null end) as count_mailing_lists_unsubscribed_from
+
+    from core_contact
+    group by 1,2
+),
+
+-- Roll up mailing lists since contacts in the XM directory endpoint can belong to multiple (or none)
+-- need to split counts and string_aggs on redshift 
+agg_core_mailing_lists as (
+
+    select 
+        contact_id,
+        source_relation,
         {{ fivetran_utils.string_agg('mailing_list_id', "', '") }} as mailing_list_ids
 
     from core_contact
@@ -68,13 +81,16 @@ core_contact_join  as (
 
     select
         core_contact.*,
-        agg_core_mailing_lists.count_mailing_lists_subscribed_to,
-        agg_core_mailing_lists.count_mailing_lists_unsubscribed_from,
+        count_core_mailing_lists.count_mailing_lists_subscribed_to,
+        count_core_mailing_lists.count_mailing_lists_unsubscribed_from,
         agg_core_mailing_lists.mailing_list_ids
     from core_contact
     left join agg_core_mailing_lists
         on core_contact.contact_id = agg_core_mailing_lists.contact_id
         and core_contact.source_relation = agg_core_mailing_lists.source_relation
+    left join agg_corcount_core_mailing_listse_mailing_lists
+        on core_contact.contact_id = count_core_mailing_lists.contact_id
+        and core_contact.source_relation = count_core_mailing_lists.source_relation
 ),
 
 final as (
