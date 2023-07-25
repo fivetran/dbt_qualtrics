@@ -68,9 +68,9 @@ calc_medians as (
             {{ fivetran_utils.percentile(percentile_field='time_to_complete_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_complete_in_seconds
 
         from distribution_contact
-        {% if target.type == 'postgres' %} group by 1,2 {% endif %}
+        {% if target.type == 'postgres' %} group by 1,2 {% endif %} -- percentile macro uses an aggregate function on postgres and window functions on other DBs
     )
-    {% if target.type != 'postgres' %} group by 1,2,3,4,5 {% endif %}
+    {% if target.type != 'postgres' %} group by 1,2,3,4,5 {% endif %} -- roll up if using window function
 ),
 
 final as (
@@ -85,11 +85,11 @@ final as (
         {% for status in ('pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveyfinished','surveyscreenedout','sessionexpired') %}
         coalesce(pivoted_metrics.current_count_surveys_{{ status }}, 0) as current_count_surveys_{{ status }},
         {% endfor %}
-        pivoted_metrics.total_count_contacts,
-        pivoted_metrics.count_contacts_sent_surveys,
-        pivoted_metrics.count_contacts_opened_surveys,
-        pivoted_metrics.count_contacts_started_surveys,
-        pivoted_metrics.count_contacts_completed_surveys,
+        coalesce(pivoted_metrics.total_count_contacts, 0) as total_count_contacts,
+        coalesce(pivoted_metrics.count_contacts_sent_surveys, 0) as count_contacts_sent_surveys,
+        coalesce(pivoted_metrics.count_contacts_opened_surveys, 0) as count_contacts_opened_surveys,
+        coalesce(pivoted_metrics.count_contacts_started_surveys, 0) as count_contacts_started_surveys,
+        coalesce(pivoted_metrics.count_contacts_completed_surveys, 0) as count_contacts_completed_surveys,
         pivoted_metrics.first_survey_sent_at,
         pivoted_metrics.last_survey_sent_at,
         pivoted_metrics.first_survey_opened_at,

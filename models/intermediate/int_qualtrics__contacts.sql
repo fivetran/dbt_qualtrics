@@ -43,7 +43,7 @@ directory_contact_join as (
         and directory_contact.source_relation = agg_mailing_lists.source_relation
 ),
 
-{% if var('qualtrics__using_core_contacts', true) %}
+{% if var('qualtrics__using_core_contacts', false) %}
 core_contact as (
 
     select *

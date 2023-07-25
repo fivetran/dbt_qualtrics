@@ -339,7 +339,7 @@ models:
 # current_count_surveys_
 # 'pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveyfinished','surveyscreenedout','sessionexpired'
 
-  - name: qualtrics__response_breakdown
+  - name: qualtrics__response
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:

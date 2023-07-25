@@ -40,7 +40,7 @@ distribution_response as (
         survey_response.recorded_date
 
     from distribution_contact 
-    join distribution 
+    left join distribution
         on distribution_contact.distribution_id = distribution.distribution_id
         and distribution_contact.source_relation = distribution.source_relation
     left join survey_response
@@ -66,7 +66,6 @@ agg_distribution_responses as (
     group by 1,2
 ),
 
--- todo: add medians
 agg_survey_responses as (
 
     select 
@@ -74,13 +73,29 @@ agg_survey_responses as (
         source_relation,
         count(distinct survey_id) as total_count_surveys,
         count(distinct case when is_finished then survey_id else null end) as total_count_completed_surveys,
-        avg(progress) as avg_progress,
+        avg(progress) as avg_survey_progress_pct,
         avg(duration_in_seconds) as avg_survey_duration_in_seconds,
         max(recorded_date) as last_survey_response_recorded_at,
         min(recorded_date) as first_survey_response_recorded_at
         
     from distribution_response
     group by 1,2
+),
+
+calc_medians as (
+
+    select * from (
+
+        select 
+            contact_id, 
+            source_relation,
+            {{ fivetran_utils.percentile(percentile_field='duration_in_seconds', partition_field='contact_id,source_relation', percent='0.5') }} as median_survey_duration_in_seconds,
+            {{ fivetran_utils.percentile(percentile_field='progress', partition_field='contact_id,source_relation', percent='0.5') }} as median_survey_progress_pct
+
+        from distribution_response
+        {% if target.type == 'postgres' %} group by 1,2 {% endif %} -- percentile macro uses an aggregate function on postgres and window functions on other DBs
+    )
+    {% if target.type != 'postgres' %} group by 1,2,3,4 {% endif %} -- roll up if using window function
 ),
 
 final as (
@@ -97,8 +112,10 @@ final as (
         coalesce(agg_distribution_responses.count_surveys_completed_sms, 0) as count_surveys_completed_sms,
         coalesce(agg_survey_responses.total_count_surveys, 0) as total_count_surveys,
         coalesce(agg_survey_responses.total_count_completed_surveys, 0) as total_count_completed_surveys,
-        agg_survey_responses.avg_progress,
+        agg_survey_responses.avg_survey_progress_pct,
         agg_survey_responses.avg_survey_duration_in_seconds,
+        calc_medians.median_survey_progress_pct,
+        calc_medians.median_survey_duration_in_seconds,
         agg_survey_responses.last_survey_response_recorded_at,
         agg_survey_responses.first_survey_response_recorded_at,
         directory.name as directory_name,
@@ -115,6 +132,9 @@ final as (
     left join directory
         on contacts.directory_id = directory.directory_id 
         and contacts.source_relation = directory.source_relation
+    left join calc_medians
+        on contacts.contact_id = calc_medians.contact_id
+        and contacts.source_relation = calc_medians.source_relation
 )
 
 select *

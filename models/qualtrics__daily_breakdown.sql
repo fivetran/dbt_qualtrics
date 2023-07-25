@@ -1,7 +1,7 @@
 with response as (
 
     select *
-    from {{ ref('qualtrics__response_breakdown') }}
+    from {{ ref('qualtrics__response') }}
 ),
 
 contact as (

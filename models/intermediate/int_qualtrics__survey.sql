@@ -62,7 +62,7 @@ survey_join as (
     left join user as creator
         on survey.creator_user_id = creator.user_id
         and survey.source_relation = creator.source_relation
-    join agg_versions 
+    left join agg_versions 
         on survey.survey_id = agg_versions.survey_id
         and survey.source_relation = agg_versions.source_relation
 )

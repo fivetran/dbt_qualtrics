@@ -1,5 +1,5 @@
 with survey as (
--- contians survey version + associated internal-user data
+-- contains survey version + associated internal-user data
     select *
     from {{ ref('int_qualtrics__survey') }}
 ),
@@ -82,16 +82,16 @@ calc_medians as (
             {{ fivetran_utils.percentile(percentile_field='progress', partition_field='survey_id,source_relation', percent='0.5') }} as median_survey_progress_pct
 
         from responses
-        {% if target.type == 'postgres' %} group by 1,2 {% endif %}
+        {% if target.type == 'postgres' %} group by 1,2 {% endif %} -- percentile macro uses an aggregate function on postgres and window functions on other DBs
     )
-    {% if target.type != 'postgres' %} group by 1,2,3,4 {% endif %}
+    {% if target.type != 'postgres' %} group by 1,2,3,4 {% endif %} -- roll up if using window function
 ),
 
 survey_join as (
 
     select
         survey.*,
-        agg_questions.count_questions,
+        coalesce(agg_questions.count_questions, 0) as count_questions,
 
         agg_responses.avg_response_duration_in_seconds,
         calc_medians.median_response_duration_in_seconds,

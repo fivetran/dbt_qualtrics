@@ -29,8 +29,9 @@ The following table provides a detailed list of all models materialized within t
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | [qualtrics__contact]()  | TBD   |
 | [qualtrics__daily_breakdown]()        | TBD            |
+| [qualtrics__directory]()  | TBD    |
 | [qualtrics__distribution]()  | TBD    |
-| [qualtrics__response_breakdown]()        | TBD            |
+| [qualtrics__response]()        | TBD            |
 | [qualtrics__survey]()           | TBD           |
 <!--section-end-->
 
