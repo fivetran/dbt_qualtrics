@@ -14,9 +14,14 @@ seeds:
   qualtrics_integration_tests:
     +column_types:
       _fivetran_synced: timestamp
+    survey_response:
+      +column_types:
+        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     distribution:
       +column_types:
         survey_link_survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        parent_distribution_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     survey_version:
       +column_types:
         survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
@@ -38,6 +43,7 @@ seeds:
         opened_at: timestamp
         response_started_at: timestamp
         response_completed_at: timestamp
+        response_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     directory_contact:
       +column_types:
         ext_ref: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
