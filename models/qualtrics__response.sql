@@ -44,8 +44,8 @@ rollup_contacts as (
         max(last_name) as last_name,
         max(language) as language,
         max(external_data_reference) as external_data_reference,
-        max(is_xm_directory_contact) as is_xm_directory_contact,
-        max(is_research_core_contact) as is_research_core_contact
+        {{ fivetran_utils.max_bool(boolean_field="is_xm_directory_contact") }} as is_xm_directory_contact,
+        {{ fivetran_utils.max_bool(boolean_field="is_research_core_contact") }} as is_research_core_contact
 
     from contacts
     group by 1,2

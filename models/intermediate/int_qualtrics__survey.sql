@@ -4,7 +4,7 @@ with survey as (
     from {{ var('survey') }}
 ),
 
-user as (
+qualtrics_user as (
 
     select *
     from {{ var('user') }}
@@ -53,13 +53,13 @@ survey_join as (
     left join latest_version
         on survey.survey_id = latest_version.survey_id
         and survey.source_relation = latest_version.source_relation
-    left join user as version_publisher
+    left join qualtrics_user as version_publisher
         on latest_version.publisher_user_id = version_publisher.user_id
         and latest_version.source_relation = version_publisher.source_relation
-    left join user as owner
+    left join qualtrics_user as owner
         on survey.owner_user_id = owner.user_id
         and survey.source_relation = owner.source_relation
-    left join user as creator
+    left join qualtrics_user as creator
         on survey.creator_user_id = creator.user_id
         and survey.source_relation = creator.source_relation
     left join agg_versions 

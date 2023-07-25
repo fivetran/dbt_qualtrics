@@ -43,6 +43,8 @@ seeds:
         ext_ref: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         phone: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        directory_unsubscribe_date: timestamp
+        creation_date: timestamp
     core_contact:
       +column_types:
         external_data_reference: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"

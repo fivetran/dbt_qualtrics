@@ -4,7 +4,7 @@ with distribution as (
     from {{ var('distribution') }}
 ),
 
-user as (
+qualtrics_user as (
 
     select *
     from {{ var('user') }}
@@ -69,7 +69,7 @@ calc_medians as (
 
         from distribution_contact
         {% if target.type == 'postgres' %} group by 1,2 {% endif %} -- percentile macro uses an aggregate function on postgres and window functions on other DBs
-    )
+    ) as rollup_medians
     {% if target.type != 'postgres' %} group by 1,2,3,4,5 {% endif %} -- roll up if using window function
 ),
 
@@ -79,9 +79,9 @@ final as (
         distribution.*,
         parent_distribution.header_subject as parent_distribution_header_subject,
         directory_mailing_list.name as recipient_mailing_list_name,
-        user.email as owner_email,
-        user.first_name as owner_first_name,
-        user.last_name as owner_last_name,
+        qualtrics_user.email as owner_email,
+        qualtrics_user.first_name as owner_first_name,
+        qualtrics_user.last_name as owner_last_name,
         {% for status in ('pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveyfinished','surveyscreenedout','sessionexpired') %}
         coalesce(pivoted_metrics.current_count_surveys_{{ status }}, 0) as current_count_surveys_{{ status }},
         {% endfor %}
@@ -104,9 +104,9 @@ final as (
         calc_medians.median_time_to_complete_in_seconds
 
     from distribution
-    left join user 
-        on distribution.owner_user_id = user.user_id 
-        and distribution.source_relation = user.source_relation
+    left join qualtrics_user 
+        on distribution.owner_user_id = qualtrics_user.user_id 
+        and distribution.source_relation = qualtrics_user.source_relation
     left join distribution as parent_distribution
         on distribution.parent_distribution_id = parent_distribution.distribution_id
         and distribution.source_relation = parent_distribution.source_relation

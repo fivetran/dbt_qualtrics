@@ -94,7 +94,7 @@ calc_medians as (
 
         from distribution_response
         {% if target.type == 'postgres' %} group by 1,2 {% endif %} -- percentile macro uses an aggregate function on postgres and window functions on other DBs
-    )
+    ) as rollup_medians
     {% if target.type != 'postgres' %} group by 1,2,3,4 {% endif %} -- roll up if using window function
 ),
 
