@@ -14,11 +14,36 @@ seeds:
   qualtrics_integration_tests:
     +column_types:
       _fivetran_synced: timestamp
+    distribution:
+      +column_types:
+        survey_link_survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    survey_version:
+      +column_types:
+        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    block_question:
+      +column_types:
+        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    question:
+      +column_types:
+        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    question_option:
+      +column_types:
+        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    survey:
+      +column_types:
+        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    distribution_contact:
+      +column_types:
+        sent_at: timestamp
+        opened_at: timestamp
+        response_started_at: timestamp
+        response_completed_at: timestamp
     directory_contact:
       +column_types:
-        ext_ref: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
-        language: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
+        ext_ref: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        phone: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     core_contact:
       +column_types:
-        external_data_reference: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
-        language: "{{ 'string' if target.name in ['bigquery','spark','databricks'] else 'varchar' }}"
+        external_data_reference: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
