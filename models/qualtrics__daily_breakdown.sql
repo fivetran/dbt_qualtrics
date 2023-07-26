@@ -151,17 +151,17 @@ final as (
 
     from spine
     left join agg_responses
-        on spine.date_day = agg_responses.date_day
+        on spine.date_day = agg_responses.date_day 
     left join agg_survey_distribution
-        on spine.date_day = agg_survey_distribution.date_day
+        on spine.date_day = agg_survey_distribution.date_day 
     left join agg_created_contacts
-        on spine.date_day = agg_created_contacts.date_day
+        on spine.date_day = agg_created_contacts.date_day 
     left join agg_directory_unsubscriptions
-        on spine.date_day = agg_directory_unsubscriptions.date_day
+        on spine.date_day = agg_directory_unsubscriptions.date_day 
     left join agg_mailing_list_unsubscriptions
-        on spine.date_day = agg_mailing_list_unsubscriptions.date_day
+        on spine.date_day = agg_mailing_list_unsubscriptions.date_day 
     
 )
 
 select * 
-from contact
+from final
