@@ -107,11 +107,11 @@ Email of the `USER` who published the latest survey version.
 {% enddocs %}
 
 {% docs creator_email %}
-Email of the `USER` who created the survey.
+Email of the `USER` who created the object.
 {% enddocs %}
 
 {% docs owner_email %}
-Email of the `USER` who owns the survey.
+Email of the `USER` who owns the object.
 {% enddocs %}
 
 {% docs is_xm_directory_contact %}
@@ -191,7 +191,7 @@ Count of distinct phone numbers (stripped of any non-numeric characters) in the 
 {% enddocs %}
 
 {% docs total_count_contacts %}
-Total number of contacts in the directory.
+Total number of contacts.
 {% enddocs %}
 
 {% docs total_count_unsubscribed_contacts %}
@@ -229,4 +229,148 @@ Number of _distinct_ surveys sent to contacts in the past 30 days (inclusive).
 
 {% docs count_mailing_lists %}
 Number of mailing lists the exist within the directory.
+{% enddocs %}
+
+{% docs parent_distribution_header_subject %}
+Email subject; text or message id (MS_) of the parent distribution.
+{% enddocs %}
+
+{% docs recipient_mailing_list_name %}
+Name of the mailing list associated with the distribution(s).
+{% enddocs %}
+
+{% docs owner_first_name %}
+First name of the `user` who owns the object.
+{% enddocs %}
+
+{% docs owner_last_name %}
+Surname of the `user` who owns the object.
+{% enddocs %}
+
+{% docs count_contacts_sent_surveys %}
+Count of unique contacts who have been sent surveys via the distribution.
+{% enddocs %}
+
+{% docs count_contacts_opened_surveys %}
+Count of unique contacts who have opened surveys via the distribution.
+{% enddocs %}
+
+{% docs count_contacts_started_surveys %}
+Count of unique contacts who have started surveys via the distribution.
+{% enddocs %}
+
+{% docs count_contacts_completed_surveys %}
+Count of unique contacts who have completed surveys via the distribution.
+{% enddocs %}
+
+{% docs first_survey_sent_at %}
+Timestamp of when the first survey was sent via this distribution.
+{% enddocs %}
+
+{% docs last_survey_sent_at %}
+Timestamp of when a survey was most recently sent out via this distribution.
+{% enddocs %}
+
+{% docs first_survey_opened_at %}
+Timestamp of when the first survey was opened via this distribution.
+{% enddocs %}
+
+{% docs last_survey_opened_at %}
+Timestamp of when a survey was most recently opened via this distribution.
+{% enddocs %}
+
+{% docs first_response_completed_at %}
+Timestamp of when the first survey was completed via this distribution.
+{% enddocs %}
+
+{% docs last_response_completed_at %}
+Timestamp of when a survey was most recently completed via this distribution.
+{% enddocs %}
+
+{% docs avg_time_to_open_in_seconds %}
+Average time difference between when a survey was sent and when it was opened.
+{% enddocs %}
+
+{% docs avg_time_to_start_in_seconds %}
+Average time difference between when a survey was **sent** and when it was started.
+{% enddocs %}
+
+{% docs avg_time_to_complete_in_seconds %}
+Average time difference between when a survey was **sent** and when it was completed.
+{% enddocs %}
+
+{% docs median_time_to_open_in_seconds %}
+Median time difference between when a survey was sent and when it was opened.
+{% enddocs %}
+
+{% docs median_time_to_start_in_seconds %}
+Median time difference between when a survey was **sent** and when it was started.
+{% enddocs %}
+
+{% docs median_time_to_complete_in_seconds %}
+Median time difference between when a survey was **sent** and when it was completed.
+{% enddocs %}
+
+{% docs current_count_surveys_pending %}
+Count of distributed surveys currently pending (the distribution is scheduled but has yet to be sent).
+{% enddocs %}
+
+{% docs current_count_surveys_success %}
+Count of distributed surveys currently with a status of `success` (the distribution was successfully delivered to the contact).
+{% enddocs %}
+
+{% docs current_count_surveys_error %}
+Count of distributed surveys currently with a status of `error` (an error occurred while attempting to send the distribution).
+{% enddocs %}
+
+{% docs current_count_surveys_opened %}
+Count of distributed surveys currently with a status of `opened` (the distribution was opened by the contact).
+{% enddocs %}
+
+{% docs current_count_surveys_complaint %}
+Count of distributed surveys currently with a status of `complaint` (the contact complained that the distribution was spam).
+{% enddocs %}
+
+{% docs current_count_surveys_skipped %}
+Count of distributed surveys currently with a status of `skipped` (the contact was skipped due to contact frequency rules or blacklisted contact information).
+{% enddocs %}
+
+{% docs current_count_surveys_blocked %}
+Count of distributed surveys currently with a status of `blocked` (the distribution failed to send, because the contact blocked it or the email was caught by the spam circuit breaker).
+{% enddocs %}
+
+{% docs current_count_surveys_failure %}
+Count of distributed surveys currently with a status of `failed` (the distribution failed to be delivered).
+{% enddocs %}
+
+{% docs current_count_surveys_unknown %}
+Count of distributed surveys currently with a status of `unknown` (the distribution failed for an unknown reason).
+{% enddocs %}
+
+{% docs current_count_surveys_softbounce %}
+Count of distributed surveys currently with a status of `softbounce` (the distribution bounced but can be retried).
+{% enddocs %}
+
+{% docs current_count_surveys_hardbounce %}
+Count of distributed surveys currently with a status of `hardbounce` (the distribution bounced and should not be retried).
+{% enddocs %}
+
+{% docs current_count_surveys_surveystarted %}
+Count of distributed surveys currently with a status of `surveystarted` (the contact started the survey distributed).
+{% enddocs %}
+
+{% docs current_count_surveys_surveyfinished %}
+Count of distributed surveys currently with a status of `surveyfinished` (the contact submitted a completed survey response).
+{% enddocs %}
+
+{% docs current_count_surveys_surveyscreenedout %}
+Count of distributed surveys currently with a status of `surveyscreenedout` (the contact screened out while taking the survey).
+{% enddocs %}
+
+{% docs current_count_surveys_sessionexpired %}
+Count of distributed surveys currently with a status of `sessionexpired` (the contact's survey session has expired).
+{% enddocs %}
+
+{% docs current_count_surveys_surveypartiallyfinished %}
+Count of distributed surveys currently with a status of `surveypartiallyfinished` (the contact submitted a partially completed survey response).
 {% enddocs %}

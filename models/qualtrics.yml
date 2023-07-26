@@ -201,6 +201,8 @@ models:
         description: "{{ doc('is_default') }}"
       - name: is_directory_deleted
         description: "{{ doc('_fivetran_deleted') }}"
+      - name: created_at
+        description: "{{ doc('creation_date') }}"
 
   - name: qualtrics__directory
     tests:
@@ -253,6 +255,8 @@ models:
         description: "{{ doc('count_surveys_sent_30d') }}"
       - name: count_mailing_lists
         description: "{{ doc('count_mailing_lists') }}"
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
 
   - name: qualtrics__distribution
     tests:
@@ -314,31 +318,83 @@ models:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
 
-# parent_distribution_header_subject
-# recipient_mailing_list_name
-# owner_email
-# owner_first_name
-# owner_last_name
-# total_count_contacts
-# count_contacts_sent_surveys
-# count_contacts_opened_surveys
-# count_contacts_started_surveys
-# count_contacts_completed_surveys
-# first_survey_sent_at
-# last_survey_sent_at
-# first_survey_opened_at
-# last_survey_opened_at
-# first_response_completed_at
-# last_response_completed_at
-# avg_time_to_open_in_seconds
-# avg_time_to_start_in_seconds
-# avg_time_to_complete_in_seconds
-# median_time_to_open_in_seconds
-# median_time_to_start_in_seconds
-# median_time_to_complete_in_seconds
-# current_count_surveys_
-# 'pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveyfinished','surveyscreenedout','sessionexpired'
-
+      - name: parent_distribution_header_subject
+        description: "{{ doc('parent_distribution_header_subject') }}"
+      - name: recipient_mailing_list_name
+        description: "{{ doc('recipient_mailing_list_name') }}"
+      - name: owner_email
+        description: "{{ doc('owner_email') }}"
+      - name: owner_first_name
+        description: "{{ doc('owner_first_name') }}"
+      - name: owner_last_name
+        description: "{{ doc('owner_last_name') }}"
+      - name: total_count_contacts
+        description: "{{ doc('total_count_contacts') }}"
+      - name: count_contacts_sent_surveys
+        description: "{{ doc('count_contacts_sent_surveys') }}"
+      - name: count_contacts_opened_surveys
+        description: "{{ doc('count_contacts_opened_surveys') }}"
+      - name: count_contacts_started_surveys
+        description: "{{ doc('count_contacts_started_surveys') }}"
+      - name: count_contacts_completed_surveys
+        description: "{{ doc('count_contacts_completed_surveys') }}"
+      - name: first_survey_sent_at
+        description: "{{ doc('first_survey_sent_at') }}"
+      - name: last_survey_sent_at
+        description: "{{ doc('last_survey_sent_at') }}"
+      - name: first_survey_opened_at
+        description: "{{ doc('first_survey_opened_at') }}"
+      - name: last_survey_opened_at
+        description: "{{ doc('last_survey_opened_at') }}"
+      - name: first_response_completed_at
+        description: "{{ doc('first_response_completed_at') }}"
+      - name: last_response_completed_at
+        description: "{{ doc('last_response_completed_at') }}"
+      - name: avg_time_to_open_in_seconds
+        description: "{{ doc('avg_time_to_open_in_seconds') }}"
+      - name: avg_time_to_start_in_seconds
+        description: "{{ doc('avg_time_to_start_in_seconds') }}"
+      - name: avg_time_to_complete_in_seconds
+        description: "{{ doc('avg_time_to_complete_in_seconds') }}"
+      - name: median_time_to_open_in_seconds
+        description: "{{ doc('median_time_to_open_in_seconds') }}"
+      - name: median_time_to_start_in_seconds
+        description: "{{ doc('median_time_to_start_in_seconds') }}"
+      - name: median_time_to_complete_in_seconds
+        description: "{{ doc('median_time_to_complete_in_seconds') }}"
+      - name: current_count_surveys_pending
+        description: "{{ doc('current_count_surveys_pending') }}"
+      - name: current_count_surveys_success
+        description: "{{ doc('current_count_surveys_success') }}"
+      - name: current_count_surveys_error
+        description: "{{ doc('current_count_surveys_error') }}"
+      - name: current_count_surveys_opened
+        description: "{{ doc('current_count_surveys_opened') }}"
+      - name: current_count_surveys_complaint
+        description: "{{ doc('current_count_surveys_complaint') }}"
+      - name: current_count_surveys_skipped
+        description: "{{ doc('current_count_surveys_skipped') }}"
+      - name: current_count_surveys_blocked
+        description: "{{ doc('current_count_surveys_blocked') }}"
+      - name: current_count_surveys_failure
+        description: "{{ doc('current_count_surveys_failure') }}"
+      - name: current_count_surveys_unknown
+        description: "{{ doc('current_count_surveys_unknown') }}"
+      - name: current_count_surveys_softbounce
+        description: "{{ doc('current_count_surveys_softbounce') }}"
+      - name: current_count_surveys_hardbounce
+        description: "{{ doc('current_count_surveys_hardbounce') }}"
+      - name: current_count_surveys_surveystarted
+        description: "{{ doc('current_count_surveys_surveystarted') }}"
+      - name: current_count_surveys_surveyfinished
+        description: "{{ doc('current_count_surveys_surveyfinished') }}"
+      - name: current_count_surveys_surveyscreenedout
+        description: "{{ doc('current_count_surveys_surveyscreenedout') }}"
+      - name: current_count_surveys_sessionexpired
+        description: "{{ doc('current_count_surveys_sessionexpired') }}"
+      - name: current_count_surveys_surveypartiallyfinished
+        description: "{{ doc('current_count_surveys_surveypartiallyfinished') }}"
+        
   - name: qualtrics__response
     tests:
       - dbt_utils.unique_combination_of_columns:

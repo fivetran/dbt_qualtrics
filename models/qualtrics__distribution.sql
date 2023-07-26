@@ -35,7 +35,7 @@ pivoted_metrics as (
         distribution_id,
         source_relation,
         -- current metrics
-        {% for status in ('pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveyfinished','surveyscreenedout','sessionexpired') %}
+        {% for status in ('pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveypartiallyfinished', 'surveyfinished','surveyscreenedout','sessionexpired') %}
         sum(case when lower(status) = '{{ status }}' then 1 else 0 end) as current_count_surveys_{{ status }},
         {% endfor %}
         count(distinct contact_id) as total_count_contacts,
@@ -88,7 +88,7 @@ final as (
         qualtrics_user.email as owner_email,
         qualtrics_user.first_name as owner_first_name,
         qualtrics_user.last_name as owner_last_name,
-        {% for status in ('pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveyfinished','surveyscreenedout','sessionexpired') %}
+        {% for status in ('pending','success','error','opened','complaint','skipped','blocked','failure','unknown','softbounce','hardbounce','surveystarted','surveypartiallyfinished','surveyfinished','surveyscreenedout','sessionexpired') %}
         coalesce(pivoted_metrics.current_count_surveys_{{ status }}, 0) as current_count_surveys_{{ status }},
         {% endfor %}
         coalesce(pivoted_metrics.total_count_contacts, 0) as total_count_contacts,
