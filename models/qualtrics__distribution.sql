@@ -59,7 +59,13 @@ pivoted_metrics as (
 
 calc_medians as (
     
-    select * from (
+    select 
+        distribution_id,
+        source_relation,
+        median_time_to_open_in_seconds,
+        median_time_to_start_in_seconds,
+        median_time_to_complete_in_seconds
+    from (
         select 
             distribution_id, 
             source_relation,

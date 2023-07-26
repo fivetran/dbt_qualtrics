@@ -84,8 +84,13 @@ agg_survey_responses as (
 
 calc_medians as (
 
-    select * from (
-
+    select 
+        contact_id,
+        source_relation,
+        median_survey_duration_in_seconds,
+        median_survey_progress_pct
+        
+    from (
         select 
             contact_id, 
             source_relation,
