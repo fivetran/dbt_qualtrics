@@ -164,4 +164,4 @@ final as (
 )
 
 select * 
-from contact
+from final
