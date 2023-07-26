@@ -41,6 +41,22 @@ spine as (
     }} 
 ),
 
+source_relations as (
+
+    select
+        distinct source_relation 
+    from distribution_contact
+),
+
+spine_cross_join as (
+
+    select 
+        spine.date_day, 
+        source_relations.source_relation
+    from spine 
+    cross join source_relations
+),
+
 agg_responses as (
     {# From https://qualtrics.com/support/survey-platform/distributions-module/distribution-summary/#ChannelCategorization #}
     {% set distribution_channels = ('anonymous', 'social', 'gl', 'qr', 'email', 'smsinvite') %}
@@ -118,8 +134,8 @@ agg_mailing_list_unsubscriptions as (
 final as (
 
     select 
-        coalesce(agg_responses.source_relation, agg_survey_distribution.source_relation, agg_created_contacts.source_relation, agg_directory_unsubscriptions.source_relation, agg_mailing_list_unsubscriptions.source_relation) as source_relation,
-        spine.date_day,
+        coalesce(agg_responses.source_relation, agg_survey_distribution.source_relation, agg_created_contacts.source_relation, agg_directory_unsubscriptions.source_relation, agg_mailing_list_unsubscriptions.source_relation, spine_cross_join.source_relation) as source_relation,
+        spine_cross_join.date_day,
         coalesce(agg_created_contacts.count_contacts_created, 0) as count_contacts_created,
         coalesce(agg_directory_unsubscriptions.count_contacts_unsubscribed_from_directory, 0) as count_contacts_unsubscribed_from_directory,
         coalesce(agg_mailing_list_unsubscriptions.count_contacts_unsubscribed_from_mailing_list, 0) as count_contacts_unsubscribed_from_mailing_list,
@@ -149,17 +165,22 @@ final as (
         coalesce(agg_responses.count_uncategorized_survey_responses, 0) as count_uncategorized_survey_responses,
         coalesce(agg_responses.count_uncategorized_completed_survey_responses, 0) as count_uncategorized_completed_survey_responses
 
-    from spine
+    from spine_cross_join
     left join agg_responses
-        on spine.date_day = agg_responses.date_day
+        on spine_cross_join.date_day = agg_responses.date_day
+            and spine_cross_join.source_relation = agg_responses.source_relation
     left join agg_survey_distribution
-        on spine.date_day = agg_survey_distribution.date_day
+        on spine_cross_join.date_day = agg_survey_distribution.date_day
+            and spine_cross_join.source_relation = agg_survey_distribution.source_relation
     left join agg_created_contacts
-        on spine.date_day = agg_created_contacts.date_day
+        on spine_cross_join.date_day = agg_created_contacts.date_day
+            and spine_cross_join.source_relation = agg_created_contacts.source_relation
     left join agg_directory_unsubscriptions
-        on spine.date_day = agg_directory_unsubscriptions.date_day
+        on spine_cross_join.date_day = agg_directory_unsubscriptions.date_day
+            and spine_cross_join.source_relation = agg_directory_unsubscriptions.source_relation
     left join agg_mailing_list_unsubscriptions
-        on spine.date_day = agg_mailing_list_unsubscriptions.date_day
+        on spine_cross_join.date_day = agg_mailing_list_unsubscriptions.date_day
+            and spine_cross_join.source_relation = agg_mailing_list_unsubscriptions.source_relation
     
 )
 
