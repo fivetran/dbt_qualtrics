@@ -407,7 +407,7 @@ models:
         description: "{{ doc('current_count_surveys_surveypartiallyfinished') }}"
 
   - name: qualtrics__daily_breakdown
-    description: Daily breakdown of activities relatd to surveys and distribution in your Qualtrics instance.
+    description: Daily breakdown of activities related to surveys and distribution in your Qualtrics instance.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -468,6 +468,9 @@ models:
         description: "{{ doc('count_uncategorized_completed_survey_responses') }}"
 
   - name: qualtrics__response
+    description: >
+      Breakdown of responses to individual questions (and their sub-questions). Enhanced with information regarding the survey-level 
+      response and the survey.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:

@@ -27,12 +27,12 @@ The following table provides a detailed list of all models materialized within t
 
 | **model**                 | **description**                                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [qualtrics__contact]()  | TBD   |
-| [qualtrics__daily_breakdown]()        | TBD            |
-| [qualtrics__directory]()  | TBD    |
-| [qualtrics__distribution]()  | TBD    |
-| [qualtrics__response]()        | TBD            |
-| [qualtrics__survey]()           | TBD           |
+| [qualtrics__contact](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__contact)  | Detailed view of all contacts (from both the XM Directory and Research Core contact endpoints), ehanced with response and mailing list metrics.   |
+| [qualtrics__daily_breakdown](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__daily_breakdown)        | Daily breakdown of activities related to surveys and distribution in your Qualtrics instance.            |
+| [qualtrics__directory](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__directory)  | A directory is an address book for the entire brand and contains all of the contacts that have been added by your users. This model provides a detailed view of each directory, enhanced with metrics regarding contacts, survey distribution, and engagement.     |
+| [qualtrics__distribution](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__distribution)  | Table of each survey's distribution (method of reaching out to XM directory contacts) enhanced with survey response and status metrics.    |
+| [qualtrics__response](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__response)        | Breakdown of responses to individual questions (and their sub-questions). Enhanced with information regarding the survey-level response and the survey.            |
+| [qualtrics__survey](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__survey)           | Detailed view of all surveys created, enhanced with distribution and response metrics.           |
 <!--section-end-->
 
 # 🎯 How do I use the dbt package?
@@ -57,7 +57,7 @@ Include the following qualtrics package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/qualtrics
-    version: [">=0.9.0", "<0.10.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.1.0", "<0.2.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 Do **NOT** include the `qualtrics_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well. 
