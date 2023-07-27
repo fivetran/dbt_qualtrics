@@ -412,7 +412,7 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - date_day
-            - survey_response_id
+            - source_relation
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
