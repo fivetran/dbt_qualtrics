@@ -93,10 +93,10 @@ agg_survey_distribution as (
     select 
         cast({{ dbt.date_trunc('day', 'sent_at') }} as date) as date_day,
         source_relation,
-        count(distinct contact_id) as count_contacts_sent_survey,
-        count(distinct case when opened_at is not null then contact_id end) as count_contacts_opened_sent_survey,
-        count(distinct case when response_started_at is not null then contact_id end) as count_contacts_started_sent_survey,
-        count(distinct case when response_completed_at is not null then contact_id end) as count_contacts_completed_sent_survey
+        count(distinct contact_id) as count_contacts_sent_surveys,
+        count(distinct case when opened_at is not null then contact_id end) as count_contacts_opened_sent_surveys,
+        count(distinct case when response_started_at is not null then contact_id end) as count_contacts_started_sent_surveys,
+        count(distinct case when response_completed_at is not null then contact_id end) as count_contacts_completed_sent_surveys
     from distribution_contact
     group by 1,2
 ),
@@ -140,10 +140,10 @@ final as (
         coalesce(agg_directory_unsubscriptions.count_contacts_unsubscribed_from_directory, 0) as count_contacts_unsubscribed_from_directory,
         coalesce(agg_mailing_list_unsubscriptions.count_contacts_unsubscribed_from_mailing_list, 0) as count_contacts_unsubscribed_from_mailing_list,
 
-        coalesce(agg_survey_distribution.count_contacts_sent_survey, 0) as count_contacts_sent_survey,
-        coalesce(agg_survey_distribution.count_contacts_opened_sent_survey, 0) as count_contacts_opened_sent_survey,
-        coalesce(agg_survey_distribution.count_contacts_started_sent_survey, 0) as count_contacts_started_sent_survey,
-        coalesce(agg_survey_distribution.count_contacts_completed_sent_survey, 0) as count_contacts_completed_sent_survey,
+        coalesce(agg_survey_distribution.count_contacts_sent_surveys, 0) as count_contacts_sent_surveys,
+        coalesce(agg_survey_distribution.count_contacts_opened_sent_surveys, 0) as count_contacts_opened_sent_surveys,
+        coalesce(agg_survey_distribution.count_contacts_started_sent_surveys, 0) as count_contacts_started_sent_surveys,
+        coalesce(agg_survey_distribution.count_contacts_completed_sent_surveys, 0) as count_contacts_completed_sent_surveys,
 
         coalesce(agg_responses.count_distinct_surveys_responded_to, 0) as count_distinct_surveys_responded_to,
         coalesce(agg_responses.total_count_survey_responses, 0) as total_count_survey_responses,

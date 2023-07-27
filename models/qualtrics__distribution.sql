@@ -16,6 +16,14 @@ directory_mailing_list as (
     from {{ var('directory_mailing_list') }}
 ),
 
+{% if var('qualtrics__using_core_mailing_lists', false) %}
+core_mailing_list as (
+
+    select *
+    from {{ var('core_mailing_list') }}
+),
+{% endif %}
+
 distribution_contact as (
 
     select 
@@ -84,7 +92,7 @@ final as (
     select 
         distribution.*,
         parent_distribution.header_subject as parent_distribution_header_subject,
-        directory_mailing_list.name as recipient_mailing_list_name,
+        {% if var('qualtrics__using_core_mailing_lists', false) -%} coalesce(directory_mailing_list.name, core_mailing_list.name) {%- else %} directory_mailing_list.name {%- endif %} as recipient_mailing_list_name,
         qualtrics_user.email as owner_email,
         qualtrics_user.first_name as owner_first_name,
         qualtrics_user.last_name as owner_last_name,
@@ -125,6 +133,11 @@ final as (
     left join directory_mailing_list
         on distribution.recipient_mailing_list_id = directory_mailing_list.mailing_list_id
         and distribution.source_relation = directory_mailing_list.source_relation
+    {% if var('qualtrics__using_core_mailing_lists', false) %}
+    left join core_mailing_list
+        on distribution.recipient_mailing_list_id = core_mailing_list.mailing_list_id
+        and distribution.source_relation = core_mailing_list.source_relation
+    {% endif %}
 )
 
 select *

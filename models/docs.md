@@ -1,7 +1,3 @@
-{% docs contact_type %}
-[Endpoint](https://api.qualtrics.com/c4c0dbec83622-research-core-to-xm-directory-migration-guide) the contact came from (`directory` vs `core`).
-{% enddocs %}
-
 {% docs embedded_data %}
 JSON of  Any extra information you would like recorded in addition to the question responses (from the `survey_embedded_data` source table).
 {% enddocs %}
@@ -373,4 +369,45 @@ Count of distributed surveys currently with a status of `sessionexpired` (the co
 
 {% docs current_count_surveys_surveypartiallyfinished %}
 Count of distributed surveys currently with a status of `surveypartiallyfinished` (the contact submitted a partially completed survey response).
+{% enddocs %}
+
+
+{% docs date_day %}
+Day of activity in your Qualtrics instance. 
+{% enddocs %}
+
+{% docs count_contacts_created %}
+New contacts created on this day.
+{% enddocs %}
+
+{% docs count_contacts_unsubscribed_from_directory %}
+Count of contacts that unsubscribed from a directory.
+{% enddocs %}
+
+{% docs count_contacts_unsubscribed_from_mailing_list %}
+Count of contacts that unsubscribed from a mailing list.
+{% enddocs %}
+
+{% docs count_distinct_surveys_responded_to %}
+Count of distinct survey templates (ie `survey_id`) that contacts responded to on this day.
+{% enddocs %}
+
+{% docs total_count_survey_responses %}
+Count of distinct survey responses recorded on this day.
+{% enddocs %}
+
+{% docs total_count_completed_survey_responses %}
+Count of distinct complete survey responses recorded on this day.
+{% enddocs %}
+
+{% docs count_contacts_opened_sent_surveys %}
+Count of contacts who opened a survey that was sent on this day.
+{% enddocs %}
+
+{% docs count_contacts_started_sent_surveys %}
+Count of contacts who started a survey that was sent on this day.
+{% enddocs %}
+
+{% docs count_contacts_completed_sent_surveys %}
+Count of contacts who completed a survey that was sent on this day.
 {% enddocs %}

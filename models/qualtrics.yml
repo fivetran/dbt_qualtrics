@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: qualtrics__survey
+    description: Detailed view of all surveys created, enhanced with distribution and response metrics.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -126,6 +127,7 @@ models:
         description: "{{ doc('source_relation') }}"
 
   - name: qualtrics__contact
+    description: Detailed view of all contacts (from both the XM Directory and Research Core contact endpoints), ehanced with response and mailing list metrics.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -187,10 +189,14 @@ models:
         description: "{{ doc('total_count_surveys') }}"
       - name: total_count_completed_surveys
         description: "{{ doc('total_count_completed_surveys') }}"
-      - name: avg_progress
+      - name: avg_survey_progress_pct
         description: "{{ doc('avg_survey_progress_pct') }}"
       - name: avg_survey_duration_in_seconds
         description: "{{ doc('avg_response_duration_in_seconds') }}"
+      - name: median_survey_progress_pct
+        description: "{{ doc('median_survey_progress_pct') }}"
+      - name: median_survey_duration_in_seconds
+        description: "{{ doc('median_response_duration_in_seconds') }}"
       - name: last_survey_response_recorded_at
         description: "{{ doc('last_survey_response_recorded_at') }}"
       - name: first_survey_response_recorded_at
@@ -205,6 +211,9 @@ models:
         description: "{{ doc('creation_date') }}"
 
   - name: qualtrics__directory
+    description: >
+      A directory is an address book for the entire brand and contains all of the contacts that have been added by your users.
+      This model provides a detailed view of each directory, enhanced with metrics regarding contacts, survey distribution, and engagement. 
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -259,6 +268,9 @@ models:
         description: "{{ doc('source_relation') }}"
 
   - name: qualtrics__distribution
+    description: >
+      Table of each survey's distribution (method of reaching out to XM directory contacts) enhanced with 
+      survey response and status metrics.
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
@@ -317,7 +329,6 @@ models:
         description: "{{ doc('survey_link_survey_id') }}"
       - name: source_relation
         description: "{{ doc('source_relation') }}"
-
       - name: parent_distribution_header_subject
         description: "{{ doc('parent_distribution_header_subject') }}"
       - name: recipient_mailing_list_name
@@ -394,7 +405,68 @@ models:
         description: "{{ doc('current_count_surveys_sessionexpired') }}"
       - name: current_count_surveys_surveypartiallyfinished
         description: "{{ doc('current_count_surveys_surveypartiallyfinished') }}"
-        
+
+  - name: qualtrics__daily_breakdown
+    description: Daily breakdown of activities relatd to surveys and distribution in your Qualtrics instance.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - date_day
+            - survey_response_id
+    columns:
+      - name: source_relation
+        description: "{{ doc('source_relation') }}"
+      - name: date_day
+        description: "{{ doc('date_day') }}"
+      - name: count_contacts_created
+        description: "{{ doc('count_contacts_created') }}"
+      - name: count_contacts_unsubscribed_from_directory
+        description: "{{ doc('count_contacts_unsubscribed_from_directory') }}"
+      - name: count_contacts_unsubscribed_from_mailing_list
+        description: "{{ doc('count_contacts_unsubscribed_from_mailing_list') }}"
+      - name: count_contacts_sent_surveys
+        description: "{{ doc('count_contacts_sent_surveys') }}"
+      - name: count_contacts_opened_sent_surveys
+        description: "{{ doc('count_contacts_opened_sent_surveys') }}"
+      - name: count_contacts_started_sent_surveys
+        description: "{{ doc('count_contacts_started_sent_surveys') }}"
+      - name: count_contacts_completed_sent_surveys
+        description: "{{ doc('count_contacts_completed_sent_surveys') }}"
+      - name: count_distinct_surveys_responded_to
+        description: "{{ doc('count_distinct_surveys_responded_to') }}"
+      - name: total_count_survey_responses
+        description: "{{ doc('total_count_survey_responses') }}"
+      - name: total_count_completed_survey_responses
+        description: "{{ doc('total_count_completed_survey_responses') }}"
+      - name: count_anonymous_survey_responses
+        description: "{{ doc('count_anonymous_survey_responses') }}"
+      - name: count_anonymous_completed_survey_responses
+        description: "{{ doc('count_anonymous_completed_survey_responses') }}"
+      - name: count_social_media_survey_responses
+        description: "{{ doc('count_social_media_survey_responses') }}"
+      - name: count_social_media_completed_survey_responses
+        description: "{{ doc('count_social_media_completed_survey_responses') }}"
+      - name: count_personal_link_survey_responses
+        description: "{{ doc('count_personal_link_survey_responses') }}"
+      - name: count_personal_link_completed_survey_responses
+        description: "{{ doc('count_personal_link_completed_survey_responses') }}"
+      - name: count_qr_code_survey_responses
+        description: "{{ doc('count_qr_code_survey_responses') }}"
+      - name: count_qr_code_completed_survey_responses
+        description: "{{ doc('count_qr_code_completed_survey_responses') }}"
+      - name: count_email_survey_responses
+        description: "{{ doc('count_email_survey_responses') }}"
+      - name: count_email_completed_survey_responses
+        description: "{{ doc('count_email_completed_survey_responses') }}"
+      - name: count_sms_survey_responses
+        description: "{{ doc('count_sms_survey_responses') }}"
+      - name: count_sms_completed_survey_responses
+        description: "{{ doc('count_sms_completed_survey_responses') }}"
+      - name: count_uncategorized_survey_responses
+        description: "{{ doc('count_uncategorized_survey_responses') }}"
+      - name: count_uncategorized_completed_survey_responses
+        description: "{{ doc('count_uncategorized_completed_survey_responses') }}"
+
   - name: qualtrics__response
     tests:
       - dbt_utils.unique_combination_of_columns:
@@ -472,8 +544,6 @@ models:
         description: "{{ doc('language') }}"
       - name: contact_external_data_reference
         description: "{{ doc('ext_ref') }}"
-      - name: contact_type
-        description: "{{ doc('contact_type') }}"
       - name: embedded_data
         description: "{{ doc('embedded_data') }}"
       - name: survey_name
@@ -510,3 +580,7 @@ models:
         description: "{{ doc('_fivetran_deleted') }}"
       - name: is_block_deleted
         description: "{{ doc('_fivetran_deleted') }}"
+      - name: is_xm_directory_contact
+        description: "{{ doc('is_xm_directory_contact') }}"
+      - name: is_research_core_contact
+        description: "{{ doc('is_research_core_contact') }}"

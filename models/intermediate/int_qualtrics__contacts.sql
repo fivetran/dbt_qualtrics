@@ -106,7 +106,7 @@ core_contact_join  as (
     left join agg_core_mailing_lists
         on core_contact.contact_id = agg_core_mailing_lists.contact_id
         and core_contact.source_relation = agg_core_mailing_lists.source_relation
-    left join agg_corcount_core_mailing_listse_mailing_lists
+    left join count_core_mailing_lists
         on core_contact.contact_id = count_core_mailing_lists.contact_id
         and core_contact.source_relation = count_core_mailing_lists.source_relation
 ),
