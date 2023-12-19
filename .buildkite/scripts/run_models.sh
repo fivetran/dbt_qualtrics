@@ -16,7 +16,7 @@ db=$1
 echo `pwd`
 cd integration_tests
 dbt deps
-dbt seed --target "$db" --full-refresh --exclude "distribution_contact"
+dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{qualtrics__using_core_contacts: true, qualtrics__using_core_mailing_lists: true}' --target "$db"
