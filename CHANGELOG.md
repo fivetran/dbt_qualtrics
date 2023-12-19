@@ -3,7 +3,7 @@
 [PR #6](https://github.com/fivetran/dbt_qualtrics/pull/6) applies the following changes:
 
 ## Bug Fix
-- Ensures that date spine in `qualtrics__daily_breakdown` always has a non-null start date, even if you do not have the `distribution_contact` source table, whose `min(created_at)` we base the date spine off of. 
+- Ensures the date spine in the `qualtrics__daily_breakdown` model always has a non-null start date, especially if you do not have the `distribution_contact` source table whose `min(created_at)` is used to generate the date spine. 
   - If no `distribution_contact` table is present in your Qualtrics connector(s), the minimum date will be set to `2016-01-01`.
 
 ## Under the Hood
