@@ -99,7 +99,6 @@ vars:
 ```
 
 ## (Optional) Step 5: Additional configurations
-<details><summary>Expand for configurations</summary>
     
 ### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. You can add more columns using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables:
@@ -150,7 +149,6 @@ If an individual source table has a different name than the package expects, add
 vars:
     qualtrics_<default_source_table_name>_identifier: your_table_name 
 ```
-</details>
 
 
 ## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
