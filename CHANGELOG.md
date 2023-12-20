@@ -1,3 +1,15 @@
+# dbt_qualtrics v0.1.1
+
+[PR #6](https://github.com/fivetran/dbt_qualtrics/pull/6) applies the following changes:
+
+## Bug Fix
+- Ensures the date spine in the `qualtrics__daily_breakdown` model always has a non-null start date, especially if you do not have the `distribution_contact` source table whose `min(created_at)` is used to generate the date spine. 
+  - If no `distribution_contact` table is present in your Qualtrics connector(s), the minimum date will be set to `2016-01-01`.
+
+## Under the Hood
+- Updated the pull request [templates](/.github).
+- Included auto-releaser GitHub Actions workflow to automate future releases.
+
 # dbt_qualtrics v0.1.0
 This is the initial release of the Qualtrics dbt package!
 

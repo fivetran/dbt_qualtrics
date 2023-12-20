@@ -26,7 +26,7 @@ spine as (
 
     {% if execute %}
     {% set first_date_query %}
-        select  min( sent_at ) as min_date from {{ var('distribution_contact') }}
+        select  coalesce( min( sent_at ), '2016-01-01') as min_date from {{ var('distribution_contact') }}
     {% endset %}
     {% set first_date = run_query(first_date_query).columns[0][0]|string %}
     
