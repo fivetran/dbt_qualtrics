@@ -1,6 +1,6 @@
 packages:
 # - package: fivetran/qualtrics_source
 #   version: [">=0.1.0", "<0.2.0"]
-  - git: https://github.com/fivetran/dbt_apple_search_ads_source.git
-    revision: MagicBot/add-union-schema
+  - git: https://github.com/fivetran/dbt_qualtrics_source.git
+    revision: bug/persist-docs
     warn-unpinned: false
