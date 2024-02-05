@@ -1,0 +1,16 @@
+database_key: qualtrics_database
+schema_key: qualtrics_schema
+
+dbt_versions: ">=1.3.0 <2.0.0"
+
+table_variables:
+  qualtrics__using_core_contacts:
+    - core_contact
+  qualtrics__using_core_mailing_lists:
+    - core_mailing_list
+
+destination_configurations:
+  databricks:
+    dispatch:
+      - macro_namespace: dbt_utils
+        search_order: [ 'spark_utils', 'dbt_utils' ]
