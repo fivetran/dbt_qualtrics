@@ -4,7 +4,7 @@
 
 ## 🚨 Breaking Changes: Upstream Changes 🚨
 - This release includes an update to the upstream dbt_qualtrics_source dependency which includes breaking changes. These breaking changes included **all** staging model timestamps to be cast using the `dbt.type_timestamp()` macro in order to ensure datatype consistency with timestamp fields.
-  - For an overview of all breaking changes in the dbt_qualtrics_source data model, please refer to the respective release notes.
+  - For an overview of all breaking changes in the dbt_qualtrics_source data model, please refer to the [respective release notes](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.2.0).
 
 # dbt_qualtrics v0.1.1
 
