@@ -57,7 +57,7 @@ Include the following qualtrics package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/qualtrics
-    version: [">=0.1.0", "<0.2.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.2.0", "<0.3.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 Do **NOT** include the `qualtrics_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well. 
@@ -166,7 +166,7 @@ This dbt package is dependent on the following dbt packages. Please be aware tha
 ```yml
 packages:
     - package: fivetran/qualtrics_source
-      version: [">=0.1.0", "<0.2.0"]
+      version: [">=0.2.0", "<0.3.0"]
 
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
