@@ -22,10 +22,10 @@ The main focus of the package is to transform the core object tables into analyt
 - A daily breakdown model which provides a high level view of a variety of Qualtrics account metrics at a daily level.
 
 <!--section="qualtrics_transformation_model"-->
-The following table provides a detailed list of all models materialized within this package by default.
-> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_qualtrics/#!/overview/qualtrics).
+The following table provides a detailed list of all tables materialized within this package by default.
+> TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_qualtrics/#!/overview/qualtrics).
 
-| **model**                 | **description**                                                                                                    |
+| **Table**                 | **Description**                                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | [qualtrics__contact](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__contact)  | Detailed view of all contacts (from both the XM Directory and Research Core contact endpoints), ehanced with response and mailing list metrics.   |
 | [qualtrics__daily_breakdown](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__daily_breakdown)        | Daily breakdown of activities related to surveys and distribution in your Qualtrics instance.            |
