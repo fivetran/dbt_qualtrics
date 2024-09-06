@@ -14,3 +14,12 @@ destination_configurations:
     dispatch:
       - macro_namespace: dbt_utils
         search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "qualtrics__directory",
+  "qualtrics__distribution",
+  "qualtrics__response",
+  "qualtrics__daily_breakdown",
+  "qualtrics__survey",
+  "qualtrics__contact"
+]
