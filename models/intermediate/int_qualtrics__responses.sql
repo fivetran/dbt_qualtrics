@@ -30,7 +30,7 @@ response_join as (
         survey_response.is_finished as is_finished_with_survey,
         survey_response.finished_at as survey_finished_at,
         survey_response.last_modified_at as survey_response_last_modified_at,
-        survey_response.recorded_date as survey_response_recorded_at,
+        cast(survey_response.recorded_date as {{ dbt.type_timestamp() }}) as survey_response_recorded_at,
         survey_response.started_at as survey_response_started_at,
         survey_response.recipient_email,
         survey_response.recipient_first_name,

@@ -1,3 +1,7 @@
 packages:
- - package: fivetran/qualtrics_source
-   version: [">=0.2.0", "<0.3.0"]
+#  - package: fivetran/qualtrics_source
+#    version: [">=0.2.0", "<0.3.0"]
+
+  - git: https://github.com/fivetran/dbt_qualtrics_source.git
+    revision: redshift_datatype_casts
+    warn-unpinned: false
