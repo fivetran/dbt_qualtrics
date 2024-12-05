@@ -12,6 +12,9 @@ dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
 
+models:
+  +schema: "qualtrics_{{ var('directed_schema','dev') }}"
+
 seeds:
   qualtrics_integration_tests:
     +column_types:

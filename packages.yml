@@ -5,3 +5,5 @@ packages:
   - git: https://github.com/fivetran/dbt_qualtrics_source.git
     revision: redshift_datatype_casts
     warn-unpinned: false
+
+  # - local: ../../dbt_qualtrics_source
