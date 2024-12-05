@@ -48,9 +48,9 @@ agg_contacts as (
         count(distinct email) as count_distinct_emails,
         count(distinct phone) as count_distinct_phones,
         count(distinct contact_id) as total_count_contacts,
-        count(distinct case when is_unsubscribed_from_directory then contact_id else null end) as total_count_unsubscribed_contacts,
-        count(distinct case when {{ fivetran_utils.timestamp_diff(first_date="created_at", second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then contact_id else null end) as count_contacts_created_30d,
-        count(distinct case when is_unsubscribed_from_directory and {{ fivetran_utils.timestamp_diff(first_date="unsubscribed_from_directory_at", second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then contact_id else null end) as count_contacts_unsubscribed_30d
+        count(distinct case when lower(cast(is_unsubscribed_from_directory as {{ dbt.type_string() }})) = 'true' then contact_id else null end) as total_count_unsubscribed_contacts,
+        count(distinct case when {{ fivetran_utils.timestamp_diff(first_date="cast(created_at as " ~ dbt.type_timestamp() ~ ')', second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then contact_id else null end) as count_contacts_created_30d,
+        count(distinct case when lower(cast(is_unsubscribed_from_directory as {{ dbt.type_string() }})) = 'true' and {{ fivetran_utils.timestamp_diff(first_date="cast(unsubscribed_from_directory_at as " ~ dbt.type_timestamp() ~ ')', second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then contact_id else null end) as count_contacts_unsubscribed_30d
 
     from directory_contact
     group by 1,2
@@ -75,7 +75,7 @@ agg_distributions as (
         on distribution_contact.distribution_id = distribution.distribution_id 
         and distribution_contact.source_relation = distribution.source_relation
     where sent_at is not null 
-        and {{ fivetran_utils.timestamp_diff(first_date="distribution_contact.sent_at", second_date=dbt.current_timestamp(), datepart="day") }} <= 30
+        and {{ fivetran_utils.timestamp_diff(first_date="cast(distribution_contact.sent_at as " ~ dbt.type_timestamp() ~ ')', second_date=dbt.current_timestamp(), datepart="day") }} <= 30
     
     group by 1,2
 ),
