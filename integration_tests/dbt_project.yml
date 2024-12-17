@@ -1,12 +1,35 @@
 name: 'qualtrics_integration_tests'
-version: '0.2.0'
+version: '0.3.0'
 profile: 'integration_tests'
 config-version: 2
 
 vars:
-  qualtrics_schema: qualtrics_integration_tests_fake
+  qualtrics_schema: qualtrics_integration_tests
   qualtrics__using_core_contacts: true
   qualtrics__using_core_mailing_lists: true
+
+  # These are the problematic tables currently
+  # qualtrics_directory_contact_identifier: fake_missing_table
+  # qualtrics_contact_mailing_list_membership_identifier: fake_missing_table
+  # qualtrics_survey_response_identifier: fake_missing_table
+  # qualtrics_block_question_identifier: fake_missing_table
+
+  # qualtrics_block_identifier: fake_missing_table 
+  # qualtrics_question_identifier: fake_missing_table
+  # qualtrics_question_option_identifier: fake_missing_table
+  # qualtrics_survey_identifier: fake_missing_table
+  # qualtrics_survey_embedded_data_identifier: fake_missing_table
+  # qualtrics_distribution_identifier: fake_missing_table
+  # qualtrics_distribution_contact_identifier: fake_missing_table
+  # qualtrics_survey_version_identifier: fake_missing_table
+  # qualtrics_core_contact_identifier: fake_missing_table
+  # qualtrics_core_mailing_list_identifier: fake_missing_table
+  # qualtrics_core_mailing_list_membership_identifier: fake_missing_table
+  # qualtrics_user_identifier: fake_missing_table
+  # qualtrics_sub_question_identifier: fake_missing_table
+  # qualrtics_question_response_identifier: fake_missing_table
+  # qualtrics_directory_identifier: fake_missing_table
+  # qualtrics_directory_mailing_list_identifier: fake_missing_table
   
 dispatch:
   - macro_namespace: dbt_utils

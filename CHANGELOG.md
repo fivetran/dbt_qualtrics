@@ -1,10 +1,12 @@
 # dbt_qualtrics v0.2.0
 
-[PR #8](https://github.com/fivetran/dbt_qualtrics/pull/8) includes the following updates: 
+[PR #8](https://github.com/fivetran/dbt_qualtrics/pull/8) folds in [upstream updates](https://github.com/fivetran/dbt_qualtrics_source/blob/main/CHANGELOG.md) from the `qualtrics_source` package:
 
-## 🚨 Breaking Changes: Upstream Changes 🚨
-- This release includes an update to the upstream dbt_qualtrics_source dependency which includes breaking changes. These breaking changes included **all** staging model timestamps to be cast using the `dbt.type_timestamp()` macro in order to ensure datatype consistency with timestamp fields.
-  - For an overview of all breaking changes in the dbt_qualtrics_source data model, please refer to the [respective release notes](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.2.0).
+## Under the Hood
+- Explicitly casts all boolean fields as `{{ dbt.type_boolean() }}`.
+- (Affects Redshift only) Creates new `qualtrics_union_data` macro to accommdate Redshift's treatment of empty tables.
+  - For each staging model, if the source table is not found in any of your schemas, the package will create a empty table with 0 rows for non-Redshift warehouses and a table with 1 all-`null` row for Redshift destinations.
+  - This is necessary as Redshift will ignore explicit data casts when a table is completely empty and materialize every column as a `varchar`. This throws errors in dowstream transformations in the `zendesk` package. The 1 row will ensure that Redshift will respect the package's datatype casts.
 
 # dbt_qualtrics v0.1.1
 

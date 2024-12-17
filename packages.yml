@@ -6,4 +6,5 @@ packages:
     revision: redshift_datatype_casts
     warn-unpinned: false
 
+  # - local: ../Qualtrics/dbt_qualtrics_source
   # - local: ../../dbt_qualtrics_source
