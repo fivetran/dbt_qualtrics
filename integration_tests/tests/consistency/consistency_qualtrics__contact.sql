@@ -6,13 +6,15 @@
 
 with prod as (
     select
-        {{ dbt_utils.star(from=ref('qualtrics__contact')) }}
+        {{ dbt_utils.star(from=ref('qualtrics__contact'), except=["avg_survey_duration_in_seconds"]) }},
+        round(avg_survey_duration_in_seconds, 2) as avg_survey_duration_in_seconds
     from {{ target.schema }}_qualtrics_prod.qualtrics__contact
 ),
 
 dev as (
     select
-        {{ dbt_utils.star(from=ref('qualtrics__contact')) }}
+        {{ dbt_utils.star(from=ref('qualtrics__contact'), except=["avg_survey_duration_in_seconds"]) }},
+        round(avg_survey_duration_in_seconds, 2) as avg_survey_duration_in_seconds
     from {{ target.schema }}_qualtrics_dev.qualtrics__contact
     
 ),
