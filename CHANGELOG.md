@@ -3,6 +3,7 @@
 [PR #12](https://github.com/fivetran/dbt_qualtrics/pull/12) includes the following updates:
 
 ## Under the Hood
+- Switched from using `dbt.current_timestamp_backcompat()` to the more up-to-date `dbt.current_timestamp_backcompat()` [macro](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros#current_timestamp) in the `qualtrics__daily_breakdown` model.
 - (Maintainers only) Adds consistency and integrity (row count) tests for each end model.
 
 ### [Upstream Under-the-Hood Updates](https://github.com/fivetran/dbt_qualtrics_source/blob/main/CHANGELOG.md) from `qualtrics_source` Package
