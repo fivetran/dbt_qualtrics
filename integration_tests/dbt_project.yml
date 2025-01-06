@@ -1,5 +1,5 @@
 name: 'qualtrics_integration_tests'
-version: '0.2.0'
+version: '0.3.0'
 profile: 'integration_tests'
 config-version: 2
 
@@ -11,6 +11,9 @@ vars:
 dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
+
+models:
+  +schema: "qualtrics_{{ var('directed_schema','dev') }}"
 
 seeds:
   qualtrics_integration_tests:

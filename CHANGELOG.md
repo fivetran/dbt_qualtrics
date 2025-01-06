@@ -1,3 +1,17 @@
+# dbt_qualtrics v0.3.0
+
+[PR #12](https://github.com/fivetran/dbt_qualtrics/pull/12) includes the following updates:
+
+## Under the Hood
+- Switched from using `dbt.current_timestamp_backcompat()` to the more up-to-date `dbt.current_timestamp_backcompat()` [macro](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros#current_timestamp) in the `qualtrics__daily_breakdown` model.
+- (Maintainers only) Adds consistency and integrity (row count) tests for each end model.
+
+### [Upstream Under-the-Hood Updates](https://github.com/fivetran/dbt_qualtrics_source/blob/main/CHANGELOG.md) from `qualtrics_source` Package
+- Explicitly casts all boolean fields as `{{ dbt.type_boolean() }}`.
+- (Affects Redshift only) Creates new `qualtrics_union_data` macro to accommdate Redshift's treatment of empty tables.
+  - For each staging model, if the source table is not found in any of your schemas, the package will create a empty table with 0 rows for non-Redshift warehouses and a table with 1 all-`null` row for Redshift destinations.
+  - This is necessary as Redshift will ignore explicit data casts when a table is completely empty and materialize every column as a `varchar`. This throws errors in dowstream transformations in the `zendesk` package. The 1 row will ensure that Redshift will respect the package's datatype casts.
+
 # dbt_qualtrics v0.2.0
 
 [PR #8](https://github.com/fivetran/dbt_qualtrics/pull/8) includes the following updates: 
