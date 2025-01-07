@@ -141,7 +141,7 @@ models:
 ```
 
 #### Change the source table references
-If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable. This config is available only when running the package on a single connector.
+If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable. This config is available only when running the package on a single connection.
 
 > IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_qualtrics_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
