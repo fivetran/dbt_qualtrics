@@ -33,6 +33,8 @@ The following table provides a detailed list of all tables materialized within t
 | [qualtrics__distribution](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__distribution)  | Table of each survey's distribution (method of reaching out to XM directory contacts) enhanced with survey response and status metrics.    |
 | [qualtrics__response](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__response)        | Breakdown of responses to individual questions (and their sub-questions). Enhanced with information regarding the survey-level response and the survey.            |
 | [qualtrics__survey](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__survey)           | Detailed view of all surveys created, enhanced with distribution and response metrics.           |
+### Materialized Models
+Each Quickstart transformation job run materializes 44 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -40,7 +42,7 @@ The following table provides a detailed list of all tables materialized within t
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Qualtrics connector syncing data into your destination.
+- At least one Fivetran Qualtrics connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
 #### Databricks dispatch configuration
@@ -63,7 +65,7 @@ packages:
 Do **NOT** include the `qualtrics_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
 
 ### Step 3: Define database and schema variables
-#### Single connector
+#### Single connection
 By default, this package runs using your destination and the `qualtrics` schema. If this is not where your qualtrics data is (for example, if your qualtrics schema is named `qualtrics_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
@@ -73,8 +75,8 @@ vars:
     qualtrics_database: your_database_name
     qualtrics_schema: your_schema_name
 ```
-#### Union multiple connectors
-If you have multiple Qualtrics connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `qualtrics_union_schemas` OR `qualtrics_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
+#### Union multiple connections
+If you have multiple Qualtrics connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `qualtrics_union_schemas` OR `qualtrics_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -139,7 +141,7 @@ models:
 ```
 
 #### Change the source table references
-If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable. This config is available only when running the package on a single connector.
+If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable. This config is available only when running the package on a single connection.
 
 > IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_qualtrics_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
