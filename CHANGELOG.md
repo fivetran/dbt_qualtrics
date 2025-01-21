@@ -1,3 +1,9 @@
+# dbt_qualtrics version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
+- Corrected references to connectors and connections in the README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
+
 # dbt_qualtrics v0.3.0
 
 [PR #12](https://github.com/fivetran/dbt_qualtrics/pull/12) includes the following updates:
