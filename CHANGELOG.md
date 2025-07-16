@@ -1,8 +1,22 @@
-# dbt_qualtrics version.version
+# dbt_qualtrics v0.4.0
+
+[PR #X](https://github.com/fivetran/dbt_qualtrics/pull/X) includes the following updates:
+
+## Schema & Data Updates
+**2 new columns and 2 schema changes. See [v0.4.0 dbt_qualtrics_source release](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.4.0) release for upstream column addition**
+
+| Data Model | Change Type | Old Name | New Name | Notes |
+| --- | --- | --- | --- | --- |
+| `qualtrics__response` | New column |  | `response_text` | Text of the question response. |
+| `stg_qualtrics__question_response` | New column |  | `response_text` | Text of the question response. |
 
 ## Documentation
 - Added Quickstart model counts to README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
 - Corrected references to connectors and connections in the README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
+
+## Under the Hood
+- Introduced the generate-docs github workflow for consistent docs generation.
+- Included an updated version of the maintainer pull request template.
 
 # dbt_qualtrics v0.3.0
 
