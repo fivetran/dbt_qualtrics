@@ -1,6 +1,6 @@
 # dbt_qualtrics v0.4.0
 
-[PR #X14](https://github.com/fivetran/dbt_qualtrics/pull/14) includes the following updates:
+[PR #14](https://github.com/fivetran/dbt_qualtrics/pull/14) and [PR #15](https://github.com/fivetran/dbt_qualtrics/pull/15) includes the following updates:
 
 ## Schema & Data Updates
 **2 new columns and 2 schema changes. See [v0.4.0 dbt_qualtrics_source release](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.4.0) release for upstream column addition**
@@ -15,8 +15,15 @@
 - Corrected references to connectors and connections in the README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
 
 ## Under the Hood
-- Introduced the generate-docs github workflow for consistent docs generation.
-- Included an updated version of the maintainer pull request template.
+- Updated conditions in `.github/workflows/auto-release.yml`.
+- Added `.github/workflows/generate-docs.yml`.
+- Added `+docs: show: False` to `integration_tests/dbt_project.yml`.
+- Migrated `flags` (e.g., `send_anonymous_usage_stats`, `use_colors`) from `sample.profiles.yml` to `integration_tests/dbt_project.yml`.
+- Updated `maintainer_pull_request_template.md` with improved checklist.
+- Refreshed README tag block:
+  - Standardized Quickstart-compatible badge set
+  - Left-aligned and positioned below the H1 title.
+- Updated `.gitignore` to exclude additional DBT, Python, and system artifacts.
 
 # dbt_qualtrics v0.3.0
 
