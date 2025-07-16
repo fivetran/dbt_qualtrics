@@ -497,6 +497,8 @@ models:
         description: "{{ doc('question_option_key') }}"
       - name: value
         description: "{{ doc('response_value') }}"
+      - name: response_text
+        description: "{{ doc('response_text') }}"
       - name: loop_id
         description: "{{ doc('loop_id') }}"
       - name: distribution_channel

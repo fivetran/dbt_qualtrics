@@ -1,7 +1,20 @@
-[PR #15](https://github.com/fivetran/dbt_qualtrics/pull/15) includes the following updates:
+# dbt_qualtrics v0.4.0
 
-### Under the Hood - July 2025 Updates
+[PR #14](https://github.com/fivetran/dbt_qualtrics/pull/14) and [PR #15](https://github.com/fivetran/dbt_qualtrics/pull/15) includes the following updates:
 
+## Schema & Data Updates
+**2 new columns and 2 schema changes. See [v0.4.0 dbt_qualtrics_source release](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.4.0) release for upstream column addition**
+
+| Data Model | Change Type | Old Name | New Name | Notes |
+| --- | --- | --- | --- | --- |
+| `qualtrics__response` | New column |  | `response_text` | Text of the question response. |
+| `stg_qualtrics__question_response` | New column |  | `response_text` | Text of the question response. |
+
+## Documentation
+- Added Quickstart model counts to README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
+- Corrected references to connectors and connections in the README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
+
+## Under the Hood
 - Updated conditions in `.github/workflows/auto-release.yml`.
 - Added `.github/workflows/generate-docs.yml`.
 - Added `+docs: show: False` to `integration_tests/dbt_project.yml`.
@@ -10,18 +23,7 @@
 - Refreshed README tag block:
   - Standardized Quickstart-compatible badge set
   - Left-aligned and positioned below the H1 title.
-- Updated Python image version to `3.10.13` in `pipeline.yml`.
-- Added `CI_DATABRICKS_DBT_CATALOG` to:
-  - `.buildkite/hooks/pre-command` (as an export)
-  - `pipeline.yml` (under the `environment` block, after `CI_DATABRICKS_DBT_TOKEN`)
-- Added `certifi==2025.1.31` to `requirements.txt` (if missing).
 - Updated `.gitignore` to exclude additional DBT, Python, and system artifacts.
-
-# dbt_qualtrics version.version
-
-## Documentation
-- Added Quickstart model counts to README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
-- Corrected references to connectors and connections in the README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
 
 # dbt_qualtrics v0.3.0
 
