@@ -16,6 +16,8 @@ models:
   +schema: "qualtrics_{{ var('directed_schema','dev') }}"
 
 seeds:
+  +docs:
+    show: False
   qualtrics_integration_tests:
     +column_types:
       _fivetran_synced: timestamp
@@ -76,3 +78,6 @@ seeds:
       +column_types:
         external_data_reference: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+flags:
+  send_anonymous_usage_stats: False
+  use_colors: True
