@@ -1,4 +1,6 @@
-<p align="center">
+# Qualtrics Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_qualtrics/))
+
+<p align="left">
     <a alt="License"
         href="https://github.com/fivetran/dbt_qualtrics/blob/main/LICENSE">
         <img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" /></a>
@@ -9,8 +11,6 @@
     <a alt="PRs">
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
 </p>
-
-# Qualtrics Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_qualtrics/))
 
 ## What does this dbt package do?
 
