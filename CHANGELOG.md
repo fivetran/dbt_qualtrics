@@ -1,6 +1,6 @@
 # dbt_qualtrics v0.4.0
 
-[PR #X](https://github.com/fivetran/dbt_qualtrics/pull/X) includes the following updates:
+[PR #X14](https://github.com/fivetran/dbt_qualtrics/pull/14) includes the following updates:
 
 ## Schema & Data Updates
 **2 new columns and 2 schema changes. See [v0.4.0 dbt_qualtrics_source release](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.4.0) release for upstream column addition**
