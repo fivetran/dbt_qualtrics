@@ -7,8 +7,8 @@
 
 | Data Model | Change Type | Old Name | New Name | Notes |
 | --- | --- | --- | --- | --- |
-| `qualtrics__response` | New column |  | `response_text` | Text of the question response. |
-| `stg_qualtrics__question_response` | New column |  | `response_text` | Text of the question response. |
+| `qualtrics__response` | New column |  | `response_text` | Captures the free text response associated with the question. |
+| `stg_qualtrics__question_response` | New column |  | `response_text` | Captures the free text response associated with the question. |
 
 ## Documentation
 - Added Quickstart model counts to README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))
