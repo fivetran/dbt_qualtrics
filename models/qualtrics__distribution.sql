@@ -1,26 +1,26 @@
 with distribution as (
 
     select *
-    from {{ var('distribution') }}
+    from {{ ref('stg_qualtrics__distribution') }}
 ),
 
 qualtrics_user as (
 
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_qualtrics__user') }}
 ),
 
 directory_mailing_list as (
 
     select *
-    from {{ var('directory_mailing_list') }}
+    from {{ ref('stg_qualtrics__directory_mailing_list') }}
 ),
 
 {% if var('qualtrics__using_core_mailing_lists', false) %}
 core_mailing_list as (
 
     select *
-    from {{ var('core_mailing_list') }}
+    from {{ ref('stg_qualtrics__core_mailing_list') }}
 ),
 {% endif %}
 
@@ -34,7 +34,7 @@ distribution_contact as (
         {{ fivetran_utils.timestamp_diff(first_date="sent_at", second_date="response_completed_at", datepart="second") }} as time_to_complete_in_seconds
 
 
-    from {{ var('distribution_contact') }}
+    from {{ ref('stg_qualtrics__distribution_contact') }}
 ),
 
 pivoted_metrics as (

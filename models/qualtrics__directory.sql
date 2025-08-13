@@ -1,31 +1,31 @@
 with directory as (
 
     select *
-    from {{ var('directory') }}
+    from {{ ref('stg_qualtrics__directory') }}
 ),
 
 directory_contact as (
     
     select *
-    from {{ var('directory_contact') }}
+    from {{ ref('stg_qualtrics__directory_contact') }}
 ),
 
 directory_mailing_list as (
 
     select *
-    from {{ var('directory_mailing_list') }}
+    from {{ ref('stg_qualtrics__directory_mailing_list') }}
 ),
 
 distribution_contact as (
 
     select *
-    from {{ var('distribution_contact') }}
+    from {{ ref('stg_qualtrics__distribution_contact') }}
 ),
 
 distribution as (
 
     select *
-    from {{ var('distribution') }}
+    from {{ ref('stg_qualtrics__distribution') }}
 ),
 
 agg_mailing_lists as (

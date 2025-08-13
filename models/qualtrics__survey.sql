@@ -7,13 +7,13 @@ with survey as (
 responses as (
 
     select *
-    from {{ var('survey_response') }}
+    from {{ ref('stg_qualtrics__survey_response') }}
 ),
 
 question as (
 
     select *
-    from {{ var('question') }}
+    from {{ ref('stg_qualtrics__question') }}
 ),
 
 agg_questions as (

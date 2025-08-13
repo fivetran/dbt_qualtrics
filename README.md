@@ -17,7 +17,7 @@
 
 ## What does this dbt package do?
 
-This package models Qualtrics data from [Fivetran's connector](https://fivetran.com/docs/applications/qualtrics). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/qualtrics#schemainformation) and builds off the output of our [Qualtrics source package](https://github.com/fivetran/dbt_qualtrics_source).
+This package models Qualtrics data from [Fivetran's connector](https://fivetran.com/docs/applications/qualtrics). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/qualtrics#schemainformation).
 
 The main focus of the package is to transform the core object tables into analytics-ready models, including:
 - A Response breakdown model which consolidates all survey responses joined with users, questions, and survey details.
@@ -62,10 +62,10 @@ Include the following qualtrics package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/qualtrics
-    version: [">=0.4.0", "<0.5.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.0.0", "<1.1.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
-Do **NOT** include the `qualtrics_source` package in this file. The transformation package itself has a dependency on it and will install the source package as well.
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/qualtrics_source` in your `packages.yml` since this package has been deprecated.
 
 ### Step 3: Define database and schema variables
 #### Single connection
@@ -136,10 +136,10 @@ By default this package will build the Qualtrics staging models within a schema 
 # dbt_project.yml
 
 models:
-  qualtrics:
-    +schema: my_new_schema_name # leave blank for just the target_schema
-  qualtrics_source:
-    +schema: my_new_schema_name # leave blank for just the target_schema
+    qualtrics:
+      +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
+      staging:
+        +schema: my_new_schema_name # Leave +schema: blank to use the default target_schema.
 ```
 
 #### Change the source table references
@@ -167,9 +167,6 @@ This dbt package is dependent on the following dbt packages. These dependencies 
 
 ```yml
 packages:
-    - package: fivetran/qualtrics_source
-      version: [">=0.4.0", "<0.5.0"]
-
     - package: fivetran/fivetran_utils
       version: [">=0.4.0", "<0.5.0"]
 

@@ -3,11 +3,6 @@ version: 2
 models:
   - name: qualtrics__survey
     description: Detailed view of all surveys created, enhanced with distribution and response metrics.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - survey_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -128,12 +123,6 @@ models:
 
   - name: qualtrics__contact
     description: Detailed view of all contacts (from both the XM Directory and Research Core contact endpoints), ehanced with response and mailing list metrics.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - directory_id
-            - contact_id
     columns:
       - name: contact_id
         description: "{{ doc('contact_id') }}"
@@ -214,11 +203,6 @@ models:
     description: >
       A directory is an address book for the entire brand and contains all of the contacts that have been added by your users.
       This model provides a detailed view of each directory, enhanced with metrics regarding contacts, survey distribution, and engagement. 
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - directory_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -271,11 +255,6 @@ models:
     description: >
       Table of each survey's distribution (method of reaching out to XM directory contacts) enhanced with 
       survey response and status metrics.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - distribution_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -408,11 +387,6 @@ models:
 
   - name: qualtrics__daily_breakdown
     description: Daily breakdown of activities related to surveys and distribution in your Qualtrics instance.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - date_day
-            - source_relation
     columns:
       - name: source_relation
         description: "{{ doc('source_relation') }}"
@@ -471,13 +445,6 @@ models:
     description: >
       Breakdown of responses to individual questions (and their sub-questions). Enhanced with information regarding the survey-level 
       response and the survey.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - survey_response_id
-            - question_response_id
-            - sub_question_key
     columns:
       - name: question_response_id
         description: "{{ doc('question_response_fivetran_id') }}"

@@ -1,26 +1,26 @@
 with question as (
 
     select *
-    from {{ var('question') }}
+    from {{ ref('stg_qualtrics__question') }}
 ),
 
 block_question as (
 
     select *
-    from {{ var('block_question') }}
+    from {{ ref('stg_qualtrics__block_question') }}
     where not coalesce(is_deleted, false) -- lets get rid of deleted questions
 ),
 
 block as (
 
     select *
-    from {{ var('block') }}
+    from {{ ref('stg_qualtrics__block') }}
 ),
 
 sub_question as (
     
     select *
-    from {{ var('sub_question') }}
+    from {{ ref('stg_qualtrics__sub_question') }}
 ),
 
 question_join as (
