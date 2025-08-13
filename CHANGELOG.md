@@ -1,14 +1,35 @@
+# dbt_qualtrics v1.0.0
+
+[PR #18](https://github.com/fivetran/dbt_qualtrics/pull/18) includes the following updates:
+
+## Breaking Changes
+
+### Source Package Consolidation
+- Removed the dependency on the `fivetran/qualtrics_source` package.
+  - All functionality from the source package has been merged into this transformation package for improved maintainability and clarity.
+  - If you reference `fivetran/qualtrics_source` in your `packages.yml`, you must remove this dependency to avoid conflicts.
+  - Any source overrides referencing the `fivetran/qualtrics_source` package will also need to be removed or updated to reference this package.
+  - Update any qualtrics_source-scoped variables to be scoped to only under this package. See the [README](https://github.com/fivetran/dbt_qualtrics/blob/main/README.md) for how to configure the build schema of staging models.
+- As part of the consolidation, vars are no longer used to reference staging models, and only sources are represented by vars. Staging models are now referenced directly with `ref()` in downstream models.
+
+### dbt Fusion Compatibility Updates
+- Updated package to maintain compatibility with dbt-core versions both before and after v1.10.6, which introduced a breaking change to multi-argument test syntax (e.g., `unique_combination_of_columns`).
+- Temporarily removed unsupported tests to avoid errors and ensure smoother upgrades across different dbt-core versions. These tests will be reintroduced once a safe migration path is available.
+  - Removed all `dbt_utils.unique_combination_of_columns` tests.
+  - Removed all `accepted_values` tests.
+  - Moved `loaded_at_field: _fivetran_synced` under the `config:` block in `src_qualtrics.yml`.
+
 # dbt_qualtrics v0.4.0
 
 [PR #14](https://github.com/fivetran/dbt_qualtrics/pull/14) and [PR #15](https://github.com/fivetran/dbt_qualtrics/pull/15) includes the following updates:
 
 ## Schema & Data Updates
-**2 new columns and 2 schema changes. See [v0.4.0 dbt_qualtrics_source release](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.4.0) release for upstream column addition**
+**2 total changes • 0 possible breaking changes. See [v0.4.0 dbt_qualtrics_source release](https://github.com/fivetran/dbt_qualtrics_source/releases/tag/v0.4.0) release for upstream column addition**
 
 | Data Model | Change Type | Old Name | New Name | Notes |
 | --- | --- | --- | --- | --- |
-| `qualtrics__response` | New column |  | `response_text` | Text of the question response. |
-| `stg_qualtrics__question_response` | New column |  | `response_text` | Text of the question response. |
+| `qualtrics__response` | New column |  | `response_text` | Captures the free text response associated with the question. |
+| `stg_qualtrics__question_response` | New column |  | `response_text` | Captures the free text response associated with the question. |
 
 ## Documentation
 - Added Quickstart model counts to README. ([#13](https://github.com/fivetran/dbt_qualtrics/pull/13))

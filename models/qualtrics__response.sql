@@ -7,7 +7,7 @@ with response as (
 question_option as (
 
     select *
-    from {{ var('question_option') }}
+    from {{ ref('stg_qualtrics__question_option') }}
 ),
 
 question as (
@@ -19,7 +19,7 @@ question as (
 survey as (
 
     select *
-    from {{ var('survey') }}
+    from {{ ref('stg_qualtrics__survey') }}
 ),
 
 embedded_data as (

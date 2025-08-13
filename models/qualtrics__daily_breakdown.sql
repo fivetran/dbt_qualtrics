@@ -13,20 +13,20 @@ contact as (
 contact_mailing_list_membership as (
 
     select *
-    from {{ var('contact_mailing_list_membership') }}
+    from {{ ref('stg_qualtrics__contact_mailing_list_membership') }}
 ),
 
 distribution_contact as (
 
     select *
-    from {{ var('distribution_contact') }}
+    from {{ ref('stg_qualtrics__distribution_contact') }}
 ),
 
 spine as (
 
     {% if execute %}
     {% set first_date_query %}
-        select  coalesce( min( sent_at ), '2016-01-01') as min_date from {{ var('distribution_contact') }}
+        select  coalesce( min( sent_at ), '2016-01-01') as min_date from {{ ref('stg_qualtrics__distribution_contact') }}
     {% endset %}
     {% set first_date = run_query(first_date_query).columns[0][0]|string %}
     

@@ -7,25 +7,25 @@ with contacts as (
 directory as (
 
     select *
-    from {{ var('directory') }}
+    from {{ ref('stg_qualtrics__directory') }}
 ),
 
 distribution_contact as (
 
     select *
-    from {{ var('distribution_contact') }}
+    from {{ ref('stg_qualtrics__distribution_contact') }}
 ),
 
 distribution as (
 -- just to grab survey id 
     select *
-    from {{ var('distribution') }}
+    from {{ ref('stg_qualtrics__distribution') }}
 ),
 
 survey_response as (
 
     select *
-    from {{ var('survey_response') }}
+    from {{ ref('stg_qualtrics__survey_response') }}
 ),
 
 distribution_response as (
