@@ -1,4 +1,4 @@
-# Qualtrics Transformation dbt Package ([Docs](https://fivetran.github.io/dbt_qualtrics/))
+# Qualtrics dbt Package ([Docs](https://fivetran.github.io/dbt_qualtrics/))
 
 <p align="left">
     <a alt="License"
