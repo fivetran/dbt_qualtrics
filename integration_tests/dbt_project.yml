@@ -5,8 +5,8 @@ config-version: 2
 
 vars:
   qualtrics_schema: qualtrics_integration_tests
-  qualtrics__using_core_contacts: true
-  qualtrics__using_core_mailing_lists: true
+  # qualtrics__using_core_contacts: true # @docs-include
+  # qualtrics__using_core_mailing_lists: true # @docs-include
   
 dispatch:
   - macro_namespace: dbt_utils
