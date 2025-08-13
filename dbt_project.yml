@@ -15,7 +15,11 @@ models:
       +schema: int_qualtrics
     staging:
       +schema: qualtrics_source
-      +materialized: view
+      +materialized: table
+      tmp:
+        +materialized: view
+      +tags:
+        - "staging"
 
 vars:
   qualtrics:
@@ -38,3 +42,9 @@ vars:
     distribution_contact: "{{ source('qualtrics', 'distribution_contact') }}"
     core_contact: "{{ source('qualtrics', 'core_contact') }}"
     core_mailing_list: "{{ source('qualtrics', 'core_mailing_list') }}"
+
+  qualtrics__survey_pass_through_columns: []
+  qualtrics__directory_pass_through_columns: []
+  qualtrics__directory_contact_pass_through_columns: []
+  qualtrics__distribution_pass_through_columns: []
+  qualtrics__core_contact_pass_through_columns: []
