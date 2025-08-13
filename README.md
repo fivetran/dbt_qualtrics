@@ -89,7 +89,7 @@ vars:
     qualtrics_union_databases: ['qualtrics_usa','qualtrics_canada'] # use this if the data is in different databases/projects but uses the same schema name
 ```
 
-> NOTE: The native `source.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `source.yml`.
+> NOTE: The native `src_qualtrics.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `src_qualtrics.yml`.
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
@@ -127,10 +127,10 @@ vars:
     - name: "pass_this_through"
 ```
 
-> Please create an [issue](https://github.com/fivetran/dbt_qualtrics_source/issues) if you'd like to see passthrough column support for other tables in the Qualtrics schema.
+> Please create an [issue](https://github.com/fivetran/dbt_qualtrics/issues) if you'd like to see passthrough column support for other tables in the Qualtrics schema.
 
 #### Changing the Build Schema
-By default this package will build the Qualtrics staging models within a schema titled (<target_schema> + `_stg_qualtrics`) and the qualtrics final models within a schema titled (<target_schema> + `_qualtrics`) in your target database. If this is not where you would like your modeled qualtrics data to be written to, add the following configuration to your `dbt_project.yml` file:
+By default this package will build the Qualtrics staging models within a schema titled (<target_schema> + `_qualtrics_source`) and the qualtrics final models within a schema titled (<target_schema> + `_qualtrics`) in your target database. If this is not where you would like your modeled qualtrics data to be written to, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -145,7 +145,7 @@ models:
 #### Change the source table references
 If an individual source table has a different name than the package expects, add the table name as it appears in your destination to the respective variable. This config is available only when running the package on a single connection.
 
-> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_qualtrics_source/blob/main/dbt_project.yml) variable declarations to see the expected names.
+> IMPORTANT: See this project's [`dbt_project.yml`](https://github.com/fivetran/dbt_qualtrics/blob/main/dbt_project.yml) variable declarations to see the expected names.
 
 ```yml
 # dbt_project.yml
