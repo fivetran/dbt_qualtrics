@@ -1,13 +1,13 @@
 with question_response as (
 
     select *
-    from {{ var('question_response') }}
+    from {{ ref('stg_qualtrics__question_response') }}
 ),
 
 survey_response as (
 
     select *
-    from {{ var('survey_response') }}
+    from {{ ref('stg_qualtrics__survey_response') }}
 ),
 
 response_join as (

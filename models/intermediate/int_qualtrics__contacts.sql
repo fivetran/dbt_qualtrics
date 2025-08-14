@@ -5,13 +5,13 @@ Research Core contacts will be deprecated in 2023 by Qualtrics
 with directory_contact as (
 
     select *
-    from {{ var('directory_contact') }}
+    from {{ ref('stg_qualtrics__directory_contact') }}
 ),
 
 contact_mailing_list_membership as (
 
     select * 
-    from {{ var('contact_mailing_list_membership') }}
+    from {{ ref('stg_qualtrics__contact_mailing_list_membership') }}
 ),
 
 -- in XM directory a contact can belong to multiple mailing lists within a directory
@@ -65,7 +65,7 @@ directory_contact_join as (
 core_contact as (
 
     select *
-    from {{ var('core_contact') }}
+    from {{ ref('stg_qualtrics__core_contact') }}
 ),
 
 -- Roll up mailing lists since contacts in the XM directory endpoint can belong to multiple (or none)

@@ -1,19 +1,19 @@
 with survey as (
 
     select *
-    from {{ var('survey') }}
+    from {{ ref('stg_qualtrics__survey') }}
 ),
 
 qualtrics_user as (
 
     select *
-    from {{ var('user') }}
+    from {{ ref('stg_qualtrics__user') }}
 ),
 
 survey_version as (
 
     select *
-    from {{ var('survey_version') }}
+    from {{ ref('stg_qualtrics__survey_version') }}
 ),
 
 latest_version as (

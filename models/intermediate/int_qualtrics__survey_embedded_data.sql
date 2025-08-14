@@ -1,7 +1,7 @@
 with survey_embedded_data as (
 
     select *
-    from {{ var('survey_embedded_data') }}
+    from {{ ref('stg_qualtrics__survey_embedded_data') }}
 ),
 
 jsonify as (
