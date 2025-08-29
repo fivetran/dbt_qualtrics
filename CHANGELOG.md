@@ -1,3 +1,8 @@
+# dbt_qualtrics v1.0.1
+
+## Under the Hood
+- Fixed integration test configuration by adding missing identifier variables to properly scope qualtrics source table references in the integration tests `dbt_project.yml`.
+
 # dbt_qualtrics v1.0.0
 
 [PR #18](https://github.com/fivetran/dbt_qualtrics/pull/18) includes the following updates:

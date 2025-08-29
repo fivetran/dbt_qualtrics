@@ -1,12 +1,32 @@
 name: 'qualtrics_integration_tests'
-version: '1.0.0'
+version: '1.0.1'
 profile: 'integration_tests'
 config-version: 2
 
 vars:
-  qualtrics_schema: qualtrics_integration_tests
-  # qualtrics__using_core_contacts: true # @docs-include
-  # qualtrics__using_core_mailing_lists: true # @docs-include
+  qualtrics:
+    qualtrics_schema: qualtrics_integration_tests
+    # qualtrics__using_core_contacts: true # @docs-include
+    # qualtrics__using_core_mailing_lists: true # @docs-include
+    qualtrics_block_question_identifier: "block_question"
+    qualtrics_block_identifier: "block"
+    qualtrics_contact_mailing_list_membership_identifier: "contact_mailing_list_membership"
+    qualtrics_core_contact_identifier: "core_contact"
+    qualtrics_core_mailing_list_identifier: "core_mailing_list"
+    qualtrics_directory_contact_identifier: "directory_contact"
+    qualtrics_directory_mailing_list_identifier: "directory_mailing_list"
+    qualtrics_directory_identifier: "directory"
+    qualtrics_distribution_contact_identifier: "distribution_contact"
+    qualtrics_distribution_identifier: "distribution"
+    qualtrics_question_option_identifier: "question_option"
+    qualtrics_question_response_identifier: "question_response"
+    qualtrics_question_identifier: "question"
+    qualtrics_sub_question_identifier: "sub_question"
+    qualtrics_survey_embedded_data_identifier: "survey_embedded_data"
+    qualtrics_survey_response_identifier: "survey_response"
+    qualtrics_survey_version_identifier: "survey_version"
+    qualtrics_survey_identifier: "survey"
+    qualtrics_user_identifier: "user"
   
 dispatch:
   - macro_namespace: dbt_utils
