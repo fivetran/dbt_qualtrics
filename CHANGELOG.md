@@ -1,3 +1,10 @@
+# dbt_qualtrics v1.1.1
+
+[PR #23](https://github.com/fivetran/dbt_qualtrics/pull/23) includes the following updates:
+
+## Bug fix
+- Increases required DBT version upper limit to v3.0.0 in the project.yml, correcting an earlier error.
+
 # dbt_qualtrics v1.1.0
 
 [PR #22](https://github.com/fivetran/dbt_qualtrics/pull/22) includes the following updates:
