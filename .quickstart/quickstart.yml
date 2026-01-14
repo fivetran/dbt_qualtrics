@@ -30,26 +30,26 @@ public_models: [
 supported_vars:
   qualtrics__survey_pass_through_columns:
     type: dictionary
-    description: "Addtional `SURVEY` columns to include in `qualtrics__survey`"
+    description: "Additional `SURVEY` columns to include in `qualtrics__survey`"
     display_name: "Additional Survey Columns"
 
   qualtrics__distribution_pass_through_columns:
     type: dictionary
-    description: "Addtional `DISTRIBUTION` columns to include in `qualtrics__distribution`"
+    description: "Additional `DISTRIBUTION` columns to include in `qualtrics__distribution`"
     display_name: "Additional Distribution Columns"
 
   qualtrics__directory_pass_through_columns:
     type: dictionary
-    description: "Addtional `DIRECTORY` columns to include in `qualtrics__directory`"
+    description: "Additional `DIRECTORY` columns to include in `qualtrics__directory`"
     display_name: "Additional Directory Columns"
 
   qualtrics__directory_contact_pass_through_columns:
     type: dictionary
-    description: "Addtional `DIRECTORY_CONTACT` columns to include in `qualtrics__contact`"
+    description: "Additional `DIRECTORY_CONTACT` columns to include in `qualtrics__contact`"
     display_name: "Additional Directory Contact Columns"
 
   qualtrics__core_contact_pass_through_columns:
     type: dictionary
-    description: "Addtional `CORE_CONTACT` columns to include in `qualtrics__contact`"
+    description: "Additional `CORE_CONTACT` columns to include in `qualtrics__contact`"
     display_name: "Additional Core Contact Columns"
 
