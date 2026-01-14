@@ -9,6 +9,9 @@ table_variables:
   qualtrics__using_core_mailing_lists:
     - core_mailing_list
 
+  _fivetran_quickstart_survey_embedded_data:
+    - survey_embedded_data
+
 destination_configurations:
   databricks:
     dispatch:
@@ -23,3 +26,30 @@ public_models: [
   "qualtrics__survey",
   "qualtrics__contact"
 ]
+
+supported_vars:
+  qualtrics__survey_pass_through_columns:
+    type: dictionary
+    description: "Addtional `SURVEY` columns to include in `qualtrics__survey`"
+    display_name: "Additional Survey Columns"
+
+  qualtrics__distribution_pass_through_columns:
+    type: dictionary
+    description: "Addtional `DISTRIBUTION` columns to include in `qualtrics__distribution`"
+    display_name: "Additional Distribution Columns"
+
+  qualtrics__directory_pass_through_columns:
+    type: dictionary
+    description: "Addtional `DIRECTORY` columns to include in `qualtrics__directory`"
+    display_name: "Additional Directory Columns"
+
+  qualtrics__directory_contact_pass_through_columns:
+    type: dictionary
+    description: "Addtional `DIRECTORY_CONTACT` columns to include in `qualtrics__contact`"
+    display_name: "Additional Directory Contact Columns"
+
+  qualtrics__core_contact_pass_through_columns:
+    type: dictionary
+    description: "Addtional `CORE_CONTACT` columns to include in `qualtrics__contact`"
+    display_name: "Additional Core Contact Columns"
+

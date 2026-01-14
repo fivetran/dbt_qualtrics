@@ -1,4 +1,5 @@
-# Qualtrics dbt Package ([Docs](https://fivetran.github.io/dbt_qualtrics/))
+<!--section="qualtrics_transformation_model"-->
+# Qualtrics dbt Package
 
 <p align="left">
     <a alt="License"
@@ -15,38 +16,71 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
+This dbt package transforms data from Fivetran's Qualtrics connector into analytics-ready tables.
+
+## Resources
+
+- Number of materialized models¹: 44
+- Connector documentation
+  - [Qualtrics connector documentation](https://fivetran.com/docs/connectors/applications/qualtrics)
+  - [Qualtrics ERD](https://fivetran.com/docs/connectors/applications/qualtrics#schemainformation)
+- dbt package documentation
+  - [GitHub repository](https://github.com/fivetran/dbt_qualtrics)
+  - [dbt Docs](https://fivetran.github.io/dbt_qualtrics/#!/overview)
+  - [DAG](https://fivetran.github.io/dbt_qualtrics/#!/overview?g_v=1)
+  - [Changelog](https://github.com/fivetran/dbt_qualtrics/blob/main/CHANGELOG.md)
+
 ## What does this dbt package do?
+This package enables you to transform core object tables into analytics-ready models and consolidate survey responses with user, question, and survey details. It creates enriched models with metrics focused on surveys, contacts, directories, and distributions.
 
-This package models Qualtrics data from [Fivetran's connector](https://fivetran.com/docs/applications/qualtrics). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/qualtrics#schemainformation).
+### Output schema
+Final output tables are generated in the following target schema:
 
-The main focus of the package is to transform the core object tables into analytics-ready models, including:
-- A Response breakdown model which consolidates all survey responses joined with users, questions, and survey details.
-- Overview models for Surveys, Contacts, Directories, and Distributions which help to understand the nuances of each and how they affect key survey aggregations.
-- A daily breakdown model which provides a high level view of a variety of Qualtrics account metrics at a daily level.
+```
+<your_database>.<connector/schema_name>_qualtrics
+```
 
-<!--section="qualtrics_transformation_model"-->
-The following table provides a detailed list of all tables materialized within this package by default.
-> TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_qualtrics/#!/overview/qualtrics).
+### Final output tables
 
-| **Table**                 | **Description**                                                                                                    |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [qualtrics__contact](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__contact)  | Detailed view of all contacts (from both the XM Directory and Research Core contact endpoints), ehanced with response and mailing list metrics.   |
-| [qualtrics__daily_breakdown](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__daily_breakdown)        | Daily breakdown of activities related to surveys and distribution in your Qualtrics instance.            |
-| [qualtrics__directory](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__directory)  | A directory is an address book for the entire brand and contains all of the contacts that have been added by your users. This model provides a detailed view of each directory, enhanced with metrics regarding contacts, survey distribution, and engagement.     |
-| [qualtrics__distribution](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__distribution)  | Table of each survey's distribution (method of reaching out to XM directory contacts) enhanced with survey response and status metrics.    |
-| [qualtrics__response](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__response)        | Breakdown of responses to individual questions (and their sub-questions). Enhanced with information regarding the survey-level response and the survey.            |
-| [qualtrics__survey](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__survey)           | Detailed view of all surveys created, enhanced with distribution and response metrics.           |
-### Materialized Models
-Each Quickstart transformation job run materializes 44 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
-<!--section-end-->
+By default, this package materializes the following final tables:
 
-## How do I use the dbt package?
+| Table | Description |
+| :---- | :---- |
+| [qualtrics__contact](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__contact) | Detailed view of all contacts (from both the XM Directory and Research Core contact endpoints), enhanced with response and mailing list metrics. |
+| [qualtrics__daily_breakdown](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__daily_breakdown) | Provides a daily summary of survey activity including survey sends, responses, and distribution performance to monitor day-to-day engagement and identify trends. <br></br>**Example Analytics Questions:**<ul><li>What are the daily trends in survey sends and response volumes?</li><li>Which days of the week generate the highest survey response rates?</li><li>How do daily response patterns vary across different survey types or audiences?</li></ul>|
+| [qualtrics__directory](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__directory) | Manages contact directories with metrics on total contacts, survey distributions sent, and engagement rates to organize audiences and optimize contact list management. <br></br>**Example Analytics Questions:**<ul><li>Which directories have the most contacts and highest survey engagement rates?</li><li>How are contacts distributed across different directories and organizational units?</li><li>What directories show declining engagement that may need list hygiene or re-engagement?</li></ul>|
+| [qualtrics__distribution](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__distribution) | Monitors survey distribution campaigns including send methods, recipient counts, and response metrics to optimize distribution strategies and timing. <br></br>**Example Analytics Questions:**<ul><li>Which distribution channels (email, SMS, link) generate the highest response rates?</li><li>How do response rates vary by distribution send time or day of week?</li><li>What is the average time between distribution send and first response?</li></ul>|
+| [qualtrics__response](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__response) | Provides detailed question-level response data including answers to individual questions and sub-questions, enriched with survey context to analyze response patterns and answer distributions. <br></br>**Example Analytics Questions:**<ul><li>What are the most common answers to specific survey questions?</li><li>How do response patterns vary across different question types or survey sections?</li><li>Which questions have the highest skip rates or incomplete response rates?</li></ul>|
+| [qualtrics__survey](https://fivetran.github.io/dbt_qualtrics/#!/model/model.qualtrics.qualtrics__survey) | Tracks survey-level metrics including response counts, question counts, distribution details, and survey status to monitor survey performance and response rates. <br></br>**Example Analytics Questions:**<ul><li>Which surveys have the highest response rates and completion rates?</li><li>How many questions are in each survey and does question count affect completion rates?</li><li>What survey distributions generate the most responses and engagement?</li></ul>|
 
-### Step 1: Prerequisites
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+
+---
+
+## Prerequisites
 To use this dbt package, you must have the following:
 
 - At least one Fivetran Qualtrics connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
+
+## How do I use the dbt package?
+You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
+
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/dbt).
+- To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_qualtrics/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
+
+<!--section-end-->
+
+### Install the package
+Include the following qualtrics package version in your `packages.yml` file:
+> TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
+```yml
+packages:
+  - package: fivetran/qualtrics
+    version: [">=1.2.0", "<1.3.0"] # we recommend using ranges to capture non-breaking changes automatically
+```
+
+> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/qualtrics_source` in your `packages.yml` since this package has been deprecated.
 
 #### Databricks dispatch configuration
 If you are using a Databricks destination with this package, you must add the following (or a variation of the following) dispatch configuration within your `dbt_project.yml`. This is required in order for the package to accurately search for macros within the `dbt-labs/spark_utils` then the `dbt-labs/dbt_utils` packages respectively.
@@ -56,18 +90,7 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 ```
 
-### Step 2: Install the package
-Include the following qualtrics package version in your `packages.yml` file:
-> TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
-```yml
-packages:
-  - package: fivetran/qualtrics
-    version: [">=1.1.0", "<1.2.0"] # we recommend using ranges to capture non-breaking changes automatically
-```
-
-> All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/qualtrics_source` in your `packages.yml` since this package has been deprecated.
-
-### Step 3: Define database and schema variables
+### Define database and schema variables
 #### Single connection
 By default, this package runs using your destination and the `qualtrics` schema. If this is not where your qualtrics data is (for example, if your qualtrics schema is named `qualtrics_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
@@ -93,7 +116,7 @@ vars:
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
-### Step 4: Enable Research Core Contacts API
+### Enable Research Core Contacts API
 By default, this package does not bring in data from the Qualtrics Research Core Contacts [Endpoint](https://api.qualtrics.com/10b9ce5afbf17-research-core-contacts), as this API is set to be [deprecated](https://api.qualtrics.com/10b9ce5afbf17-research-core-contacts#deprecation-notice) by Qualtrics. However, if you would like the package to bring in Core **contacts** and **mailing lists** in addition to XM Directory data, add the following configuration to your `dbt_project.yml`:
 
 ```yml
@@ -102,7 +125,7 @@ vars:
     qualtrics__using_core_mailing_lists: True # default = False
 ```
 
-### (Optional) Step 5: Additional configurations
+### (Optional) Additional configurations
 
 #### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. You can add more columns using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables:
@@ -154,7 +177,7 @@ vars:
     qualtrics_<default_source_table_name>_identifier: your_table_name 
 ```
 
-### (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
+### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
 
@@ -176,14 +199,19 @@ packages:
     - package: dbt-labs/spark_utils
       version: [">=0.3.0", "<0.4.0"]
 ```
+
+<!--section="qualtrics_maintenance"-->
 ## How is this package maintained and can I contribute?
+
 ### Package Maintenance
-The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/qualtrics/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_qualtrics/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+The Fivetran team maintaining this package only maintains the [latest version](https://hub.getdbt.com/fivetran/qualtrics/latest/) of the package. We highly recommend you stay consistent with the latest version of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_qualtrics/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
 
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+
+<!--section-end-->
 
 ## Are there any resources available?
 - If you have questions or want to reach out for help, see the [GitHub Issue](https://github.com/fivetran/dbt_qualtrics/issues/new/choose) section to find the right avenue of support for you.
