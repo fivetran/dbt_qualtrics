@@ -77,9 +77,9 @@ calc_medians as (
         select 
             distribution_id, 
             source_relation,
-            {{ fivetran_utils.percentile(percentile_field='time_to_open_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_open_in_seconds,
-            {{ fivetran_utils.percentile(percentile_field='time_to_start_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_start_in_seconds,
-            {{ fivetran_utils.percentile(percentile_field='time_to_complete_in_seconds', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_complete_in_seconds
+            {{ fivetran_utils.percentile(percentile_field='cast(time_to_open_in_seconds as ' ~ dbt.type_float() ~ ')', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_open_in_seconds,
+            {{ fivetran_utils.percentile(percentile_field='cast(time_to_start_in_seconds as ' ~ dbt.type_float() ~ ')', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_start_in_seconds,
+            {{ fivetran_utils.percentile(percentile_field='cast(time_to_complete_in_seconds as ' ~ dbt.type_float() ~ ')', partition_field='distribution_id,source_relation', percent='0.5') }} as median_time_to_complete_in_seconds
 
         from distribution_contact
         {% if target.type == 'postgres' %} group by 1,2 {% endif %} -- percentile macro uses an aggregate function on postgres and window functions on other DBs
