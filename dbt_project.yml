@@ -17,7 +17,7 @@ models:
       +schema: qualtrics_source
       +materialized: table
       tmp:
-        +materialized: view
+        +materialized: "{{ 'table' if target.type == 'redshift' else 'view' }}"
       +tags:
         - "staging"
 
