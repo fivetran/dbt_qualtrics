@@ -1,6 +1,6 @@
 # dbt_qualtrics v1.2.1
 
-[PR #XX](https://github.com/fivetran/dbt_qualtrics/pull/XX) includes the following updates:
+[PR #26](https://github.com/fivetran/dbt_qualtrics/pull/26) includes the following updates:
 
 ## Bug Fix
 - Fixes a Redshift error in `qualtrics__contact` where `percentile_cont` raised a "Non supported data-type in order-by expression" error. The `duration_in_seconds` and `progress` fields are now cast to a float before being passed to the percentile calculation, which Redshift requires for `ORDER BY` expressions in `percentile_cont`.
