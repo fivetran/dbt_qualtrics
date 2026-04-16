@@ -94,8 +94,8 @@ calc_medians as (
         select 
             contact_id, 
             source_relation,
-            {{ fivetran_utils.percentile(percentile_field='cast(duration_in_seconds as ' ~ dbt.type_float() ~ ')', partition_field='contact_id,source_relation', percent='0.5') }} as median_survey_duration_in_seconds,
-            {{ fivetran_utils.percentile(percentile_field='cast(progress as ' ~ dbt.type_float() ~ ')', partition_field='contact_id,source_relation', percent='0.5') }} as median_survey_progress_pct
+            {{ qualtrics_percentile(percentile_field='duration_in_seconds', partition_field='contact_id,source_relation', percent='0.5') }} as median_survey_duration_in_seconds,
+            {{ qualtrics_percentile(percentile_field='progress', partition_field='contact_id,source_relation', percent='0.5') }} as median_survey_progress_pct
 
         from distribution_response
         {% if target.type == 'postgres' %} group by 1,2 {% endif %} -- percentile macro uses an aggregate function on postgres and window functions on other DBs
