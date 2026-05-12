@@ -1,6 +1,8 @@
+{{ config(enabled=var('qualtrics__using_contact_mailing_list_memberships', true)) }}
+
 {{
     qualtrics_union_data(
-        table_identifier='contact_mailing_list_membership', 
+        table_identifier='contact_mailing_list_membership',
         database_variable='qualtrics_database', 
         schema_variable='qualtrics_schema', 
         default_database=target.database,

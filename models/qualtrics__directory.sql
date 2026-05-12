@@ -4,11 +4,13 @@ with directory as (
     from {{ ref('stg_qualtrics__directory') }}
 ),
 
+{% if var('qualtrics__using_directory_contacts', true) %}
 directory_contact as (
-    
+
     select *
     from {{ ref('stg_qualtrics__directory_contact') }}
 ),
+{% endif %}
 
 directory_mailing_list as (
 
@@ -29,20 +31,21 @@ distribution as (
 ),
 
 agg_mailing_lists as (
-    
-    select 
+
+    select
         directory_id,
         source_relation,
         count(distinct mailing_list_id) as count_mailing_lists
-    
+
     from directory_mailing_list
     where not coalesce(is_deleted, false)
     group by 1,2
 ),
 
+{% if var('qualtrics__using_directory_contacts', true) %}
 agg_contacts as (
 
-    select 
+    select
         directory_id,
         source_relation,
         count(distinct email) as count_distinct_emails,
@@ -58,32 +61,35 @@ agg_contacts as (
 
 agg_distributions as (
 -- of contacts sent surveys in the past 30 days, did they open or respond to the surveys?
-    select 
+    select
         directory_contact.directory_id,
-        directory_contact.source_relation, 
-        count(distinct distribution_contact.contact_id) as count_contacts_sent_survey_30d, 
+        directory_contact.source_relation,
+        count(distinct distribution_contact.contact_id) as count_contacts_sent_survey_30d,
         count(distinct case when distribution_contact.opened_at is not null then distribution_contact.contact_id end) as count_contacts_opened_survey_30d,
         count(distinct case when distribution_contact.response_started_at is not null then distribution_contact.contact_id end) as count_contacts_started_survey_30d,
         count(distinct case when distribution_contact.response_completed_at is not null then distribution_contact.contact_id end) as count_contacts_completed_survey_30d,
         count(distinct distribution.survey_id) as count_surveys_sent_30d
-        
+
     from distribution_contact
-    inner join directory_contact 
+    inner join directory_contact
         on distribution_contact.contact_id = directory_contact.contact_id
         and distribution_contact.source_relation = directory_contact.source_relation
-    left join distribution 
-        on distribution_contact.distribution_id = distribution.distribution_id 
+    left join distribution
+        on distribution_contact.distribution_id = distribution.distribution_id
         and distribution_contact.source_relation = distribution.source_relation
-    where sent_at is not null 
+    where sent_at is not null
         and {{ fivetran_utils.timestamp_diff(first_date="distribution_contact.sent_at", second_date=dbt.current_timestamp(), datepart="day") }} <= 30
-    
+
     group by 1,2
 ),
 
+{% endif %}
+
 final as (
 
-    select 
+    select
         directory.*,
+        {% if var('qualtrics__using_directory_contacts', true) %}
         coalesce(agg_contacts.count_distinct_emails, 0) as count_distinct_emails,
         coalesce(agg_contacts.count_distinct_phones, 0) as count_distinct_phones,
         coalesce(agg_contacts.total_count_contacts, 0) as total_count_contacts,
@@ -95,15 +101,30 @@ final as (
         coalesce(agg_distributions.count_contacts_started_survey_30d, 0) as count_contacts_started_survey_30d,
         coalesce(agg_distributions.count_contacts_completed_survey_30d, 0) as count_contacts_completed_survey_30d,
         coalesce(agg_distributions.count_surveys_sent_30d, 0) as count_surveys_sent_30d,
+        {% else %}
+        0 as count_distinct_emails,
+        0 as count_distinct_phones,
+        0 as total_count_contacts,
+        0 as total_count_unsubscribed_contacts,
+        0 as count_contacts_created_30d,
+        0 as count_contacts_unsubscribed_30d,
+        0 as count_contacts_sent_survey_30d,
+        0 as count_contacts_opened_survey_30d,
+        0 as count_contacts_started_survey_30d,
+        0 as count_contacts_completed_survey_30d,
+        0 as count_surveys_sent_30d,
+        {% endif %}
         coalesce(agg_mailing_lists.count_mailing_lists, 0) as count_mailing_lists
 
-    from directory 
+    from directory
+    {% if var('qualtrics__using_directory_contacts', true) %}
     left join agg_contacts
         on directory.directory_id = agg_contacts.directory_id
         and directory.source_relation = agg_contacts.source_relation
     left join agg_distributions
         on directory.directory_id = agg_distributions.directory_id
         and directory.source_relation = agg_distributions.source_relation
+    {% endif %}
     left join agg_mailing_lists
         on directory.directory_id = agg_mailing_lists.directory_id
         and directory.source_relation = agg_mailing_lists.source_relation

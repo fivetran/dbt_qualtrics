@@ -1,5 +1,5 @@
 name: 'qualtrics'
-version: '1.2.1'
+version: '1.2.2'
 config-version: 2
 require-dbt-version: [">=1.3.0", "<3.0.0"] 
 
@@ -11,7 +11,7 @@ models:
     +schema: qualtrics
     +materialized: table
     intermediate:
-      +materialized: ephemeral
+      +materialized: table # ephemeral
       +schema: int_qualtrics
     staging:
       +schema: qualtrics_source

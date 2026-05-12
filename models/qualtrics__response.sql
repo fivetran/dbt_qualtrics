@@ -1,3 +1,5 @@
+{% set contacts_enabled = var('qualtrics__using_directory_contacts', true) or var('qualtrics__using_core_contacts', false) %}
+
 with response as (
     -- will probably move the logic from this int model to the end model directly 
     select *
@@ -28,6 +30,7 @@ embedded_data as (
     from {{ ref('int_qualtrics__survey_embedded_data') }}
 ),
 
+{% if contacts_enabled %}
 contacts as (
 
     select *
@@ -50,6 +53,7 @@ rollup_contacts as (
     from contacts
     group by 1,2
 ),
+{% endif %}
 
 final as (
 
@@ -57,6 +61,8 @@ final as (
         response.*,
         question_option.recode_value,
         question_option.text as question_option_text,
+
+        {% if contacts_enabled %}
         rollup_contacts.first_name,
         rollup_contacts.last_name,
         rollup_contacts.email_domain,
@@ -64,6 +70,7 @@ final as (
         rollup_contacts.external_data_reference as contact_external_data_reference,
         rollup_contacts.is_xm_directory_contact,
         rollup_contacts.is_research_core_contact,
+        {% endif %}
 
         embedded_data.embedded_data,
         survey.survey_name,
@@ -108,10 +115,11 @@ final as (
         on response.survey_response_id = embedded_data.response_id
         and response.source_relation = embedded_data.source_relation
 
+    {% if contacts_enabled %}
     left join rollup_contacts 
         on response.recipient_email = rollup_contacts.email
         and response.source_relation = rollup_contacts.source_relation
-
+    {% endif %}
 )
 
 select *

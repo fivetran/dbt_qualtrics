@@ -1,3 +1,11 @@
+# dbt_qualtrics v1.2.2-a1
+
+[PR #27](https://github.com/fivetran/dbt_qualtrics/pull/27) includes the following updates:
+
+## Feature Updates
+- Allows `qualtrics__response`, `qualtrics__contact`, and `qualtrics__daily_breakdown` to run without `DIRECTORY_CONTACT` or `CONTACT_MAILING_LIST_MEMBERSHIP` source tables.
+  - This is achieved via the `qualtrics__using_directory_contacts` and `qualtrics__using_contact_mailing_list_memberships` variables in dbt Core.
+
 # dbt_qualtrics v1.2.1
 
 [PR #26](https://github.com/fivetran/dbt_qualtrics/pull/26) includes the following updates:

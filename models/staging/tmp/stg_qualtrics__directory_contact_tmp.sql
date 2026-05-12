@@ -1,6 +1,8 @@
+{{ config(enabled=var('qualtrics__using_directory_contacts', true)) }}
+
 {{
     qualtrics_union_data(
-        table_identifier='directory_contact', 
+        table_identifier='directory_contact',
         database_variable='qualtrics_database', 
         schema_variable='qualtrics_schema', 
         default_database=target.database,
