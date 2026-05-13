@@ -114,7 +114,7 @@ vars:
 
 ### (Optional) Additional configurations
 
-### Disable XM Directory contacts and mailing list memberships
+#### Disable XM Directory contacts and mailing list memberships
 By default, this package includes data from `directory_contact` and its child table `contact_mailing_list_membership`. If you do not have either of these tables or want to exclude them, add the following to your `dbt_project.yml`.
 
 ```yml

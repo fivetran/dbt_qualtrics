@@ -102,17 +102,17 @@ final as (
         coalesce(agg_distributions.count_contacts_completed_survey_30d, 0) as count_contacts_completed_survey_30d,
         coalesce(agg_distributions.count_surveys_sent_30d, 0) as count_surveys_sent_30d,
         {% else %}
-        0 as count_distinct_emails,
-        0 as count_distinct_phones,
-        0 as total_count_contacts,
-        0 as total_count_unsubscribed_contacts,
-        0 as count_contacts_created_30d,
-        0 as count_contacts_unsubscribed_30d,
-        0 as count_contacts_sent_survey_30d,
-        0 as count_contacts_opened_survey_30d,
-        0 as count_contacts_started_survey_30d,
-        0 as count_contacts_completed_survey_30d,
-        0 as count_surveys_sent_30d,
+        cast(null as {{ dbt.type_int() }}) as count_distinct_emails,
+        cast(null as {{ dbt.type_int() }}) as count_distinct_phones,
+        cast(null as {{ dbt.type_int() }}) as total_count_contacts,
+        cast(null as {{ dbt.type_int() }}) as total_count_unsubscribed_contacts,
+        cast(null as {{ dbt.type_int() }}) as count_contacts_created_30d,
+        cast(null as {{ dbt.type_int() }}) as count_contacts_unsubscribed_30d,
+        cast(null as {{ dbt.type_int() }}) as count_contacts_sent_survey_30d,
+        cast(null as {{ dbt.type_int() }}) as count_contacts_opened_survey_30d,
+        cast(null as {{ dbt.type_int() }}) as count_contacts_started_survey_30d,
+        cast(null as {{ dbt.type_int() }}) as count_contacts_completed_survey_30d,
+        cast(null as {{ dbt.type_int() }}) as count_surveys_sent_30d,
         {% endif %}
         coalesce(agg_mailing_lists.count_mailing_lists, 0) as count_mailing_lists
 
