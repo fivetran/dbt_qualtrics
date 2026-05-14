@@ -1,20 +1,26 @@
+{% set contacts_enabled = var('qualtrics__using_directory_contacts', true) or var('qualtrics__using_core_contacts', false) %}
+
 with response as (
 
     select *
     from {{ ref('qualtrics__response') }}
 ),
 
+{% if contacts_enabled %}
 contact as (
 
     select *
     from {{ ref('qualtrics__contact') }}
 ),
+{% endif %}
 
+{% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
 contact_mailing_list_membership as (
 
     select *
     from {{ ref('stg_qualtrics__contact_mailing_list_membership') }}
 ),
+{% endif %}
 
 distribution_contact as (
 
@@ -101,6 +107,7 @@ agg_survey_distribution as (
     group by 1,2
 ),
 
+{% if contacts_enabled %}
 agg_created_contacts as (
 
     select
@@ -120,7 +127,9 @@ agg_directory_unsubscriptions as (
     from contact
     group by 1,2
 ),
+{% endif %}
 
+{% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
 agg_mailing_list_unsubscriptions as (
 
     select
@@ -130,15 +139,30 @@ agg_mailing_list_unsubscriptions as (
     from contact_mailing_list_membership
     group by 1,2
 ),
+{% endif %}
 
 final as (
 
-    select 
-        coalesce(agg_responses.source_relation, agg_survey_distribution.source_relation, agg_created_contacts.source_relation, agg_directory_unsubscriptions.source_relation, agg_mailing_list_unsubscriptions.source_relation, spine_cross_join.source_relation) as source_relation,
+    select
+        coalesce(agg_responses.source_relation, agg_survey_distribution.source_relation, 
+            {%- if contacts_enabled %} agg_created_contacts.source_relation, agg_directory_unsubscriptions.source_relation, {% endif -%} 
+            {%- if var('qualtrics__using_contact_mailing_list_memberships', true) %} agg_mailing_list_unsubscriptions.source_relation, {% endif -%} 
+            spine_cross_join.source_relation) as source_relation,
         spine_cross_join.date_day,
-        coalesce(agg_created_contacts.count_contacts_created, 0) as count_contacts_created,
-        coalesce(agg_directory_unsubscriptions.count_contacts_unsubscribed_from_directory, 0) as count_contacts_unsubscribed_from_directory,
+
+        {% if contacts_enabled %}
+            coalesce(agg_created_contacts.count_contacts_created, 0) as count_contacts_created,
+            coalesce(agg_directory_unsubscriptions.count_contacts_unsubscribed_from_directory, 0) as count_contacts_unsubscribed_from_directory,
+        {% else %}
+            cast(null as {{ dbt.type_int() }}) as count_contacts_created,
+            cast(null as {{ dbt.type_int() }}) as count_contacts_unsubscribed_from_directory,
+        {% endif %}
+
+        {% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
         coalesce(agg_mailing_list_unsubscriptions.count_contacts_unsubscribed_from_mailing_list, 0) as count_contacts_unsubscribed_from_mailing_list,
+        {% else %}
+        cast(null as {{ dbt.type_int() }}) as count_contacts_unsubscribed_from_mailing_list,
+        {% endif %}
 
         coalesce(agg_survey_distribution.count_contacts_sent_surveys, 0) as count_contacts_sent_surveys,
         coalesce(agg_survey_distribution.count_contacts_opened_sent_surveys, 0) as count_contacts_opened_sent_surveys,
@@ -172,15 +196,19 @@ final as (
     left join agg_survey_distribution
         on spine_cross_join.date_day = agg_survey_distribution.date_day
             and spine_cross_join.source_relation = agg_survey_distribution.source_relation
+    {% if contacts_enabled %}
     left join agg_created_contacts
         on spine_cross_join.date_day = agg_created_contacts.date_day
             and spine_cross_join.source_relation = agg_created_contacts.source_relation
     left join agg_directory_unsubscriptions
         on spine_cross_join.date_day = agg_directory_unsubscriptions.date_day
             and spine_cross_join.source_relation = agg_directory_unsubscriptions.source_relation
+    {% endif %}
+    {% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
     left join agg_mailing_list_unsubscriptions
         on spine_cross_join.date_day = agg_mailing_list_unsubscriptions.date_day
             and spine_cross_join.source_relation = agg_mailing_list_unsubscriptions.source_relation
+    {% endif %}
     
 )
 
