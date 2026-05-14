@@ -70,6 +70,14 @@ final as (
         rollup_contacts.external_data_reference as contact_external_data_reference,
         rollup_contacts.is_xm_directory_contact,
         rollup_contacts.is_research_core_contact,
+        {% else %}
+        cast(null as {{ dbt.type_string() }}) as first_name,
+        cast(null as {{ dbt.type_string() }}) as last_name,
+        cast(null as {{ dbt.type_string() }}) as email_domain,
+        cast(null as {{ dbt.type_string() }}) as contact_language,
+        cast(null as {{ dbt.type_string() }}) as contact_external_data_reference,
+        cast(null as {{ dbt.type_boolean() }}) as is_xm_directory_contact,
+        cast(null as {{ dbt.type_boolean() }}) as is_research_core_contact,
         {% endif %}
 
         embedded_data.embedded_data,

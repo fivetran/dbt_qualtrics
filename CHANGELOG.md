@@ -3,8 +3,9 @@
 [PR #28](https://github.com/fivetran/dbt_qualtrics/pull/28) includes the following updates:
 
 ## Feature Updates
-- Allows `qualtrics__response`, `qualtrics__contact`, `qualtrics__directory`, and `qualtrics__daily_breakdown` to run without `DIRECTORY_CONTACT` or `CONTACT_MAILING_LIST_MEMBERSHIP` source tables.
-  - This is achieved via the `qualtrics__using_directory_contacts` and `qualtrics__using_contact_mailing_list_memberships` [variables](https://github.com/fivetran/dbt_qualtrics/tree/main#disable-xm-directory-contacts-and-mailing-list-memberships) in dbt Core.
+- Disables `qualtrics__contact` if both the `directory_contact` and `core_contact` source tables are disabled.
+- Allows `qualtrics__response`, `qualtrics__directory`, and `qualtrics__daily_breakdown` to run without `directory_contact` or `contact_mailing_list_membership` source tables.
+  - **dbt Core only:** Leverages the `qualtrics__using_directory_contacts` and `qualtrics__using_contact_mailing_list_memberships` [variables](https://github.com/fivetran/dbt_qualtrics/tree/main#disable-xm-directory-contacts-and-mailing-list-memberships) to enable/disable data from these sources.
 
 # dbt_qualtrics v1.2.1
 
