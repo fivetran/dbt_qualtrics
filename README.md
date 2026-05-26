@@ -64,7 +64,7 @@ Include the following qualtrics package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/qualtrics
-    version: 1.2.2-a1
+    version: [">=1.2.0", "<1.3.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/qualtrics_source` in your `packages.yml` since this package has been deprecated.
