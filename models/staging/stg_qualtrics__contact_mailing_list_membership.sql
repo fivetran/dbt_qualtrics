@@ -1,3 +1,4 @@
+{{ config(enabled=var('qualtrics__using_contact_mailing_list_memberships', true)) }}
 
 with base as (
 

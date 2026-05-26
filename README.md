@@ -114,6 +114,15 @@ vars:
 
 ### (Optional) Additional configurations
 
+#### Disable XM Directory contacts and mailing list memberships
+By default, this package includes data from `directory_contact` and its child table `contact_mailing_list_membership`. If you do not have either of these tables or want to exclude them, add the following to your `dbt_project.yml`.
+
+```yml
+vars:
+    qualtrics__using_directory_contacts: false # default = true
+    qualtrics__using_contact_mailing_list_memberships: false # default = true
+```
+
 #### Passing Through Additional Fields
 This package includes all source columns defined in the macros folder. You can add more columns using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-through fields will be casted accordingly. Use the below format for declaring the respective pass-through variables:
 

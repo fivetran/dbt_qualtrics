@@ -22,3 +22,18 @@ test_scenarios:
       qualtrics__using_core_contacts: true
       qualtrics__using_core_mailing_lists: true
     include_incremental: false
+
+  - name: "directory contacts disabled"
+    vars:
+      qualtrics__using_core_contacts: true
+      qualtrics__using_directory_contacts: false
+      qualtrics__using_core_mailing_lists: true
+    include_incremental: false
+
+  - name: "contact mailing list memberships disabled"
+    vars:
+      qualtrics__using_core_contacts: true
+      qualtrics__using_directory_contacts: true
+      qualtrics__using_core_mailing_lists: true
+      qualtrics__using_contact_mailing_list_memberships: false
+    include_incremental: false

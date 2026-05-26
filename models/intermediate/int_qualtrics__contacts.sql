@@ -1,13 +1,11 @@
+{{ config(enabled=var('qualtrics__using_directory_contacts', true) or var('qualtrics__using_core_contacts', false)) }}
+
 {# 
 This model unions together contacts from the XM Directory and Research Core Contact endpoints.
 Research Core contacts will be deprecated in 2023 by Qualtrics
 #}
-with directory_contact as (
-
-    select *
-    from {{ ref('stg_qualtrics__directory_contact') }}
-),
-
+with 
+{% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
 contact_mailing_list_membership as (
 
     select * 
@@ -42,15 +40,30 @@ agg_mailing_lists as (
     from contact_mailing_list_membership
     group by 1,2,3
 ),
+{% endif %}
+
+{% if var('qualtrics__using_directory_contacts', true) %}
+directory_contact as (
+
+    select *
+    from {{ ref('stg_qualtrics__directory_contact') }}
+),
 
 directory_contact_join as (
 
     select
         directory_contact.*,
+        {% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
         count_mailing_lists.count_mailing_lists_subscribed_to,
         count_mailing_lists.count_mailing_lists_unsubscribed_from,
         agg_mailing_lists.mailing_list_ids
+        {% else %}
+        cast(null as {{ dbt.type_int() }}) as count_mailing_lists_subscribed_to,
+        cast(null as {{ dbt.type_int() }}) as count_mailing_lists_unsubscribed_from,
+        cast(null as {{ dbt.type_string() }}) as mailing_list_ids
+        {% endif %}
     from directory_contact
+    {% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
     left join agg_mailing_lists
         on directory_contact.contact_id = agg_mailing_lists.contact_id
         and directory_contact.directory_id = agg_mailing_lists.directory_id 
@@ -59,7 +72,9 @@ directory_contact_join as (
         on directory_contact.contact_id = count_mailing_lists.contact_id
         and directory_contact.directory_id = count_mailing_lists.directory_id 
         and directory_contact.source_relation = count_mailing_lists.source_relation
+    {% endif %}
 ),
+{% endif %}
 
 {% if var('qualtrics__using_core_contacts', false) %}
 core_contact as (
@@ -117,16 +132,16 @@ final as (
         contact_id,
         false as is_xm_directory_contact,
         true as is_research_core_contact,
-        null as directory_id,
+        cast(null as {{ dbt.type_string() }}) as directory_id,
         email,
         email_domain,
         first_name,
         last_name,
         external_data_reference,
         language,
-        null as is_unsubscribed_from_directory,
-        null as unsubscribed_from_directory_at,
-        null as last_modified_at,
+        cast(null as {{ dbt.type_boolean() }}) as is_unsubscribed_from_directory,
+        cast(null as {{ dbt.type_timestamp() }}) as unsubscribed_from_directory_at,
+        cast(null as {{ dbt.type_timestamp() }}) as last_modified_at,
         mailing_list_ids,
         count_mailing_lists_subscribed_to,
         count_mailing_lists_unsubscribed_from,
@@ -143,12 +158,16 @@ final as (
 
 
     from core_contact_join
+    
+    {% if var('qualtrics__using_directory_contacts', true) %}
     union all 
+    {% endif %}
 
 {% else %}
 final as (
 {% endif %}
 
+{% if var('qualtrics__using_directory_contacts', true) %}
     select
         contact_id,
         true as is_xm_directory_contact,
@@ -177,6 +196,7 @@ final as (
         {% endif %}
 
     from directory_contact_join
+{% endif %}
 )
 
 select *

@@ -1,3 +1,4 @@
+{{ config(enabled=var('qualtrics__using_directory_contacts', true)) }}
 
 with base as (
 
