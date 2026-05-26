@@ -21,4 +21,8 @@ dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{qualtrics__using_core_contacts: true, qualtrics__using_core_mailing_lists: true}' --target "$db"
 dbt test --target "$db"
+dbt run --vars '{qualtrics__using_core_contacts: true, qualtrics__using_directory_contacts: false, qualtrics__using_core_mailing_lists: true}' --target "$db"
+dbt test --target "$db"
+dbt run --vars '{qualtrics__using_core_contacts: true, qualtrics__using_directory_contacts: true, qualtrics__using_core_mailing_lists: true, qualtrics__using_contact_mailing_list_memberships: false}' --target "$db"
+dbt test --target "$db"
 dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"
