@@ -67,7 +67,6 @@ seeds:
       +column_types:
         _fivetran_synced: timestamp
         id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     directory_contact:
       +column_types:
         _fivetran_synced: timestamp
@@ -142,7 +141,6 @@ seeds:
         last_login_date: timestamp
         password_expiration_date: timestamp
         password_last_changed_date: timestamp
-        external_data_reference: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         response_count_auditable: integer
         response_count_deleted: integer
