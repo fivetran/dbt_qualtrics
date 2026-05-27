@@ -45,80 +45,103 @@ seeds:
   +docs:
     show: False
   qualtrics_integration_tests:
-    +column_types:
-      _fivetran_synced: timestamp
-      directory_unsubscribe_date: timestamp
-      response_completed_at: timestamp
-      last_accessed: timestamp
-      account_creation_date: timestamp
-      response_started_at: timestamp
-      account_expiration_date: timestamp
-      last_login_date: timestamp
-      password_expiration_date: timestamp
-      password_last_changed_date: timestamp
-      unsubscribe_date: timestamp
-    contact_mailing_list_membership:
+    block:
       +column_types:
-        unsubscribe_date: timestamp
-    question_response:
-      +column_types:
-        value: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        question_option_key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        sub_question_key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-    survey_response:
-      +column_types:
-        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        recorded_date: timestamp
-        start_date: timestamp
-        location_latitude: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
-        location_longitude: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
-    distribution:
-      +column_types:
-        survey_link_survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        parent_distribution_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-    survey_version:
-      +column_types:
-        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        _fivetran_synced: timestamp
     block_question:
       +column_types:
         survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-    question:
+    contact_mailing_list_membership:
       +column_types:
-        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-    question_option:
+        _fivetran_synced: timestamp
+        unsubscribe_date: timestamp
+    core_contact:
       +column_types:
-        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        recode_value: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-    sub_question:
+        _fivetran_synced: timestamp
+        external_data_reference: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    core_mailing_list:
       +column_types:
-        key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-    survey:
+        _fivetran_synced: timestamp
+    directory:
       +column_types:
+        _fivetran_synced: timestamp
         id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        creator_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-    distribution_contact:
-      +column_types:
-        sent_at: timestamp
-        opened_at: timestamp
-        response_started_at: timestamp
-        response_completed_at: timestamp
-        response_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     directory_contact:
       +column_types:
+        _fivetran_synced: timestamp
         ext_ref: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         phone: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         directory_unsubscribe_date: timestamp
         creation_date: timestamp
-    core_contact:
+    directory_mailing_list:
       +column_types:
-        external_data_reference: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
-        language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        _fivetran_synced: timestamp
+    distribution:
+      +column_types:
+        _fivetran_synced: timestamp
+        survey_link_survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        parent_distribution_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    distribution_contact:
+      +column_types:
+        _fivetran_synced: timestamp
+        sent_at: timestamp
+        opened_at: timestamp
+        response_started_at: timestamp
+        response_completed_at: timestamp
+        response_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    question:
+      +column_types:
+        _fivetran_synced: timestamp
+        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    question_option:
+      +column_types:
+        _fivetran_synced: timestamp
+        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        recode_value: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    question_response:
+      +column_types:
+        _fivetran_synced: timestamp
+        value: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        question_option_key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        sub_question_key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    sub_question:
+      +column_types:
+        _fivetran_synced: timestamp
+        key: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    survey:
+      +column_types:
+        _fivetran_synced: timestamp
+        last_accessed: timestamp
+        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        creator_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+    survey_embedded_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    survey_response:
+      +column_types:
+        _fivetran_synced: timestamp
+        id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        recorded_date: timestamp
+        start_date: timestamp
+        location_latitude: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+        location_longitude: "{{ 'float64' if target.type == 'bigquery' else 'float' }}"
+    survey_version:
+      +column_types:
+        _fivetran_synced: timestamp
+        survey_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
     user:
       +column_types:
+        _fivetran_synced: timestamp
+        account_creation_date: timestamp
+        account_expiration_date: timestamp
+        last_login_date: timestamp
+        password_expiration_date: timestamp
+        password_last_changed_date: timestamp
+        language: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         response_count_auditable: integer
         response_count_deleted: integer
         response_count_generated: integer
