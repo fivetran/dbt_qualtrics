@@ -1,3 +1,22 @@
+# dbt_qualtrics v1.3.0
+
+[PR #29](https://github.com/fivetran/dbt_qualtrics/pull/29) includes the following updates:
+
+## Schema/Data Changes (--full-refresh required after upgrading)
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| All models | `source_relation` column (when using a single qualtrics schema) | Empty string (`''`) | `<database>.<schema>` |  |
+
+## Feature Updates
+- Introduces the new (recommended) `qualtrics_sources` variable for more robust union data configuration. The old`qualtrics_union_schemas` and `qualtrics_union_databases` variables will still be supported. See the [README](https://github.com/fivetran/dbt_qualtrics/tree/main#define-database-and-schema-variables) for specific details.
+
+## Under the Hood
+- Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_qualtrics/#source-casing-for-case-sensitive-destinations) section of the README for details.
+- Introduces `fivetran_utils.partition_by_source_relation` to conditionally include `source_relation` in partition clauses only when multiplesources are configured.
+- Removed `qualtrics.qualtrics_union_data` and replaced the references with the standardized `fivetran_utils.union_data` macro.
+
 # dbt_qualtrics v1.2.2
 
 [PR #28](https://github.com/fivetran/dbt_qualtrics/pull/28) includes the following updates:
