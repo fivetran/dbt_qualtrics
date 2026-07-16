@@ -21,6 +21,10 @@ models:
       +tags:
         - "staging"
 
+dispatch:
+  - macro_namespace: fivetran_utils
+    search_order: ['qualtrics', 'fivetran_utils']
+
 vars:
   qualtrics:
     user: "{{ source('qualtrics', 'user') }}"
