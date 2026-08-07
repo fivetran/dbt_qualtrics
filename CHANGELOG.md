@@ -1,3 +1,11 @@
+# dbt_qualtrics v1.3.1
+
+[PR #31](https://github.com/fivetran/dbt_qualtrics/pull/31) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_qualtrics v1.3.0
 
 [PR #29](https://github.com/fivetran/dbt_qualtrics/pull/29) includes the following updates:
