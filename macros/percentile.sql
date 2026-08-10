@@ -17,10 +17,3 @@
     {{ fivetran_utils.percentile(percentile_field, partition_field, percent) }}
 
 {% endmacro %}
-
--- DuckDB uses quantile_cont instead of percentile_cont, with column-first argument order
-{% macro duckdb__qualtrics_percentile(percentile_field, partition_field, percent) %}
-
-    quantile_cont({{ percentile_field }}, {{ percent }}) over (partition by {{ partition_field }})
-
-{% endmacro %}

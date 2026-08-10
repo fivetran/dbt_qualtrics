@@ -32,8 +32,6 @@ vars:
     qualtrics_user_identifier: "user"
   
 dispatch:
-  - macro_namespace: fivetran_utils
-    search_order: ['qualtrics', 'fivetran_utils']
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
 
