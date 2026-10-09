@@ -1,6 +1,6 @@
-# dbt_qualtrics v1.3.2
+# dbt_qualtrics v1.3.2-a1
 
-[PR #32](https://github.com/fivetran/dbt_qualtrics/pull/32) includes the following updates:
+[PR #32](https://github.com/fivetran/dbt_qualtrics/pull/32) is a pre-release that includes the following updates:
 
 ## Bug Fixes
 - Fixes the `sub_question_key` join between responses and questions in `qualtrics__response`. A `null` key never matched another `null` key, so responses to questions without sub-questions had `null` `question_*` and `block_*` fields, including `question_type`. The join now treats two `null` keys as a match.
