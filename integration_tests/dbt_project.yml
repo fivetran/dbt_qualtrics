@@ -5,9 +5,9 @@ config-version: 2
 
 vars:
   qualtrics:
-    qualtrics_schema: qualtrics_integration_tests
-    # qualtrics__using_core_contacts: true # @docs-include
-    # qualtrics__using_core_mailing_lists: true # @docs-include
+    qualtrics_schema: zz_dbt_avinash_seed
+    qualtrics__using_core_contacts: true # @docs-include
+    qualtrics__using_core_mailing_lists: true # @docs-include
     # qualtrics__using_directory_contacts: false
     # qualtrics__using_contact_mailing_list_memberships: false
 
@@ -119,6 +119,7 @@ seeds:
         last_accessed: timestamp
         id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         creator_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        option_custom_styles: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar(5000)' }}"
     survey_embedded_data:
       +column_types:
         _fivetran_synced: timestamp
