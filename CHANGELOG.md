@@ -1,3 +1,11 @@
+# dbt_qualtrics v1.3.2-a1
+
+[PR #32](https://github.com/fivetran/dbt_qualtrics/pull/32) is a pre-release that includes the following updates:
+
+## Bug Fixes
+- Fixes the `sub_question_key` join between responses and questions in `qualtrics__response`. A `null` key never matched another `null` key, so responses to questions without sub-questions had `null` `question_*` and `block_*` fields, including `question_type`. The join now treats two `null` keys as a match.
+- Adds a fallback to the parent question in `qualtrics__response`. Some responses have no `sub_question_key` even though the question has sub-questions, such as text entry and matrix questions. These responses now take their `question_*` and `block_*` fields from the parent question. The fallback fills any of these fields that the match leaves `null`. This includes a response whose `sub_question_key` matches no question row.
+
 # dbt_qualtrics v1.3.1
 
 [PR #31](https://github.com/fivetran/dbt_qualtrics/pull/31) includes the following updates:
