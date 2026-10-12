@@ -137,10 +137,8 @@ final as (
     left join question
         on response.question_id = question.question_id
         and response.survey_id = question.survey_id
-        and (
-            response.sub_question_key = question.sub_question_key
-            or (response.sub_question_key is null and question.sub_question_key is null)
-        )
+        {# null-safe match on sub_question_key (assumes '' is never a real key), written as an equality so warehouses can still use a hash join #}
+        and coalesce(response.sub_question_key, '') = coalesce(question.sub_question_key, '')
         and response.source_relation = question.source_relation
 
     left join question_level
