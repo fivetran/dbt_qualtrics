@@ -18,6 +18,37 @@ question as (
     from {{ ref('int_qualtrics__question') }}
 ),
 
+-- question-level attributes (identical across sub-questions). Used when a response has no sub_question_key but the question has sub-questions.
+question_level as (
+
+    select
+        question_id,
+        survey_id,
+        source_relation,
+        question_description,
+        question_type,
+        block_id,
+        block_description,
+        block_question_randomization,
+        block_type,
+        block_visibility,
+        validation_setting_force_response,
+        validation_setting_force_response_type,
+        validation_setting_type,
+        is_question_deleted,
+        is_block_deleted
+    from (
+        select
+            *,
+            row_number() over (
+                partition by question_id, survey_id, source_relation
+                order by sub_question_key nulls first
+            ) as row_num
+        from question
+    ) as ranked_question
+    where row_num = 1
+),
+
 survey as (
 
     select *
@@ -88,26 +119,33 @@ final as (
         survey.brand_base_url,
         
         -- most question fields are included, as there is no question end model. join with `int_qualtrics__question` to bring in more
-        question.question_description,
-        question.question_type,
-        question.block_id,
-        question.block_description,
-        question.block_question_randomization,
-        question.block_type,
-        question.block_visibility,
-        question.validation_setting_force_response,
-        question.validation_setting_force_response_type,
-        question.validation_setting_type,
-        question.is_question_deleted,
-        question.is_block_deleted
+        coalesce(question.question_description, question_level.question_description) as question_description,
+        coalesce(question.question_type, question_level.question_type) as question_type,
+        coalesce(question.block_id, question_level.block_id) as block_id,
+        coalesce(question.block_description, question_level.block_description) as block_description,
+        coalesce(question.block_question_randomization, question_level.block_question_randomization) as block_question_randomization,
+        coalesce(question.block_type, question_level.block_type) as block_type,
+        coalesce(question.block_visibility, question_level.block_visibility) as block_visibility,
+        coalesce(question.validation_setting_force_response, question_level.validation_setting_force_response) as validation_setting_force_response,
+        coalesce(question.validation_setting_force_response_type, question_level.validation_setting_force_response_type) as validation_setting_force_response_type,
+        coalesce(question.validation_setting_type, question_level.validation_setting_type) as validation_setting_type,
+        coalesce(question.is_question_deleted, question_level.is_question_deleted) as is_question_deleted,
+        coalesce(question.is_block_deleted, question_level.is_block_deleted) as is_block_deleted
 
     from response
 
     left join question
         on response.question_id = question.question_id
         and response.survey_id = question.survey_id
-        and response.sub_question_key = question.sub_question_key
+        {# null-safe match on sub_question_key: both sides null, or both non-null and equal. Equalities only, so warehouses can still hash join. #}
+        and (response.sub_question_key is null) = (question.sub_question_key is null)
+        and coalesce(response.sub_question_key, '') = coalesce(question.sub_question_key, '')
         and response.source_relation = question.source_relation
+
+    left join question_level
+        on response.question_id = question_level.question_id
+        and response.survey_id = question_level.survey_id
+        and response.source_relation = question_level.source_relation
 
     left join question_option
         on response.question_id = question_option.question_id 
