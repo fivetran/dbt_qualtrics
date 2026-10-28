@@ -42,7 +42,7 @@ question_level as (
             *,
             row_number() over (
                 partition by question_id, survey_id, source_relation
-                order by sub_question_key
+                order by sub_question_key nulls first
             ) as row_num
         from question
     ) as ranked_question
@@ -137,6 +137,8 @@ final as (
     left join question
         on response.question_id = question.question_id
         and response.survey_id = question.survey_id
+        {# null-safe match on sub_question_key: both sides null, or both non-null and equal. Equalities only, so warehouses can still hash join. #}
+        and (response.sub_question_key is null) = (question.sub_question_key is null)
         and coalesce(response.sub_question_key, '') = coalesce(question.sub_question_key, '')
         and response.source_relation = question.source_relation
 
