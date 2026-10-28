@@ -119,6 +119,7 @@ seeds:
         last_accessed: timestamp
         id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
         creator_id: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar' }}"
+        option_custom_styles: "{{ 'string' if target.type in ['bigquery','spark','databricks'] else 'varchar(65535)' }}"
     survey_embedded_data:
       +column_types:
         _fivetran_synced: timestamp
