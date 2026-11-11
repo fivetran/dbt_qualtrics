@@ -1,6 +1,14 @@
 version: 1.3.3
 pr_number: 34
+bug_fixes:
+- description: Replaces `fivetran_utils.string_agg` with dbt's built-in `dbt.listagg`. On Databricks,
+    aggregated values that contain a comma followed by a space are no longer split apart. Lists
+    built without `distinct` also keep duplicate values on Databricks now, which matches the other
+    warehouses. Output on other warehouses doesn't change.
 under_the_hood:
 - description: Moves the `timestamp_diff` macro from `fivetran_utils` into this package as
     `qualtrics_timestamp_diff`. Qualtrics was the only package that used it, and `fivetran_utils`
     removes it in a future release. The macro logic is unchanged, so model outputs don't change.
+- description: Replaces `fivetran_utils.max_bool` with dbt's built-in `dbt.bool_or`. Output doesn't change.
+- description: Replaces `fivetran_utils.percentile` with `dbt_utils.percentile`, which uses the same logic.
+    Output doesn't change.

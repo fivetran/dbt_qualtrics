@@ -35,7 +35,7 @@ agg_mailing_lists as (
         directory_id,
         contact_id,
         source_relation,
-        {{ fivetran_utils.string_agg('mailing_list_id', "', '") }} as mailing_list_ids
+        {{ dbt.listagg('mailing_list_id', "', '") }} as mailing_list_ids
 
     from contact_mailing_list_membership
     group by 1,2,3
@@ -104,7 +104,7 @@ agg_core_mailing_lists as (
     select 
         contact_id,
         source_relation,
-        {{ fivetran_utils.string_agg('mailing_list_id', "', '") }} as mailing_list_ids
+        {{ dbt.listagg('mailing_list_id', "', '") }} as mailing_list_ids
 
     from core_contact
     group by 1,2
