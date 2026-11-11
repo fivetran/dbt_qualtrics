@@ -41,11 +41,11 @@ agg_responses as (
         count(distinct case when is_finished then response_id else null end) as count_completed_survey_responses,
         count(distinct 
                 case 
-                when {{ fivetran_utils.timestamp_diff(first_date="recorded_date", second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then response_id
+                when {{ qualtrics_timestamp_diff(first_date="recorded_date", second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then response_id
                 else null end) as count_survey_responses_30d,
         count(distinct 
                 case 
-                when is_finished and {{ fivetran_utils.timestamp_diff(first_date="recorded_date", second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then response_id
+                when is_finished and {{ qualtrics_timestamp_diff(first_date="recorded_date", second_date=dbt.current_timestamp(), datepart="day") }} <= 30 then response_id
                 else null end) as count_completed_survey_responses_30d,
         
         -- pivot out distribution channel responses

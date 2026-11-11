@@ -29,9 +29,9 @@ distribution_contact as (
     select 
         *,
         -- all relative to sent_at (should response be relative to opened_at?)
-        {{ fivetran_utils.timestamp_diff(first_date="sent_at", second_date="opened_at", datepart="second") }} as time_to_open_in_seconds,
-        {{ fivetran_utils.timestamp_diff(first_date="sent_at", second_date="response_started_at", datepart="second") }} as time_to_start_in_seconds,
-        {{ fivetran_utils.timestamp_diff(first_date="sent_at", second_date="response_completed_at", datepart="second") }} as time_to_complete_in_seconds
+        {{ qualtrics_timestamp_diff(first_date="sent_at", second_date="opened_at", datepart="second") }} as time_to_open_in_seconds,
+        {{ qualtrics_timestamp_diff(first_date="sent_at", second_date="response_started_at", datepart="second") }} as time_to_start_in_seconds,
+        {{ qualtrics_timestamp_diff(first_date="sent_at", second_date="response_completed_at", datepart="second") }} as time_to_complete_in_seconds
 
 
     from {{ ref('stg_qualtrics__distribution_contact') }}

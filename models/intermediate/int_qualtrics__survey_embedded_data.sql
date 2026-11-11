@@ -9,7 +9,7 @@ jsonify as (
     select
         response_id, -- survey_response
         source_relation,
-        '{' || {{ fivetran_utils.string_agg('key || ' ~ "':'" ~ ' || value', "', '") }} || '}' as embedded_data
+        '{' || {{ dbt.listagg('key || ' ~ "':'" ~ ' || value', "', '") }} || '}' as embedded_data
     from survey_embedded_data
     group by 1,2
 )
