@@ -1,0 +1,5 @@
+version: 1.3.3
+under_the_hood:
+- description: Moves the `timestamp_diff` macro from `fivetran_utils` into this package as
+    `qualtrics_timestamp_diff`. Qualtrics was the only package that used it, and `fivetran_utils`
+    removes it in a future release. The macro logic is unchanged, so model outputs don't change.
