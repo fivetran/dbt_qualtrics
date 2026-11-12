@@ -4,4 +4,4 @@ bug_fixes:
 - description: Fixes `dbt compile` on a new schema for `qualtrics__daily_breakdown`. The
     model queried `stg_qualtrics__distribution_contact` at compile time, which failed when
     the table did not exist yet. The model now runs this query only during `dbt run` and
-    `dbt build`. See [#35](https://github.com/fivetran/dbt_qualtrics/issues/35).
+    `dbt build`.
