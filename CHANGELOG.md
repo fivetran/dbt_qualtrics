@@ -1,3 +1,10 @@
+# dbt_qualtrics v1.3.3
+
+[PR #36](https://github.com/fivetran/dbt_qualtrics/pull/36) includes the following updates:
+
+## Bug Fix
+- Fixes `dbt compile` on a new schema for `qualtrics__daily_breakdown`. The model queried `stg_qualtrics__distribution_contact` at compile time, which failed when the table did not exist yet. The model now runs this query only during `dbt run` and `dbt build`.
+
 # dbt_qualtrics v1.3.2
 
 [PR #32](https://github.com/fivetran/dbt_qualtrics/pull/32) includes the following updates:
