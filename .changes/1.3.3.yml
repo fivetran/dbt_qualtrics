@@ -10,5 +10,5 @@ under_the_hood:
     `qualtrics_timestamp_diff`. Qualtrics was the only package that used it, and `fivetran_utils`
     removes it in a future release. The macro logic is unchanged, so model outputs don't change.
 - description: Replaces `fivetran_utils.max_bool` with dbt's built-in `dbt.bool_or`. Output doesn't change.
-- description: Replaces `fivetran_utils.percentile` with `dbt_utils.percentile`, which uses the same logic.
+- description: Replaces `fivetran_utils.percentile` with dbt's built-in `dbt.percentile`, which uses the same logic.
     Output doesn't change.

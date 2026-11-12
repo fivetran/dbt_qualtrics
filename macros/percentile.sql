@@ -14,6 +14,6 @@
 
 {% macro default__qualtrics_percentile(percentile_field, partition_field, percent) %}
 
-    {{ dbt_utils.percentile(percentile_field, partition_field, percent) }}
+    {{ dbt.percentile(percentile_field, partition_field, percent) }}
 
 {% endmacro %}
