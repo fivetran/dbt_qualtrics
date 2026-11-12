@@ -30,7 +30,7 @@ distribution_contact as (
 
 spine as (
 
-    {% if execute %}
+    {% if execute and flags.WHICH in ('run', 'build') %}
     {% set first_date_query %}
         select  coalesce( min( sent_at ), '2016-01-01') as min_date from {{ ref('stg_qualtrics__distribution_contact') }}
     {% endset %}
