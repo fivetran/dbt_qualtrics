@@ -15,7 +15,7 @@ This dbt package transforms data from Fivetran's Qualtrics connector into analyt
   - [DAG](https://fivetran.github.io/dbt_qualtrics/#!/overview?g_v=1)
   - [Changelog](https://github.com/fivetran/dbt_qualtrics/blob/main/CHANGELOG.md)
 - dbt Core™ supported versions
-  - `>=1.3.0, <3.0.0`
+  - `>=1.10.0, <3.0.0`
 
 ## What does this dbt package do?
 This package enables you to transform core object tables into analytics-ready models and consolidate survey responses with user, question, and survey details. It creates enriched models with metrics focused on surveys, contacts, directories, and distributions.
@@ -64,7 +64,7 @@ Include the following qualtrics package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/qualtrics
-    version: [">=1.3.0", "<1.4.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.4.0", "<1.5.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 > All required sources and staging models are now bundled into this transformation package. Do not include `fivetran/qualtrics_source` in your `packages.yml` since this package has been deprecated.
