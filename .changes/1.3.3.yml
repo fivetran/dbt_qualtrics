@@ -1,8 +1,7 @@
 version: 1.3.3
 pr_number: 36
 bug_fixes:
-- description: Fixes `dbt compile` on a new schema for `qualtrics__daily_breakdown`.
-    The model queried `stg_qualtrics__distribution_contact` at compile time, which
-    failed when the table did not exist yet. The model now runs this query only during
-    `dbt run` and `dbt build`.
+- description: Fixes `dbt compile` on a new schema for `qualtrics__daily_breakdown`. The model queried `stg_qualtrics__distribution_contact` at compile time, which failed when the table did not exist yet. The model now runs this query only during `dbt run` and `dbt build`.
+under_the_hood:
+- description: Adds `dbt_utils.unique_combination_of_columns` tests to the staging and end models. The tests use the `arguments` syntax introduced in dbt v1.10, which the new v1.11.0 minimum supports.
 date: '2026-11-12'
