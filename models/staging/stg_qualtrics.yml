@@ -3,6 +3,12 @@ version: 2
 models:
   - name: stg_qualtrics__user
     description: These are the users in your organizations, not the contacts for whom you are building content like surveys and messages.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - user_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -55,6 +61,12 @@ models:
 
   - name: stg_qualtrics__survey
     description: Qualtrics survey.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - survey_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -113,6 +125,13 @@ models:
 
   - name: stg_qualtrics__question
     description: Questions within a survey.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - survey_id
+              - question_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -157,6 +176,12 @@ models:
 
   - name: stg_qualtrics__question_response
     description: Responses to individual questions (and their sub-questions).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - _fivetran_id
     columns:
       - name: _fivetran_id
         description: "{{ doc('question_response_fivetran_id') }}"
@@ -187,6 +212,14 @@ models:
 
   - name: stg_qualtrics__question_option
     description: Choice options for survey questions.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - survey_id
+              - question_id
+              - key
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -209,6 +242,12 @@ models:
     description: >
       Individual responses to surveys. A response becomes "recorded" when a respondent submits a survey, 
       a survey is manually closed from the Responses in Progress page, or a survey session expires.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - response_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -255,6 +294,14 @@ models:
 
   - name: stg_qualtrics__sub_question
     description: Sub-questions of questions.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - survey_id
+              - question_id
+              - key
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -275,6 +322,13 @@ models:
 
   - name: stg_qualtrics__survey_version
     description: Published and un-published versions of surveys.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - survey_id
+              - version_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -301,6 +355,15 @@ models:
 
   - name: stg_qualtrics__survey_embedded_data
     description: Any extra information you would like recorded in addition to the question responses.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - import_id
+              - response_id
+              - key
+              - value
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -317,6 +380,13 @@ models:
 
   - name: stg_qualtrics__block
     description: Groups of questions, used to organize longer surveys and conditionally display sets of questions.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - survey_id
+              - block_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -341,6 +411,14 @@ models:
 
   - name: stg_qualtrics__block_question
     description: Table relating questions and blocks together.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - survey_id
+              - block_id
+              - question_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -357,6 +435,12 @@ models:
 
   - name: stg_qualtrics__directory
     description: A directory is an address book for the entire brand and contains all of the contacts that have been added by your users.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - directory_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -385,6 +469,13 @@ models:
 
   - name: stg_qualtrics__directory_contact
     description: Tablle relating contacts to the directories they are a part of.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - directory_id
+              - contact_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -419,6 +510,12 @@ models:
 
   - name: stg_qualtrics__distribution
     description: Use distributions to reach out to contacts in the XM Directory platform, with or without a survey attached.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - distribution_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -477,6 +574,14 @@ models:
 
   - name: stg_qualtrics__distribution_contact
     description: Table relating contacts to distributions they've been a part of.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - distribution_id
+              - contact_id
+              - contact_lookup_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -509,6 +614,13 @@ models:
 
   - name: stg_qualtrics__directory_mailing_list
     description: Mailing lists are lists of contacts that can receive emails and survey invitations. You can create mailing lists either through file upload or manually.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - directory_id
+              - mailing_list_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
@@ -531,6 +643,12 @@ models:
 
   - name: stg_qualtrics__contact_mailing_list_membership
     description: Table relating contacts to mailing lists they are a part of.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_lookup_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -557,6 +675,13 @@ models:
 
   - name: stg_qualtrics__core_contact
     description: Research Core contacts (non-XM directory).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - contact_id
+              - mailing_list_id
     columns:
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -585,6 +710,12 @@ models:
 
   - name: stg_qualtrics__core_mailing_list
     description: Research Core mailing list (non xm-directory).
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - mailing_list_id
     columns:
       - name: is_deleted
         description: "{{ doc('_fivetran_deleted') }}"
