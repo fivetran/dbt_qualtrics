@@ -1,5 +1,5 @@
 version: 1.3.4
 pr_number: 38
 bug_fixes:
-- description: "Fixes a date/timestamp type mismatch in `qualtrics__daily_breakdown` that dbt Fusion `--static-analysis strict` reports as `dbt0407`. The `date_day` column from the date spine is now cast to `date`, matching the `date_day` columns it is joined to. The output `date_day` column is now of type `date`."
+- description: "Fixes a date/timestamp type mismatch in the `qualtrics__daily_breakdown` joins that dbt Fusion `--static-analysis strict` reports as `dbt0407`. The date spine `date_day` is now cast to `date` in the join conditions, matching the `date_day` columns it is joined to. The model output is unchanged, including the type of `date_day`."
 date: '2026-11-16'
