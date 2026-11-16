@@ -1,3 +1,10 @@
+# dbt_qualtrics v1.3.4
+
+[PR #38](https://github.com/fivetran/dbt_qualtrics/pull/38) includes the following updates:
+
+## Bug Fix
+- Fixes a date/timestamp type mismatch in `qualtrics__daily_breakdown` that dbt Fusion `--static-analysis strict` reports as `dbt0407`. The `date_day` column from the date spine is now cast to `date`, matching the `date_day` columns it is joined to. The output `date_day` column is now of type `date`.
+
 # dbt_qualtrics v1.3.3
 
 [PR #36](https://github.com/fivetran/dbt_qualtrics/pull/36) includes the following updates:
