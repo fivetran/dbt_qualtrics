@@ -57,7 +57,7 @@ source_relations as (
 spine_cross_join as (
 
     select 
-        spine.date_day, 
+        cast(spine.date_day as date) as date_day,
         source_relations.source_relation
     from spine 
     cross join source_relations
