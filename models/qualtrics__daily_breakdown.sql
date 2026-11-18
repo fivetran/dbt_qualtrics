@@ -58,6 +58,7 @@ spine_cross_join as (
 
     select 
         spine.date_day, 
+        cast(spine.date_day as date) as date_day_as_date, -- join key; keeps date_day's output type unchanged
         source_relations.source_relation
     from spine 
     cross join source_relations
@@ -191,22 +192,22 @@ final as (
 
     from spine_cross_join
     left join agg_responses
-        on cast(spine_cross_join.date_day as date) = agg_responses.date_day
+        on spine_cross_join.date_day_as_date = agg_responses.date_day
             and spine_cross_join.source_relation = agg_responses.source_relation
     left join agg_survey_distribution
-        on cast(spine_cross_join.date_day as date) = agg_survey_distribution.date_day
+        on spine_cross_join.date_day_as_date = agg_survey_distribution.date_day
             and spine_cross_join.source_relation = agg_survey_distribution.source_relation
     {% if contacts_enabled %}
     left join agg_created_contacts
-        on cast(spine_cross_join.date_day as date) = agg_created_contacts.date_day
+        on spine_cross_join.date_day_as_date = agg_created_contacts.date_day
             and spine_cross_join.source_relation = agg_created_contacts.source_relation
     left join agg_directory_unsubscriptions
-        on cast(spine_cross_join.date_day as date) = agg_directory_unsubscriptions.date_day
+        on spine_cross_join.date_day_as_date = agg_directory_unsubscriptions.date_day
             and spine_cross_join.source_relation = agg_directory_unsubscriptions.source_relation
     {% endif %}
     {% if var('qualtrics__using_contact_mailing_list_memberships', true) %}
     left join agg_mailing_list_unsubscriptions
-        on cast(spine_cross_join.date_day as date) = agg_mailing_list_unsubscriptions.date_day
+        on spine_cross_join.date_day_as_date = agg_mailing_list_unsubscriptions.date_day
             and spine_cross_join.source_relation = agg_mailing_list_unsubscriptions.source_relation
     {% endif %}
     
