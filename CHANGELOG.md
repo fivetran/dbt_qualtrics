@@ -3,7 +3,7 @@
 [PR #38](https://github.com/fivetran/dbt_qualtrics/pull/38) includes the following updates:
 
 ## Bug Fix
-- Fixes a date/timestamp type mismatch in the `qualtrics__daily_breakdown` joins that dbt Fusion `--static-analysis strict` reports as `dbt0407`. The date spine `date_day` is now cast to `date` in the join conditions, matching the `date_day` columns it is joined to. The model output is unchanged, including the type of `date_day`.
+- Fixes a date/timestamp type mismatch in the `qualtrics__daily_breakdown` joins that dbt Fusion `--static-analysis strict` reports as `dbt0407`. The date spine `date_day` is now cast to `date` once, as a `date_day_as_date` join key in `spine_cross_join`, matching the `date_day` columns it is joined to. The model output is unchanged, including the type of `date_day`.
 
 # dbt_qualtrics v1.3.3
 
