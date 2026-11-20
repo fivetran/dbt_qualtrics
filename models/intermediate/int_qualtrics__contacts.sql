@@ -110,6 +110,22 @@ agg_core_mailing_lists as (
     group by 1,2
 ),
 
+-- core_contact has one row per contact per mailing list. Keep one row per contact; the mailing lists are rolled up above.
+core_contact_deduped as (
+
+    select *
+    from (
+        select
+            *,
+            row_number() over (
+                partition by contact_id, source_relation
+                order by _fivetran_synced desc, mailing_list_id
+            ) as row_num
+        from core_contact
+    ) as ranked_core_contact
+    where row_num = 1
+),
+
 core_contact_join  as (
 
     select
@@ -117,7 +133,7 @@ core_contact_join  as (
         count_core_mailing_lists.count_mailing_lists_subscribed_to,
         count_core_mailing_lists.count_mailing_lists_unsubscribed_from,
         agg_core_mailing_lists.mailing_list_ids
-    from core_contact
+    from core_contact_deduped as core_contact
     left join agg_core_mailing_lists
         on core_contact.contact_id = agg_core_mailing_lists.contact_id
         and core_contact.source_relation = agg_core_mailing_lists.source_relation
