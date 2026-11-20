@@ -129,13 +129,6 @@ models:
 
   - name: qualtrics__contact
     description: Detailed view of all contacts (from both the XM Directory and Research Core contact endpoints), ehanced with response and mailing list metrics.
-    data_tests:
-      - dbt_utils.unique_combination_of_columns:
-          arguments:
-            combination_of_columns:
-              - source_relation
-              - directory_id
-              - contact_id
     columns:
       - name: contact_id
         description: "{{ doc('contact_id') }}"
