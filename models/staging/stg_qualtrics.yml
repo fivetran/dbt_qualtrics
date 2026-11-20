@@ -28,7 +28,7 @@ models:
         description: "{{ doc('user_first_name') }}"
       - name: user_id
         description: "{{ doc('user_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: language
         description: "{{ doc('language') }}"
@@ -90,7 +90,7 @@ models:
         description: "{{ doc('division_id') }}"
       - name: survey_id
         description: "{{ doc('survey_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: last_accessed_at
         description: "{{ doc('last_accessed') }}"
@@ -185,7 +185,7 @@ models:
     columns:
       - name: _fivetran_id
         description: "{{ doc('question_response_fivetran_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: _fivetran_synced
         description: "{{ doc('_fivetran_synced') }}"
@@ -261,7 +261,7 @@ models:
         description: "{{ doc('finished') }}"
       - name: response_id
         description: "{{ doc('response_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: ip_address
         description: "{{ doc('ip_address') }}"
@@ -458,7 +458,7 @@ models:
         description: "{{ doc('deduplication_criteria_phone') }}"
       - name: directory_id
         description: "{{ doc('directory_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: is_default
         description: "{{ doc('is_default') }}"
@@ -533,7 +533,7 @@ models:
         description: "{{ doc('header_subject') }}"
       - name: distribution_id
         description: "{{ doc('distribution_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: message_library_id
         description: "{{ doc('message_library_id') }}"
@@ -656,7 +656,7 @@ models:
         description: "{{ doc('contact_id') }}"
       - name: contact_lookup_id
         description: "{{ doc('contact_lookup_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: directory_id
         description: "{{ doc('directory_id') }}"
@@ -723,7 +723,7 @@ models:
         description: "{{ doc('_fivetran_synced') }}"
       - name: mailing_list_id
         description: "{{ doc('mailing_list_id') }}"
-        tests:
+        data_tests:
           - not_null
       - name: library_id
         description: "{{ doc('library_id') }}"
