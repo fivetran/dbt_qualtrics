@@ -2,13 +2,6 @@
 
 [PR #37](https://github.com/fivetran/dbt_qualtrics/pull/37) includes the following updates:
 
-## Schema/Data Change
-**1 total change • 0 possible breaking changes**
-
-| Data Model(s) | Change type | Old | New | Notes |
-| ------------- | ----------- | --- | --- | ----- |
-| qualtrics__contact | Changed field/model | Research Core contacts have one row per mailing list they belong to. | Research Core contacts have one row per contact. | Applies when `qualtrics__using_core_contacts` is true. The model already rolls each contact's mailing lists into `mailing_list_ids` and the `count_mailing_lists_*` fields, so the extra rows were duplicates. |
-
 ## Feature Update
 - **Breaking change**: Raises the minimum dbt version to 1.10.0.
 - Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_qualtrics/issues/new/choose).
