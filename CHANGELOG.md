@@ -1,3 +1,11 @@
+# dbt_qualtrics v1.4.0
+
+[PR #37](https://github.com/fivetran/dbt_qualtrics/pull/37) includes the following updates:
+
+## Feature Update
+- **Breaking change**: Raises the minimum dbt version to 1.10.0.
+- Adds `dbt_utils.unique_combination_of_columns` tests to staging and end models. If a test fails, please [open an issue](https://github.com/fivetran/dbt_qualtrics/issues/new/choose).
+
 # dbt_qualtrics v1.3.3
 
 [PR #36](https://github.com/fivetran/dbt_qualtrics/pull/36) includes the following updates:
