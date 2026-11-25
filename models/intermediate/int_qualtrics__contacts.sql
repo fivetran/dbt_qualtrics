@@ -110,20 +110,40 @@ agg_core_mailing_lists as (
     group by 1,2
 ),
 
-core_contact_join  as (
+-- Research Core has one row per contact and mailing list. Keep the most recently synced row of
+-- each contact for its attributes, so that a contact on several mailing lists is one row.
+ranked_core_contact as (
 
     select
         core_contact.*,
+        row_number() over (
+            partition by core_contact.contact_id, core_contact.source_relation
+            order by core_contact._fivetran_synced desc, core_contact.mailing_list_id
+        ) as contact_row_number
+    from core_contact
+),
+
+latest_core_contact as (
+
+    select *
+    from ranked_core_contact
+    where contact_row_number = 1
+),
+
+core_contact_join  as (
+
+    select
+        latest_core_contact.*,
         count_core_mailing_lists.count_mailing_lists_subscribed_to,
         count_core_mailing_lists.count_mailing_lists_unsubscribed_from,
         agg_core_mailing_lists.mailing_list_ids
-    from core_contact
+    from latest_core_contact
     left join agg_core_mailing_lists
-        on core_contact.contact_id = agg_core_mailing_lists.contact_id
-        and core_contact.source_relation = agg_core_mailing_lists.source_relation
+        on latest_core_contact.contact_id = agg_core_mailing_lists.contact_id
+        and latest_core_contact.source_relation = agg_core_mailing_lists.source_relation
     left join count_core_mailing_lists
-        on core_contact.contact_id = count_core_mailing_lists.contact_id
-        and core_contact.source_relation = count_core_mailing_lists.source_relation
+        on latest_core_contact.contact_id = count_core_mailing_lists.contact_id
+        and latest_core_contact.source_relation = count_core_mailing_lists.source_relation
 ),
 
 final as (
